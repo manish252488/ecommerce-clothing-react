@@ -1,22 +1,25 @@
-import { AppBar, Button, Hidden, IconButton, Toolbar, Tooltip } from "@material-ui/core";
+import { AppBar, Button, IconButton, makeStyles, Toolbar, Tooltip } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import "../index.less";
 import PropTypes from "prop-types";
 import Logo from "../../Logo";
 import { authPage, checkJWT } from "../../../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
-import Copyright from "../../Copyright";
 import Loader from "../../Loader/Loader";
-import NavBar from "./NavBar";
-import { HomeOutlined, MenuOpenOutlined, PermContactCalendarOutlined, Person, SettingsOutlined, ShoppingCartRounded } from "@material-ui/icons";
+import { HomeOutlined, PermContactCalendarOutlined, Person, SettingsOutlined, ShoppingCartRounded } from "@material-ui/icons";
 import ProfileMenu from "./ProfileMenu";
 import Footer from "../../Footer";
 import History from "../../../../@history";
+const useStyles = makeStyles({
+  root: {
+    background: '#ddd'
+  }
+})
 const AppBaseScreen = (props) => {
-  const [isMobileNavOpen, setMobileNavOpen] = useState(false);
+  const classes = useStyles()/* 
+  const [isMobileNavOpen, setMobileNavOpen] = useState(false); */
   const {
     children,
-    footerItems,
     toolbarLeftItem,
     toolbarRightItem,
     showHeader,
@@ -38,7 +41,7 @@ const AppBaseScreen = (props) => {
     dispatch(authPage(true))
   }
   return (
-    <React.Fragment>
+    <div className={classes.root}>
       {showHeader && (
         <AppBar>
           <Toolbar>
@@ -106,7 +109,7 @@ const AppBaseScreen = (props) => {
         <Copyright />
       </div> */}
       <Footer />
-    </React.Fragment>
+    </div>
   );
 };
 AppBaseScreen.propTypes = {

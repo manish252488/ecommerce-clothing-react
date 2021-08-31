@@ -11,7 +11,6 @@ import {
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import History from "../../@history";
 import { authPage, setMailAccount, signUp } from "../../store/actions";
 import "./index.less";
 import GoogleLogin from "react-google-login";

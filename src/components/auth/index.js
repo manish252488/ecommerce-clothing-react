@@ -14,7 +14,7 @@ import { renderIfElse } from "../../config/Utils";
 import Login from "./Login";
 import SignUp from "./Signup";
 import "./index.less";
-import { CloseOutlined, Facebook, Instagram, LockOutlined, Person, PersonOutlined } from "@material-ui/icons";
+import { CloseOutlined, Facebook, Instagram, LockOutlined, PersonOutlined } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { authPage } from "../../store/actions";
 import History from "../../@history";

@@ -102,8 +102,8 @@ const Footer = (props) => {
       <div class="link-list" key={2}>
         <Link>terms & conditions</Link>
         <Link>privacy policies</Link>
-        <Typography variant="subtitle2">
-          <sup>&copy;</sup>copyright
+        <Typography variant="secondary">
+        Copyright &copy; 2021 DapperFolks.in.
         </Typography>
       </div>
     </div>

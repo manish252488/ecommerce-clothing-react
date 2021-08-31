@@ -1,4 +1,3 @@
-import { Redirect } from "react-router";
 import Home from ".";
 import authRoles from "../../config/authRoles";
 import Contacts from "./Contacts";
@@ -22,7 +21,7 @@ const HomeRoutes = {
       exact: true
     },
     {
-      path: '/services',
+      path: '/contacts',
       component: Contacts,
       exact: true
     }

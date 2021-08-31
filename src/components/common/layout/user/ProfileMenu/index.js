@@ -4,7 +4,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
 import SignOut from '../../../../auth/SignOut';
-import { IconButton, makeStyles, Typography } from '@material-ui/core';
+import { makeStyles, Typography } from '@material-ui/core';
 import { Person } from '@material-ui/icons';
 import { useSelector } from 'react-redux';
 const  useStyles = makeStyles(theme => ({

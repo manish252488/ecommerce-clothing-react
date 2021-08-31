@@ -1,11 +1,10 @@
 import { Button, Chip, CircularProgress, Grid, Link, TextField, Typography } from "@material-ui/core";
 import GoogleLogin from "react-google-login";
-import { Facebook, Instagram } from "@material-ui/icons";
+import { Facebook } from "@material-ui/icons";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import "./index.less";
 import * as actions from "../../store/actions";
-import History from "../../@history";
 import { authPage, setMailAccount } from "../../store/actions";
 import constants from "../../config/constants";
 const Login = (props) => {

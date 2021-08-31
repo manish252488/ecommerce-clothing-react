@@ -1,4 +1,4 @@
-import { Box, Typography, withStyles } from '@material-ui/core'
+import { withStyles } from '@material-ui/core'
 import React from 'react';
 import Rating from '@material-ui/lab/Rating';
 import FavoriteIcon from '@material-ui/icons/Favorite';

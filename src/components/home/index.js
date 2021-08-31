@@ -2,7 +2,7 @@ import React from "react";
 import "./index.less";
 import AppBaseScreen from "../common/layout/user/AppBaseScreen";
 import ChatBot from "../ChatBot";
-import { Button, Card, CardContent, CardHeader, Container, Divider, makeStyles, MenuItem, MenuList, Paper, Typography } from "@material-ui/core";
+import { Button, Card, CardContent, CardHeader, Container, Divider, makeStyles, Paper, Typography } from "@material-ui/core";
 import FilterListIcon from '@material-ui/icons/FilterList';
 import Products from "./Products";
 import CustomCarousel from "../common/corousels/CustomCarousel";
@@ -34,7 +34,7 @@ const Home = (props) => {
       <Card component={Paper}>
         <CardHeader
         action={<Button startIcon={<FilterListIcon />}>Filter</Button>}
-        avatar={<Typography variant="h3">Our Products</Typography>}
+        avatar={<Typography variant="h5">Our Products</Typography>}
         >
         </CardHeader>
         <Divider className={classes.divider}/>
