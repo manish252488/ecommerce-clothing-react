@@ -1,0 +1,31 @@
+@import "../../../../../Base.less";
+.MuiDrawer-root {
+  .MuiPaper-root {
+    top: 65px;
+    margin: 10px;
+    height: calc(100% - 110px);
+    box-shadow: 1px 1px 2px #ddd;
+  }
+}
+.navbar-root{
+  margin: 50px
+}
+@media @phone-strict {
+  .MuiDrawer-root {
+    .MuiPaper-root {
+      top: 0;
+      margin: 0 !important;
+      height: 100%;
+    }
+  }
+}
+
+@media @tablet-strict {
+  .MuiDrawer-root {
+    .MuiPaper-root {
+      top: 0;
+      margin: 0 !important;
+      height: 100%;
+    }
+  }
+}

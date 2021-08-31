@@ -1,0 +1,116 @@
+@import '../../Base.less';
+
+.menu-card {
+    margin-bottom: 20px !important;
+
+    .MuiPopover-paper {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+
+        .chat-card:focus {
+            outline: none !important;
+        }
+
+        .chat-card:focus-visible {
+            outline: none !important;
+        }
+
+        .chat-card {
+            width: 400px;
+            height: 100%;
+            .chat-panel {
+                display: flex;
+                flex-direction: column;
+                max-height: 300px;
+                min-height: 300px;
+                overflow-y: auto;
+
+                .usr-msg,
+                .bot-msg {
+                    width: 60%;
+                    overflow-wrap: break-word;
+                    display: block;
+                    padding: 10px 20px;
+                    border-radius: 10px;
+                    margin-top: 10px;
+                    .MuiTypography-root{
+                        font-size: 12px;
+                        text-align: right;
+                        display: block;
+                    }
+                }
+
+                .usr-msg {
+                    background-color: rgba(99, 197, 243, 0.898);
+                    color: #fff;
+                    align-self: flex-end;
+                }
+
+                .bot-msg {
+                    background-color: rgba(99, 173, 242, 0.823);
+                    color: #fff;
+                    align-self: flex-start;
+                }
+            }
+        }
+    }
+    .MuiFormControl-fullWidth {
+    width: 64%;
+}
+}
+.MuiCardHeader-content{
+    flex: 0.9 !important;
+}
+.theme-demo{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+.fab-custom {
+    position: fixed !important;
+    right: 1%;
+    bottom: 4%;
+}
+@media @phone{
+.fab-custom {
+    position: fixed !important;
+    right: 1%;
+    bottom: 4%;
+}
+}
+
+
+.MuiTypography-root{
+        text-transform: capitalize;
+    } 
+.theme-default{
+    background-color: @secondary-color-100;
+}
+.theme-purplin{
+  background: #6a3093; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #6a3093, #a044ff); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #6a3093, #a044ff);
+}
+.theme-witching{
+    background: #c31432;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #240b36, #c31432);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #240b36, #c31432); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.header-default{
+    background-color: @primary-color-100 !important;
+    .MuiTypography-root{
+        color: #fff;
+    }
+    .MuiCardHeader-action{
+        .MuiIconButton-root{
+            .MuiSvgIcon-root{
+                color: #fff
+            }
+        }
+    }
+}
+
+   

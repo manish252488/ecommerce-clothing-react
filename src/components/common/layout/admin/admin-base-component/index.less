@@ -1,0 +1,46 @@
+@import '../../../../../Base.less';
+
+.admin-component-root {
+    position: fixed;
+    width: calc(100% - 256px);
+    height: 100%;
+    .content {
+        overflow: auto;
+        min-height: calc(100vh - 22vh);
+        max-height: calc(100vh - 20vh);
+        overflow-y: auto;
+    }
+
+    .MuiAppBar-root {
+
+
+        .header-right {
+            * {
+                margin-left: 15px;
+                cursor: pointer;
+            }
+        }
+    }
+    .MuiTypography-root {
+        flex-grow: 1;
+    }
+    .MuiCard-root {
+        margin: 15px auto;
+        width: 99%;
+    }
+}
+
+@media @tablet-strict {
+    .admin-component-root {
+        width: 100% !important;
+    }
+}
+
+@media @phone {
+    .admin-component-root {
+        width: 100% !important;
+    }
+    .makeStyles-wrapper-2 {
+        padding-top: 48px !important;
+    }
+}

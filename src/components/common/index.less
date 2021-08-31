@@ -1,0 +1,109 @@
+@import "../../Base.less";
+
+.footer {
+  .MuiLink-root {
+    color: #fff;
+    font-size: 12;
+    cursor: pointer !important;
+  }
+  .MuiLink-root::nth-of-type(1) {
+    margin-left: 0 !important;
+  }
+  .link-list {
+    text-align: center;
+    .MuiTypography-root {
+      margin-left: 7px;
+      font-size: 12px;
+      color: #fff;
+    }
+  }
+  background-color: @primary-color-200;
+  margin-top: 25px;
+  .content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    .col {
+      width: calc(100vw - 75vw);
+      height: 180px;
+      align-self: center;
+      margin-top: 10px;
+      padding: 5px 10px;
+      .MuiListItemIcon-root {
+        margin-right: 5px;
+      }
+      .MuiSvgIcon-root {
+        color: @primary-color-400 !important;
+      }
+    }
+    .col1 {
+      .language-selector {
+        .MuiButtonBase-root {
+          background-color: #1111;
+          .MuiButton-label {
+            color: @white;
+          }
+        }
+        div {
+          z-index: 9998 !important;
+          min-width: 15vw;
+          .MuiList-padding {
+            padding-top: 0;
+            padding-bottom: 0;
+            .MuiButtonBase-root {
+              font-size: 12px;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+    }
+    .col3 {
+      .MuiListItem-root {
+        cursor: pointer;
+        text-overflow: clip;
+        overflow-wrap: break-word;
+        &:hover {
+          text-decoration: underline @secondary-color-500;
+        }
+      }
+    }
+  }
+  .social-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: @primary-color-400;
+    opacity: 0.8;
+
+    div {
+      width: 40px;
+      margin: 10px;
+      height: 40px;
+      background-color: @secondary-color-500;
+      border-radius: 50%;
+      box-shadow: 1px 4px 2px #333;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .MuiSvgIcon-root {
+        color: @primary-color-100;
+      }
+    }
+  }
+}
+@media @phone-strict {
+  .fileContainer {
+    width: 50px !important;
+  }
+  .footer {
+    .content {
+      flex-direction: column;
+      .col {
+        width: calc(100vw - 10vw);
+        height: auto;
+      }
+    }
+  }
+}

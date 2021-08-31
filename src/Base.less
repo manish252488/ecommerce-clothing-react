@@ -1,0 +1,34 @@
+@primary-color-100: #3a6073;
+@primary-color-200: #4e7081;
+@primary-color-300: #61808f;
+@primary-color-400: #75909d;
+@primary-color-500: #89a0ab;
+@secondary-color-100: #16222a;
+@secondary-color-200: #2d383f;
+@secondary-color-300: #454e55;
+@secondary-color-400: #5c646a;
+@secondary-color-500: #737a7f;
+@title-color: @primary-color-100;
+@title-secondary-color: @secondary-color-100;
+@body-color: #333;
+@white: #fff;
+@gray: #ddd;
+@success: rgb(117, 197, 117);
+@failed: rgba(255, 97, 79, 0.816);
+
+@screen-xs-min: 480px;
+@screen-sm-min: 480px;
+@screen-md-min: 1280px;
+@screen-lg-min: 1200px;
+@fontWeightSecondary: 500;
+@screen-xs-max: (@screen-sm-min - 1);
+@screen-sm-max: (@screen-md-min - 1);
+@screen-md-max: (@screen-lg-min - 1);
+
+@phone: ~"only screen and (max-width: @{screen-xs-min})";
+@phone-strict: ~"only screen and (max-width: @{screen-xs-max})";
+@tablet: ~"only screen and (min-width: @{screen-sm-min})";
+@tablet-strict: ~"only screen and (min-width: @{screen-sm-min}) and (max-width: @{screen-sm-max})";
+@desktop: ~"only screen and (min-width: @{screen-md-min})";
+@desktop-strict: ~"only screen and (min-width: @{screen-md-min}) and (max-width: @{screen-md-max})";
+@large: ~"only screen and (min-width: @{screen-lg-min})";
