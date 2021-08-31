@@ -1,6 +1,7 @@
 @import "../../Base.less";
 
 .footer {
+  padding-top: 20px;
   .MuiLink-root {
     color: #fff;
     font-size: 12;
@@ -19,56 +20,6 @@
   }
   background-color: @primary-color-200;
   margin-top: 25px;
-  .content {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    .col {
-      width: calc(100vw - 75vw);
-      height: 180px;
-      align-self: center;
-      margin-top: 10px;
-      padding: 5px 10px;
-      .MuiListItemIcon-root {
-        margin-right: 5px;
-      }
-      .MuiSvgIcon-root {
-        color: @primary-color-400 !important;
-      }
-    }
-    .col1 {
-      .language-selector {
-        .MuiButtonBase-root {
-          background-color: #1111;
-          .MuiButton-label {
-            color: @white;
-          }
-        }
-        div {
-          z-index: 9998 !important;
-          min-width: 15vw;
-          .MuiList-padding {
-            padding-top: 0;
-            padding-bottom: 0;
-            .MuiButtonBase-root {
-              font-size: 12px;
-              font-weight: 700;
-            }
-          }
-        }
-      }
-    }
-    .col3 {
-      .MuiListItem-root {
-        cursor: pointer;
-        text-overflow: clip;
-        overflow-wrap: break-word;
-        &:hover {
-          text-decoration: underline @secondary-color-500;
-        }
-      }
-    }
-  }
   .social-icons {
     display: flex;
     flex-direction: row;
