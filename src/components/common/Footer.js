@@ -14,7 +14,7 @@ const Footer = (props) => {
   return (
     <div className="footer">
       <div className="link-list">
-        <img src={ImportContacts} className="icon"/>
+        <img src={ImportContacts} className="icon" alt="check"/>
       </div>
       <div className="link-list">
       <CustomTooltip title="Follow us on Instagram!"><>
