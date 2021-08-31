@@ -8,9 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Copyright from "../../Copyright";
 import Loader from "../../Loader/Loader";
 import NavBar from "./NavBar";
-import { MenuOpenOutlined, Person, ShoppingCartRounded } from "@material-ui/icons";
+import { HomeOutlined, MenuOpenOutlined, PermContactCalendarOutlined, Person, SettingsOutlined, ShoppingCartRounded } from "@material-ui/icons";
 import ProfileMenu from "./ProfileMenu";
 import Footer from "../../Footer";
+import History from "../../../../@history";
 const AppBaseScreen = (props) => {
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
   const {
@@ -21,7 +22,7 @@ const AppBaseScreen = (props) => {
     showHeader,
   } = props;
   const dispatch = useDispatch();
-  const isAuth = useSelector(({Auth})=> Auth?.isAuthenticated)
+  const isAuth = useSelector(({ Auth }) => Auth?.isAuthenticated)
   const [isLoggedIn, setIsLoggedIn] = useState(isAuth)
   useEffect(() => {
     dispatch(checkJWT(null, onfailure));
@@ -41,14 +42,38 @@ const AppBaseScreen = (props) => {
       {showHeader && (
         <AppBar>
           <Toolbar>
-            <Hidden lgUp>
+            {/* <Hidden lgUp>
               <IconButton onClick={() => setMobileNavOpen(true)} lgUp>
                 <MenuOpenOutlined color="secondary" />
               </IconButton>
-            </Hidden>
+            </Hidden> */}
             <Logo />
             {toolbarLeftItem}
             <div style={{ flexGrow: 1 }}>{toolbarRightItem}</div>
+            <Button
+          onClick={() => History.push("/")}
+          startIcon={<HomeOutlined />}
+          color="inherit"
+          variant="text"
+        >
+          home
+        </Button>
+            <Button
+              onClick={() => History.push("/services")}
+              startIcon={<SettingsOutlined />}
+              color="inherit"
+              variant="text"
+            >
+              services
+            </Button>
+            <Button
+              onClick={() => History.push("/contacts")}
+              startIcon={<PermContactCalendarOutlined />}
+              color="inherit"
+              variant="text"
+            >
+              contact
+            </Button>
             {
               isLoggedIn && (<>
                 <ProfileMenu />
@@ -60,27 +85,27 @@ const AppBaseScreen = (props) => {
             }
             {
               !isLoggedIn && (
-                <Button onClick={showAuthPanel} startIcon={<Person color="secondary"/>} variant="outlined" color="secondary">
+                <Button onClick={showAuthPanel} startIcon={<Person color="secondary" />} variant="outlined" color="secondary">
                   Register/Login</Button>
               )
             }
           </Toolbar>
         </AppBar>
       )}
-      <NavBar
+      {/*  <NavBar
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}
-      />
-      <div className="body">
-        <Loader />
-        {children}
-      </div>
+      /> */}
+      {/* <div className="body"> */}
+      <Loader />
+      {children}
+      {/* </div> */}
       {/*    Footer sett*/}
-     {/*  <div className="footer">
+      {/*  <div className="footer">
         {footerItems && footerItems}
         <Copyright />
       </div> */}
-      <Footer/>
+      <Footer />
     </React.Fragment>
   );
 };

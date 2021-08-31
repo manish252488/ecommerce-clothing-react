@@ -21,7 +21,7 @@ const theme = createMuiTheme({
       main: "#16222a",
     },
     secondary:{
-    main:"#fff",
+    main:"#ddd",
     },
     text: {
       primary: "#111",
@@ -32,22 +32,6 @@ const theme = createMuiTheme({
     h1:{
        fontFamily: "Raleway, Arial",
        textTransform: 'capitalize'
-    },
-    h2:{
-       fontFamily: "Raleway, Arial",
-       textTransform: 'capitalize'
-    },
-    h3:{
-       fontFamily: "Raleway, Arial",
-       textTransform: 'capitalize'
-    },
-    h4:{
-       fontFamily: "Raleway, Arial",
-       textTransform: 'capitalize'
-    },
-    h5:{
-       fontFamily: "Raleway, Arial",
-       textTransform: 'capitalize',
     },
     h6: {
       fontSize: 14

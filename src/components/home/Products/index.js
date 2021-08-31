@@ -20,9 +20,11 @@ import RatingComponent from './components/Rating';
 import { DoneOutlined, DoneSharp, ShoppingBasket, ShoppingCartRounded } from '@material-ui/icons';
 import { Button, Chip, Tooltip } from '@material-ui/core';
 import FlashOnIcon from '@material-ui/icons/FlashOn';
+import CustomTooltip from '../../common/CustomTooltip';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 250,
+    minWidth: 250
   },
   media: {
     height: 0,
@@ -81,7 +83,6 @@ export default function Products() {
         <del className={classes.muted}>₹ 2800</del>
         <Chip
         className={classes.chip}
-        avatar={<DoneOutlined/>}
         color="primary"
         label="In Stock"
       />
@@ -89,9 +90,9 @@ export default function Products() {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to cart">
-          <Tooltip title="Add to Cart!">
+          <CustomTooltip title="Add to Cart!">
               <ShoppingCartRounded />
-          </Tooltip>
+          </CustomTooltip>
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />

@@ -2,13 +2,25 @@ import React from "react";
 import "./index.less";
 import AppBaseScreen from "../common/layout/user/AppBaseScreen";
 import ChatBot from "../ChatBot";
-import { Button, Card, CardContent, CardHeader, makeStyles, MenuItem, MenuList, Paper } from "@material-ui/core";
+import { Button, Card, CardContent, CardHeader, Container, Divider, makeStyles, MenuItem, MenuList, Paper, Typography } from "@material-ui/core";
 import FilterListIcon from '@material-ui/icons/FilterList';
 import Products from "./Products";
+import CustomCarousel from "../common/corousels/CustomCarousel";
+import { Pagination } from "@material-ui/lab";
 const useStyles = makeStyles({
   scrollContainer: {
-    width: '100%',
-    height: 525,
+    marginTop: 30
+  },
+  divider: {
+    marginBottom: 5,
+    marginTop:5,
+    marginLeft: 5,
+    marginRight: 5
+  },
+  pagination: {
+    marginTop: 30,
+    display: 'flex',
+    justifyContent: 'center'
   }
 })
 const Home = (props) => {
@@ -16,17 +28,26 @@ const Home = (props) => {
   return (
     <AppBaseScreen>
       <ChatBot />
-      <Card component={Paper} className={classes.scrollContainer}>
+      <CustomCarousel autoPlay={false}/>
+      <Container maxWidth="lg" className={classes.scrollContainer}>
+      
+      <Card component={Paper}>
         <CardHeader
         action={<Button startIcon={<FilterListIcon />}>Filter</Button>}
+        avatar={<Typography variant="h3">Our Products</Typography>}
         >
         </CardHeader>
+        <Divider className={classes.divider}/>
         <CardContent className="product-container">
-         {Array(10).fill(1).map((val, index) => (
+         {Array(8).fill(1).map((val, index) => (
            <Products key={index}/>
          ))} 
         </CardContent>
       </Card>
+      <Container maxWidth="lg" className={classes.pagination}>
+      <Pagination count={10} variant="outlined" shape="rounded" />
+      </Container>
+      </Container>
     </AppBaseScreen>
   );
 };
