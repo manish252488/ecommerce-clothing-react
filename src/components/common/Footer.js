@@ -31,7 +31,7 @@ const Footer = (props) => {
         <Link>terms & conditions</Link>
         <Link>privacy policies</Link>
         <Typography variant="secondary">
-          Copyright &copy; 2021 dapperfolks.in.
+          Copyright &copy; 2021 test.in.
         </Typography>
       </div>
     </div>

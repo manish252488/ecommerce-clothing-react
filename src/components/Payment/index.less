@@ -1,0 +1,82 @@
+@import '../../Base.less';
+
+.payment-container{
+    margin: 10px 20px;
+    display: flex !important;
+    flex-flow: column;
+    .cart-panel {
+        align-items: center;
+        justify-content: flex-start;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 10px;
+        width: 100%;
+    .cart-card{
+        width: 300px;
+        border-radius: 5px;
+        display: flex;
+        flex-flow: row;
+        margin-top: 5px;
+        .quantity-buttons{
+            display: flex;
+            flex-flow: row;
+            align-items: center;
+            justify-content: center;
+        }
+        .MuiInputBase-input {
+            text-align: center;
+        }
+        .MuiOutlinedInput-input {
+            padding: 5px !important;
+        }
+    }
+    }
+
+    .billingPanel {
+        .billing-data {
+            margin: 5px 10px;
+            line-height: 30px;
+        }
+    }
+    .address-container{
+        padding: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 25px;
+        .MuiCard-root {
+            cursor: pointer;
+        }
+    }
+    .MuiButton-root{
+        width: 100%;
+    }
+    .no-banner {
+        width: 100%;
+        text-align: center;
+        font-size: 10px !important;
+        color: #ddd  !important;
+        min-height: 200px;
+    }
+    .address-form {
+        width: 80%;
+        padding-right: 20px;
+        padding-top: 10px;
+        .MuiTextField-root {
+            margin-left: 15px !important;
+            margin-top: 5px !important;
+        }
+        .MuiButton-root {
+            margin-top: 5px !important;
+        }
+    }
+}
+
+@media @phone-strict {
+    .payment-container{
+        flex-flow: column;
+        .cart-panel {
+            max-height: auto;
+        }
+    }
+}

@@ -30,7 +30,7 @@ export default function AppRoute(props) {
       component={()=> <Redirect to={"/home"}/>}/>
       <Route 
       key ={"routes404"}
-      component={()=><Redirect to="/"/>}/>
+      component={()=><Redirect to="/login"/>}/>
     </Switch>
   );
 }

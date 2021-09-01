@@ -5,6 +5,7 @@ import ChatReducer from "./reducers/ChatReducer";
 
 import LanguageReducers from "./reducers/languageReducers";
 import MessageBarReducer from "./reducers/MessageBarReducer";
+import ProductsReducer from "./reducers/ProductsReducer";
 const createReducer = (asyncReducers) =>
   combineReducers({
     MessageBar: MessageBarReducer,
@@ -12,6 +13,7 @@ const createReducer = (asyncReducers) =>
     Chat: ChatReducer,
     admin: AdminReducer,
     language: LanguageReducers,
+    products: ProductsReducer,
     ...asyncReducers,
   });
 

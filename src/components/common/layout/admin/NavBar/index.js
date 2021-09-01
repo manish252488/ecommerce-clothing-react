@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import NavItem from "./NavItem";
 import { useSelector } from "react-redux";
-import {Logo} from '../../../../../assets';
+import {LogoDark as Logo} from '../../../../../assets';
 import items from "../../../../admin/adminNavItems";
 import Copyright from "../../../Copyright";
 

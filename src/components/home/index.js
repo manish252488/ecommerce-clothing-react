@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./index.less";
 import AppBaseScreen from "../common/layout/user/AppBaseScreen";
-import ChatBot from "../ChatBot";
 import { Button, Card, CardContent, CardHeader, Container, Divider, makeStyles, Paper, Typography } from "@material-ui/core";
 import FilterListIcon from '@material-ui/icons/FilterList';
 import Products from "./Products";
 import CustomCarousel from "../common/corousels/CustomCarousel";
 import { Pagination } from "@material-ui/lab";
+import * as Actions from "../../store/actions";
+import { useDispatch, useSelector } from "react-redux";
 const useStyles = makeStyles({
   scrollContainer: {
     marginTop: 30
@@ -25,24 +26,32 @@ const useStyles = makeStyles({
 })
 const Home = (props) => {
   const classes = useStyles();
+  const dispatch = useDispatch()
+  const products = useSelector(({products}) => products.products)
+  useEffect(()=> {
+    dispatch(Actions.listProducts())
+  },[dispatch])
   return (
     <AppBaseScreen>
-      <ChatBot />
       <CustomCarousel autoPlay={false}/>
       <Container maxWidth="lg" className={classes.scrollContainer}>
-      
       <Card component={Paper}>
         <CardHeader
         action={<Button startIcon={<FilterListIcon />}>Filter</Button>}
-        avatar={<Typography variant="h5">Our Products</Typography>}
+        avatar={<Typography variant="h5"></Typography>}
         >
         </CardHeader>
         <Divider className={classes.divider}/>
-        <CardContent className="product-container">
-         {Array(8).fill(1).map((val, index) => (
-           <Products key={index}/>
+        {products.length > 0 && <CardContent className="product-container">
+         {products?.map((val, index) => (
+           <Products key={index} data={val}/>
          ))} 
-        </CardContent>
+        </CardContent>}
+        {
+          products.length <= 0 && <div className="no-data">
+            No Items Available!
+          </div>
+        }
       </Card>
       <Container maxWidth="lg" className={classes.pagination}>
       <Pagination count={10} variant="outlined" shape="rounded" />

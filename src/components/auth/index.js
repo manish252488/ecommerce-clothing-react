@@ -38,30 +38,31 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Authpage = (props) => {
   const classes = useStyles();
+  const initalDisplay = History.location.pathname === '/login';
   const dispatch = useDispatch();
   const [tab, setTab] = useState(tabs.login);
-  const display = useSelector(({ Auth }) => Auth.showAuthPage);
+  let display = useSelector(({ Auth }) => Auth.showAuthPage);
   const handleClose = () => {
     dispatch(authPage(false));
   };
   useEffect(() => {
-    if (display) {
+    if (initalDisplay || display) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
     }
     return () => (document.body.style.overflow = "unset");
-  }, [display]);
+  }, [display, initalDisplay]);
   return (
-    <Backdrop className={classes.backdrop} open={display}>
+    <Backdrop className={classes.backdrop} open={display || initalDisplay}>
       <Card className="auth-card" component={Paper}>
-        <IconButton
+        {!initalDisplay && <IconButton
           className={classes.close}
           onClick={handleClose}
           size="medium"
         >
           <CloseOutlined fontSize="inherit" />
-        </IconButton>
+        </IconButton>}
         <div className="image" style={{ backgroundImage: `url(${loginPage})` }}>
           <div className="bubble">
             <Bubbles

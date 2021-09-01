@@ -1,6 +1,6 @@
 import { Button } from '@material-ui/core';
 import React from 'react';
-import AppBaseScreen from '../../common/layout/user/AppBaseScreen';
+import AppBaseScreen from '../common/layout/user/AppBaseScreen';
 export default function Contacts(props) {
     return (<AppBaseScreen>
         <div class="page-heading contact-heading header-text">

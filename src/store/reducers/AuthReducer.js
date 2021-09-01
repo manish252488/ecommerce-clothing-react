@@ -5,6 +5,7 @@ import {
   REMOVE_MAIL_ACCOUNT,
   HIDE_AUTH,
   SHOW_AUTH,
+  CART_ACTION,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -13,7 +14,9 @@ const initialState = {
   isAuthenticated: false,
   role: "guest",
   mailAccount: {},
-  showAuthPage: true
+  showAuthPage: true,
+  cart: [],
+  billingData: null
 };
 function AuthReducer(state = initialState, action) {
   switch (action.type) {
@@ -40,11 +43,19 @@ function AuthReducer(state = initialState, action) {
       };
     case SHOW_AUTH: 
       return {
+        ...state,
         showAuthPage: true
       }
     case HIDE_AUTH:
       return {
+        ...state,
         showAuthPage: false
+      }
+      case CART_ACTION: 
+      return {
+        ...state,
+        cart: action.payload.cart,
+        billingData: action.payload.billingData
       }
     default:
       return state;

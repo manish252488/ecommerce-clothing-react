@@ -1,23 +1,27 @@
-import { AppBar, Button, IconButton, makeStyles, Toolbar, Tooltip } from "@material-ui/core";
+import { AppBar, Button, Hidden, IconButton, makeStyles, Toolbar } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import "../index.less";
 import PropTypes from "prop-types";
 import Logo from "../../Logo";
-import { authPage, checkJWT } from "../../../../store/actions";
+import { authPage, checkJWT, listCart } from "../../../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../Loader/Loader";
-import { HomeOutlined, PermContactCalendarOutlined, Person, SettingsOutlined, ShoppingCartRounded } from "@material-ui/icons";
+import { HomeOutlined, MenuOpenOutlined, PermContactCalendarOutlined, Person, ShoppingCartRounded } from "@material-ui/icons";
 import ProfileMenu from "./ProfileMenu";
 import Footer from "../../Footer";
 import History from "../../../../@history";
+import ChatBot from "../../ChatBot";
+import StyledBadge from "../../StyledBadge";
+import CustomTooltip from "../../CustomTooltip";
+import NavBar from './NavBar'
 const useStyles = makeStyles({
   root: {
     background: '#ddd'
   }
 })
 const AppBaseScreen = (props) => {
-  const classes = useStyles()/* 
-  const [isMobileNavOpen, setMobileNavOpen] = useState(false); */
+  const classes = useStyles()
+  const [isMobileNavOpen, setMobileNavOpen] = useState(false);
   const {
     children,
     toolbarLeftItem,
@@ -27,8 +31,13 @@ const AppBaseScreen = (props) => {
   const dispatch = useDispatch();
   const isAuth = useSelector(({ Auth }) => Auth?.isAuthenticated)
   const [isLoggedIn, setIsLoggedIn] = useState(isAuth)
+  const cart = useSelector(({ Auth }) => Auth.cart)
+  useEffect(() => {
+    setIsLoggedIn(isAuth)
+  }, [isAuth])
   useEffect(() => {
     dispatch(checkJWT(null, onfailure));
+    dispatch(listCart())
   }, [dispatch]);
   const onfailure = (val) => {
     if (!val) {
@@ -43,46 +52,49 @@ const AppBaseScreen = (props) => {
   return (
     <div className={classes.root}>
       {showHeader && (
-        <AppBar>
+        <AppBar >
           <Toolbar>
-            {/* <Hidden lgUp>
+            <Hidden lgUp>
               <IconButton onClick={() => setMobileNavOpen(true)} lgUp>
                 <MenuOpenOutlined color="secondary" />
               </IconButton>
-            </Hidden> */}
+            </Hidden>
             <Logo />
             {toolbarLeftItem}
+            <Hidden lgUp>
             <div style={{ flexGrow: 1 }}>{toolbarRightItem}</div>
-            <Button
-          onClick={() => History.push("/")}
-          startIcon={<HomeOutlined />}
-          color="inherit"
-          variant="text"
-        >
-          home
-        </Button>
-            <Button
-              onClick={() => History.push("/services")}
-              startIcon={<SettingsOutlined />}
-              color="inherit"
-              variant="text"
-            >
-              services
-            </Button>
-            <Button
-              onClick={() => History.push("/contacts")}
-              startIcon={<PermContactCalendarOutlined />}
-              color="inherit"
-              variant="text"
-            >
-              contact
-            </Button>
+            </Hidden>
+            <Hidden lgDown>
+              <Button
+                onClick={() => History.push("/")}
+                startIcon={<HomeOutlined />}
+                color="inherit"
+                variant="text"
+              >
+                home
+              </Button>
+              <Button
+                onClick={() => History.push("/contact")}
+                startIcon={<PermContactCalendarOutlined />}
+                color="inherit"
+                variant="text"
+              >
+                contact
+              </Button>
+            </Hidden>
             {
               isLoggedIn && (<>
-                <ProfileMenu />
-                <Tooltip arrow={true} placement="bottom" title="cart">
-                  <IconButton onClick={() => { }}><ShoppingCartRounded color="secondary" /></IconButton>
-                </Tooltip>
+
+                <Hidden lgDown>
+                  <ProfileMenu />
+                </Hidden>
+                <CustomTooltip arrow={true} placement="bottom" title="cart">
+                  <IconButton onClick={() => { History.push("/payment") }}>
+                    <StyledBadge badgeContent={cart ? cart.length : 0} color="primary">
+                      <ShoppingCartRounded color="secondary" />
+                    </StyledBadge>
+                  </IconButton>
+                </CustomTooltip>
               </>
               )
             }
@@ -95,13 +107,17 @@ const AppBaseScreen = (props) => {
           </Toolbar>
         </AppBar>
       )}
-      {/*  <NavBar
+      <Hidden lgUp>
+      <NavBar
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}
-      /> */}
-      {/* <div className="body"> */}
+      />
+      </Hidden>
       <Loader />
-      {children}
+      <div className="body2">
+        <ChatBot />
+        {children}
+      </div>
       {/* </div> */}
       {/*    Footer sett*/}
       {/*  <div className="footer">

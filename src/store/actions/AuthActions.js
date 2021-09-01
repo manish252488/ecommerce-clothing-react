@@ -1,5 +1,6 @@
 import Auth from "../../api/auth";
 import {
+  CART_ACTION,
   HIDE_AUTH,
   REMOVE_MAIL_ACCOUNT,
   SET_MAIL_ACCOUNT,
@@ -8,6 +9,7 @@ import {
   SIGN_OUT,
 } from "./actionTypes";
 import { isFunction } from "../../config/Utils";
+import CartApi from "../../api/cart";
 export const signUp = (data, onSuccess, onFailure) => (dispatch) => {
   Auth.signup(data)
     .then((data) => {
@@ -118,6 +120,50 @@ export const authPage = (val) => {
     } else 
     dispatch({
       type: HIDE_AUTH
+    })
+  }
+}
+
+export const addToCart = (productId, onSuccess, onFailure) => {
+  return dispatch => {
+    CartApi.addCart(productId).then(res => {
+      dispatch({
+      type: CART_ACTION,
+      payload: res.data
+    })
+    if (isFunction(onSuccess)) onSuccess();
+  }).catch(err => {
+    if (isFunction(onFailure)) onSuccess(err.message);
+      console.log("error addig to cart!", err)
+    })
+  }
+}
+
+export const removeFromCart = (productId, onSuccess, onFailure) => {
+  return dispatch => {
+    CartApi.removeCart(productId).then(res => {
+      dispatch({
+      type: CART_ACTION,
+      payload: res.data
+    })
+    if (isFunction(onSuccess)) onSuccess();
+  }).catch(err => {
+    if (isFunction(onFailure)) onSuccess(err.message);
+      console.log("error addig to cart!", err)
+    })
+  }
+}
+export const listCart = (onSuccess, onFailure) => {
+  return dispatch => {
+    CartApi.listCart().then(res => {
+      dispatch({
+      type: CART_ACTION,
+      payload: res.data
+    })
+    if (isFunction(onSuccess)) onSuccess();
+  }).catch(err => {
+    if (isFunction(onFailure)) onSuccess(err.message);
+      console.log("error addig to cart!", err)
     })
   }
 }

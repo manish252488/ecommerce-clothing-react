@@ -1,9 +1,14 @@
 import { Button, Card, CardHeader, Chip, Container, Divider, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
-import React from 'react';
-import CustomCarousel from '../../common/corousels/CustomCarousel';
-import AppBaseScreen from '../../common/layout/user/AppBaseScreen';
-import Products from '../Products';
-import RatingComponent from '../Products/components/Rating';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import ProductsApi from '../../api/products';
+import { shuffle } from '../../config/Utils';
+import { listProducts } from '../../store/actions';
+import CustomCarousel from '../common/corousels/CustomCarousel';
+import AppBaseScreen from '../common/layout/user/AppBaseScreen';
+import Products from '../home/Products';
+import RatingComponent from '../home/Products/components/Rating';
 import './index.less'
 const useStyles = makeStyles(theme => ({
     root: {
@@ -44,18 +49,34 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         columnGap: 25,
         paddingTop: 5,
-        paddingBottom: 5
+        paddingBottom: 5,
+        justifyContent: 'center'
     }
 }))
 export default function ProductDetails(props){
     const classes = useStyles()
+    const { productId } = useParams();
+    const [product, setProduct] = useState(null)
+    const dispatch = useDispatch();
+    const products = useSelector(({products}) => products.products)
+    useEffect(() => {
+        dispatch(listProducts())
+        ProductsApi.productDetail(productId).then(res => {
+            setProduct(res.data)
+        }).catch(err => {
+            console.log(err)
+        })
+    }, [productId, dispatch])
+    if(!product) {
+        return null
+    }
     return <AppBaseScreen>
         <Container maxWidth="lg" className={classes.root}>
             <Card className={classes.card}>
                 <Grid container xs={12}>
                     <Grid item xs={6}>
                         <div className={classes.frame}>
-                             <CustomCarousel images={["https://4.img-dpreview.com/files/p/E~TS590x0~articles/3925134721/0266554465.jpeg"]} autoPlay={false}/>
+                             <CustomCarousel images={product.pictures} autoPlay={false}/>
                         </div>
                         <div className="btn-container">
                         <Button variant="contained" color="primary">Add to Cart</Button>
@@ -64,20 +85,28 @@ export default function ProductDetails(props){
                     </Grid>
                     <Grid item xs={6}>
                         <Container maxWidth="lg" className={classes.container}>
-                        <Typography variant="body2"><Chip
+                        <Typography variant="body2">
+                        {product.stock > 0 && <Chip
                             className={classes.chip}
                             color="primary"
                             label="In Stock"
-                        /> #productid </Typography>
+                        />}
+                        {product.stock <= 0 && <Chip
+                        className={classes.chip}
+                        label="Stock Out"
+                    />}&nbsp;&nbsp;
+                    #{product.id} </Typography>
                         <Typography variant="h3">
-                            product title 
+                            {product.name} - {product.brand}
                         </Typography>
-                        <Typography variant="h5">2000 <del style={{color: '#333'}}>2500</del></Typography>
+                        <Typography variant="h5">₹ {product.sellingCost} <del style={{color: '#333', fontSize: 16}}>₹ {product.cost}</del></Typography>
                         <Divider />
                         <div className={classes.description}>
                             <Typography variant="h6">Ratings:</Typography>
-                        <RatingComponent value={4} />
-                        <Typography variant="body2">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Typography>
+                        <RatingComponent value={product.rating} />
+                        <Typography variant="body2">
+                            {product.description}
+                        </Typography>
                         </div>
                         <Typography variant={'h6'}>
                             Available Colours
@@ -85,7 +114,7 @@ export default function ProductDetails(props){
                         <Divider />
                         <div className={classes.description}>
                             <div className={classes.boxContainer}>
-                        {Array(5).fill(5).map(val => <div className={classes.colorbox}></div>)}
+                        {product.colorOptions.map(val => <div className={classes.colorbox} style={{background: val }}></div>)}
                         </div>
                         </div>
                         <Typography variant={'h6'}>
@@ -93,11 +122,12 @@ export default function ProductDetails(props){
                         </Typography>
                         <Divider />
                         <div className={classes.description}>
-                        <Chip
+                        {product.material.map(val => (<Chip
                             className={classes.chip}
+                            style={{marginLeft: 5}}
                             color="primary"
-                            label="Cotton"
-                        />
+                            label={val}
+                        />))}
                         </div>
                         <Typography variant={'h6'}>
                             Available In
@@ -120,10 +150,10 @@ export default function ProductDetails(props){
                 <Divider/>
                 <div className={classes.similiarProducts}>
                 {
-                    Array(8).fill(1).map((val, index) => (
-                        <Products key={index}/>
+                    shuffle(products).slice(0, 4).map((val, index) => (
+                        <Products key={index} data={val}/>
                       ))
-                }
+                } 
                 </div>
             </Card>
         </Container>

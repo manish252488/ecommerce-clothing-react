@@ -5,7 +5,7 @@ const env = process.env.REACT_APP_NODE_ENV;
 const devUrl = "http://localhost:3001";
 const testUrl = "http://domain.com";
 const prodUrl = "https://domain.com";
-const url =
+export const url =
   env === "development"
     ? devUrl
     : env === "test"

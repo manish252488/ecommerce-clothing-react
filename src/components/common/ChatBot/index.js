@@ -22,7 +22,7 @@ import {
   SendOutlined,
 } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { addUserChat, removeChats, sendChat } from "../../store/actions";
+import { addUserChat, removeChats, sendChat } from "../../../store/actions";
 import Pallet from "./Pallet";
 export default function ChatBot(props) {
    const themes = ['default','purplin','witching'];

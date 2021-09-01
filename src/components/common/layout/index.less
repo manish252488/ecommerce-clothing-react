@@ -1,44 +1,28 @@
 @import "../../../Base.less";
 
-.body {
-  padding: 15px;
-  margin-top: 4.5%;
-  margin-left: calc(100% - 73%);
-  height: 100%;
-  min-height: 550px;
+.body2{
+  margin-top: 5%;
 }
 
 @media @phone-strict {
-  .body {
-    margin-top: 14%;
-    min-height: calc(100vh - 120px);
-  }
-  .makeStyles-root-26 {
-    .MuiPaper-root {
-      width: 100%;
+  .MuiAppBar-root{
+    .MuiToolbar-root {
+      img {
+        margin: auto;
+      }
+      .MuiButtonBase-root{
+        width: auto;
+        font-size: 20px !important;
+      }
     }
+  }
+  .body2{
+    margin-top: 5%;
   }
 }
 
 @media @tablet-strict {
-  .body {
-    margin-left: 0;
-    margin-top: calc(100% - 92%);
-    min-height: calc(100vh - 75px);
-  }
-  .makeStyles-root-26 {
-    .MuiPaper-root {
-      width: 100%;
-    }
-  }
-}
-
-@media @phone-strict {
-  .body {
-    margin-top: 15%;
-    margin-left: 0;
-    padding: 10px;
-    height: 100%;
-    min-height: 100vh;
+  .body2{
+    margin-top: 5%;
   }
 }
