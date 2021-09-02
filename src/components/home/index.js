@@ -12,7 +12,7 @@ import { loginPage } from "../../assets";
 const useStyles = makeStyles({
   divider: {
     marginBottom: 5,
-    marginTop:5,
+    marginTop: 5,
     marginLeft: 5,
     marginRight: 5
   },
@@ -25,35 +25,40 @@ const useStyles = makeStyles({
 const Home = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch()
-  const products = useSelector(({products}) => products.products)
-  useEffect(()=> {
+  const products = useSelector(({ products }) => products.products)
+  const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated)
+  useEffect(() => {
     dispatch(Actions.listProducts())
-  },[dispatch])
+    if (isAuth) {
+      dispatch(Actions.listCart())
+      dispatch(Actions.listOrders())
+    }
+  }, [dispatch, isAuth])
   return (
     <AppBaseScreen>
-      <CustomCarousel images={[loginPage]} autoPlay={false}/>
+      <CustomCarousel images={[loginPage]} autoPlay={false} />
       <Container maxWidth="lg" className="scroll-container">
-      <Card component={Paper}>
-        <CardHeader
-        action={<Button startIcon={<FilterListIcon />}>Filter</Button>}
-        avatar={<Typography variant="h5"></Typography>}
-        >
-        </CardHeader>
-        <Divider className={classes.divider}/>
-        {products.length > 0 && <CardContent className="product-container">
-         {products?.map((val, index) => (
-           <Products key={index} data={val}/>
-         ))} 
-        </CardContent>}
-        {
-          products.length <= 0 && <div className="no-data">
-            No Items Available!
-          </div>
-        }
-      </Card>
-      <div className={classes.pagination}>
-      <Pagination  count={20} variant="outlined" shape="rounded" />
-      </div>
+        <Card component={Paper}>
+          <CardHeader
+            action={<Button startIcon={<FilterListIcon />}>Filter</Button>}
+            avatar={<Typography variant="h5"></Typography>}
+          >
+          </CardHeader>
+          <Divider className={classes.divider} />
+          {products.length > 0 && <CardContent className="product-container">
+            {products?.map((val, index) => (
+              <Products key={index} data={val} />
+            ))}
+          </CardContent>}
+          {
+            products.length <= 0 && <div className="no-data">
+              No Items Available!
+            </div>
+          }
+        </Card>
+        <div className={classes.pagination}>
+          <Pagination count={20} variant="outlined" shape="rounded" />
+        </div>
       </Container>
     </AppBaseScreen>
   );

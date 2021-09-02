@@ -35,7 +35,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
 
   return (
     <>
-      <Hidden mdUp>
+      <Hidden >
         <Drawer
           anchor="left"
           onClose={onMobileClose}

@@ -71,5 +71,5 @@ export function shuffle(array) {
 }
 
 export function getImage(file, type){
-  return url + '/public/' + type + "/" + file
+  return url + '/image/' + type + "/" + file
 }

@@ -5,7 +5,7 @@ const PaymentRoutes = {
   auth: authRoles.user,
   routes: [
     {
-      path: "/payment",
+      path: "/cart",
       component: Payment,
       exact: true,
     },

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "../index.less";
 import PropTypes from "prop-types";
 import Logo from "../../Logo";
-import { authPage, checkJWT, listCart } from "../../../../store/actions";
+import { checkJWT, listCart } from "../../../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../Loader/Loader";
 import { HomeOutlined, MenuOpenOutlined, PermContactCalendarOutlined, Person, ShoppingCartRounded } from "@material-ui/icons";
@@ -12,7 +12,6 @@ import Footer from "../../Footer";
 import History from "../../../../@history";
 import ChatBot from "../../ChatBot";
 import StyledBadge from "../../StyledBadge";
-import CustomTooltip from "../../CustomTooltip";
 import NavBar from './NavBar'
 const useStyles = makeStyles({
   root: {
@@ -29,9 +28,14 @@ const AppBaseScreen = (props) => {
     showHeader,
   } = props;
   const dispatch = useDispatch();
+  const cart = useSelector(({ Auth }) => Auth.cart)
   const isAuth = useSelector(({ Auth }) => Auth?.isAuthenticated)
   const [isLoggedIn, setIsLoggedIn] = useState(isAuth)
-  const cart = useSelector(({ Auth }) => Auth.cart)
+
+  const [value, setValue] = useState(0)
+  useEffect(()=> {
+    setValue(cart ? cart.length : 0)
+  }, [cart])
   useEffect(() => {
     setIsLoggedIn(isAuth)
   }, [isAuth])
@@ -55,11 +59,11 @@ const AppBaseScreen = (props) => {
       {showHeader && (
         <AppBar >
           <Toolbar>
-            <Hidden mdUp>
-              <IconButton onClick={() => setMobileNavOpen(true)} mdUp>
+            <div className="web" >
+              <IconButton onClick={() => setMobileNavOpen(true)} >
                 <MenuOpenOutlined color="secondary" />
               </IconButton>
-            </Hidden>
+            </div>
             <Logo />
             {toolbarLeftItem}
             <Hidden xsDown>
@@ -89,13 +93,11 @@ const AppBaseScreen = (props) => {
                 <Hidden xsDown>
                   <ProfileMenu />
                 </Hidden>
-                <CustomTooltip arrow={true} placement="bottom" title="cart">
-                  <IconButton onClick={() => { History.push("/payment") }}>
-                    <StyledBadge badgeContent={cart ? cart.length : 0} color="primary">
+                  <IconButton onClick={() => History.push("/cart")}>
+                    <StyledBadge badgeContent={value} color="primary">
                       <ShoppingCartRounded color="secondary" />
                     </StyledBadge>
                   </IconButton>
-                </CustomTooltip>
               </>
               )
             }
@@ -108,12 +110,12 @@ const AppBaseScreen = (props) => {
           </Toolbar>
         </AppBar>
       )}
-      <Hidden mdUp>
+      <div className="web">
       <NavBar
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}
       />
-      </Hidden>
+      </div>
       <Loader />
       <div className="body2">
         <ChatBot />

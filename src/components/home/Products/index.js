@@ -102,21 +102,13 @@ export default function Products({ data }) {
           />}
       </CardContent>
       <CardActions>
-        {(!cart.find(val => val.product === data.id) && !loading) &&
-          <IconButton aria-label="add to cart" onClick={() => addToCart(data.id)}>
-            <CustomTooltip title="Add to Cart!">
-              <ShoppingCartRounded color="secondary"  />
-            </CustomTooltip>
+          <IconButton aria-label="add to cart" onClick={() => cart.find(val => val.product === data.id)? removeCart(data.id) : addToCart(data.id)}>
+              <ShoppingCartRounded color={cart.find(val => val.product === data.id)? "primary": "inherit"}  />
           </IconButton>
-        }
-        {cart.find(val => val.product === data.id) &&
-          <IconButton aria-label="Remove from Cart!" onClick={() => removeCart(data.id)} >
-            <ShoppingCartRounded color="primary" />
-          </IconButton>}
         <IconButton aria-label="share">
           <ShareIcon />
-        </IconButton>
-        <Button startIcon={<FlashOnIcon color="inherit" />} variant="contained" color="primary" size="small">Buy Now</Button>
+        </IconButton>{/* 
+        <Button startIcon={<FlashOnIcon color="inherit" />} variant="contained" color="primary" size="small">Buy Now</Button> */}
       </CardActions>
     </Card>
   );

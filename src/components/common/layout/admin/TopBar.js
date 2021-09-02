@@ -48,7 +48,7 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
             <InputIcon color="secondary" />
           </IconButton>
         </SignOut>
-        <Hidden mdUp>
+        <Hidden >
           <IconButton color="inherit" onClick={onMobileNavOpen}>
             <MenuIcon color="secondary" />
           </IconButton>

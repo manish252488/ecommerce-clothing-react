@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ProductsApi from '../../api/products';
-import { shuffle } from '../../config/Utils';
+import { getImage, shuffle } from '../../config/Utils';
 import { listProducts } from '../../store/actions';
 import CustomCarousel from '../common/corousels/CustomCarousel';
 import AppBaseScreen from '../common/layout/user/AppBaseScreen';
@@ -70,13 +70,16 @@ export default function ProductDetails(props){
     if(!product) {
         return null
     }
+    const resolvePictures = (data) => {
+        return data.map(val => getImage(val, 'products'))
+    }
     return <AppBaseScreen>
         <Container maxWidth="lg" className={classes.root + ' container'}>
             <Card className={classes.card}>
                 <Grid container>
                     <Grid item xs={6}>
                         <div className={classes.frame}>
-                             <CustomCarousel images={product.pictures} autoPlay={false}/>
+                             <CustomCarousel images={resolvePictures(product.pictures)} autoPlay={false}/>
                         </div>
                         <div className="btn-container">
                         <Button variant="contained" color="primary">Add to Cart</Button>
