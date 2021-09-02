@@ -1,8 +1,10 @@
 {
-  "name": "react-redux-material-ui",
+  "name": "dapperfolks",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@capacitor/android": "3.2.1",
+    "@capacitor/core": "^3.2.1",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "4.0.0-alpha.57",
@@ -50,6 +52,8 @@
     "test-test": "REACT_APP_NODE_ENV=test react-app-rewired test",
     "start-prod": "REACT_APP_NODE_ENV=production react-app-rewired start",
     "build-prod": "REACT_APP_NODE_ENV=production react-app-rewired build",
+    "android": "CAPACITOR_ANDROID_STUDIO_PATH=/snap/android-studio/114/android-studio/bin/studio.sh  REACT_APP_NODE_ENV=development npx cap open android",
+    "android-prod": "REACT_APP_NODE_ENV=production npx cap open android",
     "test-prod": "REACT_APP_NODE_ENV=test react-app-rewired test",
     "clean": "rm -rf node_modules/",
     "eject": "react-scripts eject"

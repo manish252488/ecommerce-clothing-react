@@ -1,0 +1,9 @@
+{
+    "appId": "io.ionic.dapperfolks",
+    "appName": "DapperFolks",
+    "bundledWebRuntime": false,
+    "npmClient": "npm",
+    "webDir": "build",
+    "linuxAndroidStudioPath": "/snap/android-studio/114/android-studio/bin/studio.sh",
+    "cordova": {}
+}

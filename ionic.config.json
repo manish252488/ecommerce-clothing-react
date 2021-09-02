@@ -1,0 +1,7 @@
+{
+  "name": "DapperFolks",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
