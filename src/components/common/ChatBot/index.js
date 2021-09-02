@@ -79,11 +79,10 @@ export default function ChatBot(props) {
     <>
       <Fab
         size="large"
-        color="primary"
         onClick={handleOpen}
         className="fab-custom"
       >
-        <MessageOutlined color="secondary" />
+        <MessageOutlined />
       </Fab>
       <Popover
       draggable={true}

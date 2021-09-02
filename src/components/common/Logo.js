@@ -1,7 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import React from 'react';
 import History from '../../@history';
-import {LogoDark as logo} from '../../assets'
 const useStyles=makeStyles({
   root: {
     width: 100,
@@ -13,7 +12,7 @@ const Logo = (props) => {
   return (
     <img
       alt="Logo"
-      src={'assets/images/logo-dark.svg'}
+      src={'/assets/images/logo-dark.svg'}
       className={props.size||cls.root}
       onClick={()=> History.push("/")}
       {...props}

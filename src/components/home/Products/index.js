@@ -16,6 +16,7 @@ import CustomTooltip from '../../common/CustomTooltip';
 import History from '../../../@history';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../../../store/actions'
+import { getImage } from '../../../config/Utils';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 250,
@@ -77,7 +78,7 @@ export default function Products({ data }) {
     <Card className={classes.root} >
       <CardMedia
         className={classes.media}
-        image={data.pictures[0]}
+        image={getImage(data.pictures[0],'products')}
         title={data.brand}
         onClick={() => History.push(`/product-detail/${data.id}`)}
       />
@@ -89,6 +90,7 @@ export default function Products({ data }) {
         <Typography variant="h6" className={classes.bold}>₹ {data.sellingCost}&nbsp;
           <del className={classes.muted}>₹ {data.cost}</del>
 
+          </Typography>
           {data.stock > 0 && <Chip
             className={classes.chip}
             color="primary"
@@ -98,7 +100,6 @@ export default function Products({ data }) {
             className={classes.chip}
             label="Stock Out"
           />}
-        </Typography>
       </CardContent>
       <CardActions>
         {(!cart.find(val => val.product === data.id) && !loading) &&
@@ -115,7 +116,7 @@ export default function Products({ data }) {
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
-        <Button startIcon={<FlashOnIcon color="secondary" />} variant="contained" color="primary" size="small">Buy Now</Button>
+        <Button startIcon={<FlashOnIcon color="inherit" />} variant="contained" color="primary" size="small">Buy Now</Button>
       </CardActions>
     </Card>
   );

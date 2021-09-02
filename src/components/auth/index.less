@@ -13,7 +13,7 @@
   max-height: calc(100vh - 5vh);
   .image {
     width: 65%;
-    background-color: #ddd;
+    background-color: #F9F6EE;
     background-size: cover;
     background-position: center;
     .bubble{
@@ -23,20 +23,19 @@
     }
     .nav-bar {
       width: auto;
-      background-color: #fff;
+      background:rgba(255, 255, 255, 0.452) !important;
       margin: 50px;
       padding: 20px 10px;
       display: flex;
       flex-direction: row;
       justify-content: space-around;
       border-radius: 10px;
-      opacity: 0.8;
       position: relative;
+      align-items: center;
       top: 70%;
       svg {
-        color: @primary-color-100;
+        color: @secondary-color-200;
         cursor: pointer;
-        padding: 5px;
         transition: 0.1s;
         border-radius: 10px;
         &:hover {
@@ -65,13 +64,27 @@
       width: 100%;
       justify-content: center;
       .active {
-        background-color: @primary-color-100;
+        background-color: @primary-color-200;
         color: @white;
       }
     }
   }
+  .web-view{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .icon {
+      width: 200px;
+    }
+  }
 }
 @media @phone-strict {
+  .nav-bar {
+    width: 90% !important;
+    flex-direction: column !important;
+    margin: 10px !important;
+    background:rgba(255, 255, 255, 0.452) !important;
+  }
   .auth-card {
     flex-direction: column;
     justify-content: unset;
@@ -131,17 +144,18 @@
 .social-logins {
   width: 100%;
   .MuiButtonBase-root {
-    background-color: @secondary-color-100;
+    background-color: @secondary-color-200;
     width: 100%;
     .MuiSvgIcon-root {
-      color: @primary-color-400;
+      color: @primary-color-100;
+    
     }
     .MuiChip-root{
       width: 100%;
     }
     .MuiChip-label {
       font-weight: 600;
-      color: @primary-color-400;
+      color: @primary-color-100;
       font-family: Arial, Helvetica, sans-serif;
     }
   }

@@ -35,10 +35,9 @@ const NavBar = ({ onMobileClose, openMobile }) => {
 
   return (
     <>
-      <Hidden lgUp>
+      <Hidden mdUp>
         <Drawer
           anchor="left"
-          classes="nav-drawer-mobile"
           onClose={onMobileClose}
           open={openMobile}
           variant="temporary"
@@ -47,7 +46,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
         </Drawer>
       </Hidden>
       <Hidden mdDown>
-        <Drawer anchor="left" classes="nav-drawer" open variant="persistent">
+        <Drawer anchor="left" open variant="persistent">
           {content}
         </Drawer>
       </Hidden>

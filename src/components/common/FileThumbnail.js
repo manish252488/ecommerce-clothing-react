@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 function HeaderComponent({ title, imageLink }) {
   const classes = useStyles();
   return (
-    <Grid container justify="space-between">
+    <Grid container justifyContent="space-between">
       <Grid className={classes.titleContainer} item>
         <Typography
           className={classes.heavyFont}

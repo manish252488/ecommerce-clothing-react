@@ -1,7 +1,7 @@
-import { Button, Card, CardContent, CardHeader, CardMedia, Container, Divider, FormControl, Grid, IconButton, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
+import { Button, Card, CardContent, CardHeader, CardMedia, Container, Divider, Grid, IconButton, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
 import { Visibility } from '@material-ui/icons'
 import React, { useEffect, useState } from 'react'
-import { MinusCircle, PlusCircle } from 'react-feather'
+import { MinusCircle, PlusCircle, ShoppingBag } from 'react-feather'
 import { useDispatch, useSelector } from 'react-redux'
 import Auth from '../../api/auth'
 import { getImage } from '../../config/Utils'
@@ -30,7 +30,7 @@ export default function Payment(props) {
     const cart = useSelector(({ Auth }) => Auth.cart)
     const savedAddress = useSelector(({ Auth }) => Auth.user.savedAddress)
     const products = useSelector(({ products }) => products.products)
-    const [selectedAddress, selectAddress] = useState(null)
+    const [selectedAddress] = useState(null)
     const [loading, setLoading] = useState(false);
     const [addCont,
         showAddContainer] = useState(false)
@@ -117,18 +117,18 @@ export default function Payment(props) {
         return flag
     }
 
-    const createOrder = () =>{
+    /* const createOrder = () =>{
         
-    }
+    } */
     const checkStripeAccess = () => {
         if(savedAddress.find(v=> v.default === true) && cart.length>0) {
             return false
         }
     }
     return <AppBaseScreen>
-        <Card component={Paper} className="payment-container" >
-
-            <CardHeader title="Items In Cart"></CardHeader>
+        <Container className="payment-container" >
+       
+            <Typography variant="h4">  <ShoppingBag /> Cart</Typography>
             <div className="cart-panel">
                 {
                     getProducts().map(val => (
@@ -160,11 +160,11 @@ export default function Payment(props) {
             <div className="billingPanel">
                 <Card component={Paper}>
                     <CardContent>
-                        <Grid container xs={12}>
-                            {(!addCont) && <Grid item xs={7}>
-                                <CardHeader title="Saved Address" action={<IconButton onClick={() => showAddContainer(true)}>
-                                    <PlusCircle/>
-                                </IconButton>}/>
+                        <Grid container>
+                            {(!addCont) && <Grid item xs={12}>
+                                <CardHeader title="Saved Address" action={<Button endIcon={<PlusCircle/>} onClick={() => showAddContainer(true)}>
+                                    Add Address
+                                </Button>}/>
                                 <Divider />
 
                                 <div className="address-container">
@@ -175,7 +175,7 @@ export default function Payment(props) {
                             </Grid>}
                             {
                                 (addCont) && (
-                                    <Grid item xs={7}>
+                                    <Grid item xs={12}>
                                         <CardHeader title={selectedAddress ? 'Edit Address' : 'Add Address'} action={<IconButton onClick={() => showAddContainer(false)}>
                                     <Visibility/>
                                 </IconButton>}/>
@@ -272,10 +272,10 @@ export default function Payment(props) {
                                     </Grid>
                                 )
                             }
-                            <Grid item xs={5}>
+                            <Grid item xs={6}>
                                 <CardHeader title="Billing Details" />
                                 <Divider />
-                                <Grid className="billing-data" container xs={12}>
+                                <Grid className="billing-data" >
                                     <Grid item xs={4}>Amount</Grid>
                                     <Grid item xs={5} style={{ textAlign: "right" }}>₹{billingData.totalAmount}</Grid>
                                     <Grid item xs={4}>Delivery Charges</Grid>
@@ -302,6 +302,6 @@ export default function Payment(props) {
                     </CardContent>
                 </Card>
             </div>
-        </Card>
+        </Container>
     </AppBaseScreen>
 }

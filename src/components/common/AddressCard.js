@@ -35,7 +35,7 @@ export default function AddressCard({data, setDefaultAdd}) {
     <Card className={classes.root} style={data?.default?{background: "#ffeecc"}: null} variant="outlined" onClick={() => setDefault(data.id)}>
       <CardContent>
      
-          <Grid container xs={12} alignItems="center">
+          <Grid container  alignItems="center">
               <Grid item xs={10}>
               <Typography className={classes.title} color="primary" gutterBottom>
           {data.type || 'NA'}

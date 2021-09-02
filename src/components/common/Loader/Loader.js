@@ -8,7 +8,7 @@ export default function Loader() {
   if (loading) {
     return (
       <div className="loading-screen">
-        <Grid container direction="column" justify="space-between" xs={12}>
+        <Grid container direction="column" justifyContent="space-between" xs={12}>
           <Grid item xs={12}>
             <CustomizedSpinner />{" "}
             <Typography

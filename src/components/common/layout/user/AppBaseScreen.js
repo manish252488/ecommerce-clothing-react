@@ -16,7 +16,7 @@ import CustomTooltip from "../../CustomTooltip";
 import NavBar from './NavBar'
 const useStyles = makeStyles({
   root: {
-    background: '#ddd'
+    background: '#fff'
   }
 })
 const AppBaseScreen = (props) => {
@@ -54,21 +54,21 @@ const AppBaseScreen = (props) => {
       {showHeader && (
         <AppBar >
           <Toolbar>
-            <Hidden lgUp>
-              <IconButton onClick={() => setMobileNavOpen(true)} lgUp>
+            <Hidden mdUp>
+              <IconButton onClick={() => setMobileNavOpen(true)} mdUp>
                 <MenuOpenOutlined color="secondary" />
               </IconButton>
             </Hidden>
             <Logo />
             {toolbarLeftItem}
-            <Hidden lgUp>
+            <Hidden xsDown>
             <div style={{ flexGrow: 1 }}>{toolbarRightItem}</div>
             </Hidden>
-            <Hidden lgDown>
+            <Hidden xsDown>
               <Button
                 onClick={() => History.push("/")}
                 startIcon={<HomeOutlined />}
-                color="inherit"
+                color="primary"
                 variant="text"
               >
                 home
@@ -76,7 +76,7 @@ const AppBaseScreen = (props) => {
               <Button
                 onClick={() => History.push("/contact")}
                 startIcon={<PermContactCalendarOutlined />}
-                color="inherit"
+                color="primary"
                 variant="text"
               >
                 contact
@@ -85,7 +85,7 @@ const AppBaseScreen = (props) => {
             {
               isLoggedIn && (<>
 
-                <Hidden lgDown>
+                <Hidden xsDown>
                   <ProfileMenu />
                 </Hidden>
                 <CustomTooltip arrow={true} placement="bottom" title="cart">
@@ -107,7 +107,7 @@ const AppBaseScreen = (props) => {
           </Toolbar>
         </AppBar>
       )}
-      <Hidden lgUp>
+      <Hidden mdUp>
       <NavBar
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}
@@ -118,12 +118,6 @@ const AppBaseScreen = (props) => {
         <ChatBot />
         {children}
       </div>
-      {/* </div> */}
-      {/*    Footer sett*/}
-      {/*  <div className="footer">
-        {footerItems && footerItems}
-        <Copyright />
-      </div> */}
       <Footer />
     </div>
   );

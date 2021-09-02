@@ -213,12 +213,12 @@ class SignUp extends React.Component {
         >
           Register
         </Button>
-        <Grid container justify="center" className="or-divider">
+        <Grid container justifyContent="center" className="or-divider">
           <Grid item xs={1}>
             <Typography color="primary">OR</Typography>
           </Grid>
         </Grid>
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
           <Grid item xs={8}>
           <div className="social-logins">
           <GoogleLogin

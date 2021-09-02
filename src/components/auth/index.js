@@ -14,12 +14,11 @@ import { renderIfElse } from "../../config/Utils";
 import Login from "./Login";
 import SignUp from "./Signup";
 import "./index.less";
-import { CloseOutlined, Facebook, Instagram, LockOutlined, PersonOutlined } from "@material-ui/icons";
+import { CloseOutlined, Facebook, Instagram, LockOutlined, PersonOutlined, Twitter } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { authPage } from "../../store/actions";
 import History from "../../@history";
 import { loginPage } from "../../assets";
-import Bubbles from "../common/Particles/Bubbles";
 
 const tabs = {
   login: "login",
@@ -38,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Authpage = (props) => {
   const classes = useStyles();
-  const initalDisplay = History.location.pathname === '/login';
+  let initalDisplay = History.location.pathname === '/login';
   const dispatch = useDispatch();
   const [tab, setTab] = useState(tabs.login);
   let display = useSelector(({ Auth }) => Auth.showAuthPage);
@@ -46,7 +45,7 @@ const Authpage = (props) => {
     dispatch(authPage(false));
   };
   useEffect(() => {
-    if (initalDisplay || display) {
+    if (display || initalDisplay) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
@@ -54,7 +53,7 @@ const Authpage = (props) => {
     return () => (document.body.style.overflow = "unset");
   }, [display, initalDisplay]);
   return (
-    <Backdrop className={classes.backdrop} open={display || initalDisplay}>
+    <Backdrop className={classes.backdrop} open={display?display:initalDisplay}>
       <Card className="auth-card" component={Paper}>
         {!initalDisplay && <IconButton
           className={classes.close}
@@ -64,51 +63,30 @@ const Authpage = (props) => {
           <CloseOutlined fontSize="inherit" />
         </IconButton>}
         <div className="image" style={{ backgroundImage: `url(${loginPage})` }}>
-          <div className="bubble">
-            <Bubbles
-              width="100%"
-              height="100%"
-              number={70}
-              colors={[
-                "#9161a0",
-                "#e3d8e7",
-                "#d6c4db",
-                "#ac89b8",
-                "#cc2b5e",
-                "#d6557e",
-                "#e0809e",
-                "#ebaabf",
-              ]}
-              speed={2}
-              size={15}
-              animSpeed={5}
-            />
-          </div>
           <div className="nav-bar">
             <Typography variant="h6">Follow us on:</Typography>
-            <Facebook onClick={() => History.push("/")} />
-            <Instagram onClick={() => History.push("/")} />
+            <Button startIcon={<Facebook /> } variant="outlined">@DapperFolks</Button>
+            <Button startIcon={<Instagram /> } variant="outlined">@dapper.folks</Button>
+            <Button startIcon={<Twitter /> } variant="outlined">@DapperFolks</Button>
           </div>
         </div>
         <CardContent>
-          {/* <div className="web-view">
-            <Typography align="center" variant="h4">
-              <Facebook style={{ fontSize: 70 }} />
-            </Typography>
-          </div> */}
+          <div className="web-view">
+            <img className="icon" src="assets/images/logo-dark.svg" alt="logo"/>
+          </div> 
           <ButtonGroup style={{ marginTop: 20}}>
             <Button
               className={tab === tabs.login ? "active" : ""}
               onClick={() => setTab(tabs.login)}
             >
-              <LockOutlined color="secondary"/>
+              <LockOutlined color="primary"/>
               Login
             </Button>
             <Button
               className={tab === tabs.signup ? "active" : ""}
               onClick={() => setTab(tabs.signup)}
             >
-              <PersonOutlined color="secondary"/>
+              <PersonOutlined color="primary"/>
               Sign Up
             </Button>
           </ButtonGroup>

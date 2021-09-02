@@ -94,7 +94,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
 
   return (
     <>
-      <Hidden lgUp>
+      <Hidden mdUp>
         <Drawer
           anchor="left"
           classes={{ paper: classes.mobileDrawer }}

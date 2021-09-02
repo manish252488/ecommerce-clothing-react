@@ -1,7 +1,9 @@
 @import '../../Base.less';
 
 .payment-container{
-    margin: 10px 20px;
+    margin: 0px;
+    padding: 25px;
+    background-color: #F9F6EE !important;
     display: flex !important;
     flex-flow: column;
     .cart-panel {
@@ -72,11 +74,44 @@
     }
 }
 
+@media @tablet-strict {
+    .payment-container{
+       margin-top: 12%
+    }
+    
+}
 @media @phone-strict {
     .payment-container{
+        width: 100%;
+        margin: 0;
         flex-flow: column;
-        .cart-panel {
-            max-height: auto;
+    }
+    .address-container{
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .billingPanel {
+        .MuiGrid-container {
+            .MuiGrid-item{
+                width: 100%;
+                max-width: unset !important;
+                margin: auto !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                flex-basis: unset !important;
+            }
+        }
+        .billing-data {
+            padding: 15px;
+            margin: 5px 10px;
+            line-height: 15px !important;
         }
     }
+    .cart-panel {
+        justify-content: center !important;
+    }
+}
+.MuiContainer-maxWidthLg {
+    max-width: unset !important;
 }

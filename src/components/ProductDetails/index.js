@@ -73,7 +73,7 @@ export default function ProductDetails(props){
     return <AppBaseScreen>
         <Container maxWidth="lg" className={classes.root}>
             <Card className={classes.card}>
-                <Grid container xs={12}>
+                <Grid container>
                     <Grid item xs={6}>
                         <div className={classes.frame}>
                              <CustomCarousel images={product.pictures} autoPlay={false}/>
@@ -85,8 +85,11 @@ export default function ProductDetails(props){
                     </Grid>
                     <Grid item xs={6}>
                         <Container maxWidth="lg" className={classes.container}>
+                     
                         <Typography variant="body2">
-                        {product.stock > 0 && <Chip
+                      &nbsp;&nbsp;
+                    #{product.id} </Typography>
+                    {product.stock > 0 && <Chip
                             className={classes.chip}
                             color="primary"
                             label="In Stock"
@@ -94,8 +97,7 @@ export default function ProductDetails(props){
                         {product.stock <= 0 && <Chip
                         className={classes.chip}
                         label="Stock Out"
-                    />}&nbsp;&nbsp;
-                    #{product.id} </Typography>
+                    />}
                         <Typography variant="h3">
                             {product.name} - {product.brand}
                         </Typography>
@@ -114,7 +116,7 @@ export default function ProductDetails(props){
                         <Divider />
                         <div className={classes.description}>
                             <div className={classes.boxContainer}>
-                        {product.colorOptions.map(val => <div className={classes.colorbox} style={{background: val }}></div>)}
+                        {product.colorOptions.map((val, index) => <div key={index} className={classes.colorbox} style={{background: val }}></div>)}
                         </div>
                         </div>
                         <Typography variant={'h6'}>
@@ -122,7 +124,8 @@ export default function ProductDetails(props){
                         </Typography>
                         <Divider />
                         <div className={classes.description}>
-                        {product.material.map(val => (<Chip
+                        {product.material.map((val, key) => (<Chip
+                        key={key}
                             className={classes.chip}
                             style={{marginLeft: 5}}
                             color="primary"
