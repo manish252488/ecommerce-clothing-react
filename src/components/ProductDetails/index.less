@@ -15,3 +15,28 @@
         width: 48%;
     }
 }
+@media @phone-strict {
+    .container {
+        padding-left: 0 !important; 
+        padding-right: 0 !important;
+        .MuiGrid-container{
+            flex-flow: column;
+            .MuiGrid-item {
+                max-width: initial;
+            }
+        }
+        .MuiCardHeader-root {
+            text-align: center;
+            margin: auto;
+            width: 100%;
+            justify-content: center;
+        }
+        .makeStyles-similiarProducts-8 {
+            flex-direction: column;
+            align-items: center;
+            .MuiCard-root{
+                margin-top: 10px
+            }
+        }
+    }
+}

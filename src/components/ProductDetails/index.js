@@ -71,7 +71,7 @@ export default function ProductDetails(props){
         return null
     }
     return <AppBaseScreen>
-        <Container maxWidth="lg" className={classes.root}>
+        <Container maxWidth="lg" className={classes.root + ' container'}>
             <Card className={classes.card}>
                 <Grid container>
                     <Grid item xs={6}>
@@ -102,10 +102,10 @@ export default function ProductDetails(props){
                             {product.name} - {product.brand}
                         </Typography>
                         <Typography variant="h5">₹ {product.sellingCost} <del style={{color: '#333', fontSize: 16}}>₹ {product.cost}</del></Typography>
+                        <RatingComponent value={product.rating} />
                         <Divider />
                         <div className={classes.description}>
-                            <Typography variant="h6">Ratings:</Typography>
-                        <RatingComponent value={product.rating} />
+                        
                         <Typography variant="body2">
                             {product.description}
                         </Typography>

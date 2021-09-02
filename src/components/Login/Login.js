@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import "./index.less";
 import * as actions from "../../store/actions";
-import { authPage, setMailAccount } from "../../store/actions";
+import { setMailAccount } from "../../store/actions";
 import constants from "../../config/constants";
 import History from "../../@history";
 const Login = (props) => {
@@ -35,11 +35,7 @@ const Login = (props) => {
   };
   const onSuccess = (path) => {
     setLoading(false);
-    if(History.location.pathname === '/login'){
-    History.push('/home')
-    } else {
-      dispatch(authPage(false))
-    }
+    History.replace('/home')
   };
   const onFailure = (error) => {
     setLoading(false);

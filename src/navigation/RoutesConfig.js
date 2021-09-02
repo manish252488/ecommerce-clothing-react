@@ -5,7 +5,7 @@ import PaymentRoutes from "../components/Payment/payment.routes";
 import ContactRoutes from '../components/Contacts/contacts.routes'
 import ProductDetailRoutes from "../components/ProductDetails/ProductDetail.routes";
 import AboutRoutes from "../components/About/about.routes";
-import AuthRoutes from "../components/auth/auth.routes";
+import AuthRoutes from "../components/Login/auth.routes";
 
 const routesConfig = [HomeRoutes, AdminRoutes,NotFoundRoutes, PaymentRoutes, ContactRoutes,ProductDetailRoutes, AboutRoutes, AuthRoutes];
 

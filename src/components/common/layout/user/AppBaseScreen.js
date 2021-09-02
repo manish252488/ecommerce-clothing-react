@@ -47,7 +47,8 @@ const AppBaseScreen = (props) => {
     }
   }
   const showAuthPanel = () => {
-    dispatch(authPage(true))
+    // dispatch(authPage(true))
+    History.push("/login")
   }
   return (
     <div className={classes.root}>

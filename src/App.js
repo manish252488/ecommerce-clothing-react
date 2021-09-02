@@ -9,7 +9,6 @@ import "./App.less";
 import { ThemeProvider } from "@material-ui/styles";
 import theme from './theme'
 import { CssBaseline } from "@material-ui/core";
-import AuthComponent from "./components/auth";
 function App() {
   return (
     <AppContext.Provider value={routesConfig}>
@@ -17,7 +16,6 @@ function App() {
         <Router history={history}>
           <ThemeProvider theme={theme}>
             <CssBaseline/>
-            <AuthComponent />
           <AppRoute routes={routesConfig}/>
           </ThemeProvider>
         </Router>

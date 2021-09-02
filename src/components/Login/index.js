@@ -1,22 +1,18 @@
 import {
-  Backdrop,
   Button,
   ButtonGroup,
   Card,
   CardContent,
-  IconButton,
-  makeStyles,
   Paper,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { renderIfElse } from "../../config/Utils";
 import Login from "./Login";
 import SignUp from "./Signup";
 import "./index.less";
-import { CloseOutlined, Facebook, Instagram, LockOutlined, PersonOutlined, Twitter } from "@material-ui/icons";
-import { useDispatch, useSelector } from "react-redux";
-import { authPage } from "../../store/actions";
+import { Facebook, Instagram, LockOutlined, PersonOutlined, Twitter } from "@material-ui/icons";
+import { useSelector } from "react-redux";
 import History from "../../@history";
 import { loginPage } from "../../assets";
 
@@ -24,42 +20,16 @@ const tabs = {
   login: "login",
   signup: "signup",
 };
-const useStyles = makeStyles((theme) => ({
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
-  },
-  close: {
-    position: "absolute",
-    right: 0,
-    top: 0,
-  },
-}));
+
 const Authpage = (props) => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
   const [tab, setTab] = useState(tabs.login);
-  let display = useSelector(({ Auth }) => Auth.showAuthPage);
-  const handleClose = () => {
-    dispatch(authPage(false));
-  };
-  useEffect(() => {
-    if (display) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => (document.body.style.overflow = "unset");
-  }, [display]);
-  const LoginComponent = () => (
+  const isAuthenticated = useSelector(({Auth}) => Auth.isAuthenticated)
+  if(isAuthenticated){
+    History.replace("/home")
+  }
+
+  return (
     <Card className="auth-card" component={Paper}>
-    {History.location.pathname !== '/login' && <IconButton
-      className={classes.close}
-      onClick={handleClose}
-      size="medium"
-    >
-      <CloseOutlined fontSize="inherit" />
-    </IconButton>}
     <div className="image" style={{ backgroundImage: `url(${loginPage})` }}>
       <div className="nav-bar">
         <Typography variant="h6">Follow us on:</Typography>
@@ -94,10 +64,6 @@ const Authpage = (props) => {
     </CardContent>
   </Card>
   )
-  return (
-    <Backdrop className={classes.backdrop} open={History.location.pathname === "/login"?true:display}>
-      <LoginComponent />
-     </Backdrop>
-  );
+
 };
 export default Authpage;

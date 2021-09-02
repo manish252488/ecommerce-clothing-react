@@ -17,7 +17,7 @@ const Footer = (props) => {
       <Grid item xs={4}></Grid>
         <Grid item xs={4}>
       <div className="link-list">
-        <img src="assets/images/logo-light.svg" className="icon" alt="check"/>
+        <img src="/assets/images/logo-light.svg" className="icon" alt="check"/>
       </div>
       <div className="link-list">
       <CustomTooltip title="Follow us on Instagram!"><>

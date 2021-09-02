@@ -89,11 +89,8 @@ class SignUp extends React.Component {
   };
   onSuccess = (path) => {
     this.setState({ loading: false });
-    if(History.location.pathname === '/login'){
-    window.location.href = "/home"
-    } else {
-      this.props.authPage(false)
-    }
+    History.push('/home')
+    
   };
   onFailure = (msg) => {
     this.setState((prev) => {
