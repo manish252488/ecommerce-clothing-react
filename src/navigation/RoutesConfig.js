@@ -7,7 +7,8 @@ import ProductDetailRoutes from "../components/ProductDetails/ProductDetail.rout
 import AboutRoutes from "../components/About/about.routes";
 import AuthRoutes from "../components/Login/auth.routes";
 import CheckoutRoutes from "../components/CheckoutPage/checkout.routes";
+import MyOrderRoutes from "../components/MyOrders/myorders.routes";
 
-const routesConfig = [HomeRoutes, AdminRoutes, NotFoundRoutes, PaymentRoutes, ContactRoutes, ProductDetailRoutes, AboutRoutes, AuthRoutes, CheckoutRoutes];
+const routesConfig = [HomeRoutes, AdminRoutes, NotFoundRoutes, PaymentRoutes, ContactRoutes, ProductDetailRoutes, AboutRoutes, AuthRoutes, CheckoutRoutes, MyOrderRoutes];
 
 export default routesConfig;

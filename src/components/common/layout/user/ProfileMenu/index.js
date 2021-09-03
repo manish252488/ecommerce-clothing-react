@@ -7,6 +7,7 @@ import SignOut from '../../../../auth/SignOut';
 import { makeStyles, Typography } from '@material-ui/core';
 import { Person } from '@material-ui/icons';
 import { useSelector } from 'react-redux';
+import History from '../../../../../@history';
 const  useStyles = makeStyles(theme => ({
     text: {
         textTransform: "capitalize"
@@ -44,8 +45,8 @@ export default function ProfileMenu() {
             <Typography>{user.name}</Typography>
         </MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>My orders</MenuItem>
-        <MenuItem onClick={handleClose}><SignOut>Logout</SignOut></MenuItem>
+        <MenuItem onClick={() => History.push("/myorders")}>My orders</MenuItem>
+        <MenuItem><SignOut>Logout</SignOut></MenuItem>
       </Menu>
     </div>
   );

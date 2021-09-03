@@ -20,7 +20,8 @@ import { getImage } from '../../../config/Utils';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 250,
-    minWidth: 250
+    minWidth: 250,
+    cursor: 'pointer'
   },
   media: {
     height: 0,
@@ -75,23 +76,32 @@ export default function Products({ data }) {
   }
 
   return (
-    <Card className={classes.root} >
+    <Card className={classes.root} onClick={() => History.push(`/product-detail/${data.id}`)}>
       <CardMedia
         className={classes.media}
         image={getImage(data.pictures[0],'products')}
         title={data.brand}
-        onClick={() => History.push(`/product-detail/${data.id}`)}
       />
       <CardContent>
-        <Typography variant="h6" color="primary" component="p">
-          {data.name} - {data.brand}
+        <Typography variant="h5" color="primary">
+          {data?.name}
         </Typography>
+        <Typography variant="h6" color="primary">{
+          data?.brand 
+        } by @{data?.designer}</Typography>
         <RatingComponent value={2} />
         <Typography variant="h6" className={classes.bold}>₹ {data.sellingCost}&nbsp;
           <del className={classes.muted}>₹ {data.cost}</del>
-
           </Typography>
-          {data.stock > 0 && <Chip
+      </CardContent>
+      <CardActions>
+          <IconButton aria-label="add to cart" onClick={() => cart.find(val => val.product === data.id)? removeCart(data.id) : addToCart(data.id)}>
+              <ShoppingCartRounded color={cart.find(val => val.product === data.id)? "primary": "inherit"}  />
+          </IconButton>
+        <IconButton aria-label="share">
+          <ShareIcon />
+        </IconButton>
+        {data.stock > 0 && <Chip
             className={classes.chip}
             color="primary"
             label="In Stock"
@@ -100,14 +110,7 @@ export default function Products({ data }) {
             className={classes.chip}
             label="Stock Out"
           />}
-      </CardContent>
-      <CardActions>
-          <IconButton aria-label="add to cart" onClick={() => cart.find(val => val.product === data.id)? removeCart(data.id) : addToCart(data.id)}>
-              <ShoppingCartRounded color={cart.find(val => val.product === data.id)? "primary": "inherit"}  />
-          </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>{/* 
+        {/* 
         <Button startIcon={<FlashOnIcon color="inherit" />} variant="contained" color="primary" size="small">Buy Now</Button> */}
       </CardActions>
     </Card>
