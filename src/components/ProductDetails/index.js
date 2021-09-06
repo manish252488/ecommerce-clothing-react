@@ -1,11 +1,11 @@
-import { Button, Card, CardHeader, Chip, Container, Divider, Grid, List, ListItem, ListItemIcon, ListItemText, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Button, Card, CardHeader, Chip, Container, Divider, Grid, Link, List, ListItem, ListItemIcon, ListItemText, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
 import { Person } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import History from '../../@history';
 import ProductsApi from '../../api/products';
-import { getImage, shuffle } from '../../config/Utils';
+import { shuffle } from '../../config/Utils';
 import { listProducts } from '../../store/actions';
 import CustomCarousel from '../common/corousels/CustomCarousel';
 import AppBaseScreen from '../common/layout/user/AppBaseScreen';
@@ -65,12 +65,12 @@ const useStyles = makeStyles(theme => ({
 export default function ProductDetails(props) {
     const classes = useStyles()
     const { productId } = useParams();
-    const isAuth = useSelector(({Auth}) => Auth.isAuthenticated)
+    const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated)
     const [product, setProduct] = useState(null)
     const dispatch = useDispatch();
     const products = useSelector(({ products }) => products.products)
     const [data, setData] = useState(null)
-    
+
     useEffect(() => {
         dispatch(listProducts())
         ProductsApi.productDetail(productId).then(res => {
@@ -81,14 +81,14 @@ export default function ProductDetails(props) {
         })
     }, [productId, dispatch])
     const checkAuth = () => {
-        if(isAuth){
+        if (isAuth) {
             return true;
         } else {
             History.push("/login")
         }
     }
     const addToCart = () => {
-        
+
     }
     if (!product) {
         return null
@@ -200,33 +200,40 @@ export default function ProductDetails(props) {
             </div>
             <Container className="reviewContainer" maxWidth="lg">
                 <Typography variant={'h5'}>&nbsp;Reviews</Typography>
+                <Link>{'<<'} previous</Link>
                 <Divider />
                 <List>
                     {
-                        Array(0).fill(5).map((val, index) => (
+                        Array(10).fill(5).map((val, index) => (
                             <ListItem>
                                 <div className="flex">
-                                <ListItemIcon>
-                                    <Person /> 
-                                </ListItemIcon>
-                                
-                                <Typography variant="h6">
-                                Manish Singh
-                                </Typography>
+                                    <ListItemIcon>
+                                        <Person />
+                                    </ListItemIcon>
+
+                                    <Typography variant="h6">
+                                        Manish Singh
+                                    </Typography>
                                 </div>
-                                <Typography className="message-con" variant="body2"> 
-                                Using review request text templates to ask for a Google review is not some sort of bad practice. Sure, you could depend on email review request templates, but texts can be incredibly effective.
+                                <Typography className="message-con" variant="body2">
+                                    Using review request text templates to ask for a Google review is not some sort of bad practice. Sure, you could depend on email review request templates, but texts can be incredibly effective.
                                 </Typography>
                             </ListItem>
                         ))
                     }
                     {
                         <ListItem>
-                            <ListItemText style={{textAlign: 'center'}}>No reviews yet!</ListItemText>
+                            <ListItemText style={{ textAlign: 'center' }}>No reviews yet!</ListItemText>
                         </ListItem>
                     }
                 </List>
+            </Container>
+            <Container className="reviewContainer" maxWidth="lg">
+                <Typography>post an review:</Typography>
+                <TextField multiline fillWidth minRows={4} variant="outlined" size="medium" maxRows={4}>
 
+                </TextField>
+                <Button variant="contained" color="primary" size="small">post</Button>
             </Container>
         </Container>
     </AppBaseScreen>

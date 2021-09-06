@@ -53,7 +53,7 @@ export default function ProfileMenu() {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={() => History.push("/profile")}>
         <ListItemIcon>
         {user.picture && <img className={classes.profilepic} src={"assets/images/logo-dark.png"} alt="profile"/>}
                 {!user.picture && <Person/>}

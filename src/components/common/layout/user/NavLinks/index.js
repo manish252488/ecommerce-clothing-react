@@ -30,7 +30,6 @@ export default function NavLinks(){
         return null
     }
     return <div className={classes.root}>
-        <Typography variant="body1">Browse categories: </Typography>
         {
             categories.map((val, index) => (
                 <Link key={index} className={classes.links}>{val.name}</Link>

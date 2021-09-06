@@ -6,21 +6,16 @@ const AuthRoutes = {
   auth: authRoles.guest,
   routes: [
     {
-      path: "/auth/login/:tab",
-      component: Component,
-      exact: true,
-    },
-    {
-      path: "/auth/signup/:tab",
+      path: "/auth/:tab",
       component: Component,
       exact: true,
     },
     {
       path: "/login",
-      component: () => <Redirect to="/auth/login/1"/>
+      component: () => <Redirect to="/auth/login"/>
     },{
       path: "/signup",
-      component: () => <Redirect to="/auth/signup/1"/>
+      component: () => <Redirect to="/auth/signup"/>
     }
   ],
 };

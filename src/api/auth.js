@@ -9,7 +9,8 @@ const Auth = {
   setDefaultAddress: (id) => client.post("/users/address-default", {id: id}),
   deleteAddress: (id) => client.delete("/users/delete-address", {id: id}),
   updateAddress: (data) => client.post("/users/address-update", data),
-  updateProfilePicture: (data) => client.post("/users/upload-profile-picture",data)
+  updateProfilePicture: (data) => client.post("/users/upload-profile-picture",data),
+  getUserDetail: () => client.get("/users/detail")
 };
 
 export default Auth;

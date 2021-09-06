@@ -19,9 +19,13 @@ import * as Actions from '../../../store/actions'
 import { getImage } from '../../../config/Utils';
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 250,
-    minWidth: 250,
-    cursor: 'pointer'
+    maxWidth: 200,
+    minWidth: 200,
+    cursor: 'pointer',
+    [theme.breakpoints.down('md')]:{
+      maxWidth: '49%',
+      minWidth: '48%',
+    }
   },
   media: {
     height: 0,
@@ -96,7 +100,7 @@ export default function Products({ data }) {
               <ShoppingCartRounded color={cart.find(val => val.product === data.id)? "primary": "inherit"}  />
           </IconButton>}
         <IconButton aria-label="share">
-          <ShareIcon />
+          <ShareIcon fontSize="small"/>
         </IconButton>
         {data.stock > 0 && <Chip
             className={classes.chip}
