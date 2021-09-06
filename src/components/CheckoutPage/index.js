@@ -1,4 +1,4 @@
-import { Container, Divider, Grid, ImageListItem, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText, makeStyles, Typography } from '@material-ui/core';
+import { Container, Divider, Grid, List, ListItem, ListItemIcon, ListItemText, makeStyles, Typography } from '@material-ui/core';
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
@@ -14,7 +14,7 @@ const useStyles = makeStyles(({
         padding: 20
     }
 }))
-export default function (props) {
+export default function CheckoutPage(props) {
     const { orderId } = useParams();
     const orderData = useSelector(({ orders }) => orders?.list)
     const order = orderData.find(val => val.id === orderId)
@@ -23,7 +23,7 @@ export default function (props) {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(listOrders())
-    }, [])
+    }, [dispatch])
     if(!orderData && orderData.length <= 0 && !order){
         return null
     }

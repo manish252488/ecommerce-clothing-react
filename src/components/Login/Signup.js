@@ -1,10 +1,8 @@
 import {
   Button,
   Checkbox,
-  Chip,
   CircularProgress,
   FormControlLabel,
-  Grid,
   Link,
   TextField,
   Typography,
@@ -16,7 +14,6 @@ import { authPage, setMailAccount, signUp } from "../../store/actions";
 import "./index.less";
 import History from "../../@history";
 import PhoneAndEmail from "../common/PhoneAndEmail";
-import DatePicker from "../common/DatePicker";
 class SignUp extends React.Component {
   constructor(props) {
     super(props);

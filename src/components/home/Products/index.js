@@ -10,13 +10,10 @@ import { red } from '@material-ui/core/colors';
 import ShareIcon from '@material-ui/icons/Share';
 import RatingComponent from './components/Rating';
 import { ShoppingCartRounded } from '@material-ui/icons';
-import { Button, Chip } from '@material-ui/core';
-import FlashOnIcon from '@material-ui/icons/FlashOn';
-import CustomTooltip from '../../common/CustomTooltip';
+import { Chip } from '@material-ui/core';
 import History from '../../../@history';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../../../store/actions'
-import { getImage } from '../../../config/Utils';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 200,

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router';
 import History from '../../@history';
 import Auth from '../../api/auth';
 import { renderIfElse } from '../../config/Utils';

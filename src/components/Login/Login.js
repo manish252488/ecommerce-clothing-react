@@ -1,20 +1,19 @@
-import { Button, Chip, CircularProgress, Grid, Link, TextField, Typography } from "@material-ui/core";
+import { Button, CircularProgress, Grid, Link, TextField, Typography } from "@material-ui/core";
 import GoogleLogin from "react-google-login";
 import { Facebook } from "@material-ui/icons";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import "./index.less";
 import * as actions from "../../store/actions";
-import { setMailAccount } from "../../store/actions";
 import constants from "../../config/constants";
 import History from "../../@history";
 import ReactFacebookLogin from "react-facebook-login";
 const Login = ({changeTab}) => {
   const [password, setPassword] = useState("");
   const [email, changeEmail] = useState("");
-  const [error, setError] = useState("");
+  const [, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [facebookLoading, setFacebookLoading] = useState(false)
+  const [ , setFacebookLoading] = useState(false)
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -35,7 +34,7 @@ const Login = ({changeTab}) => {
     setErrors({ ...err });
     return flag;
   };
-  const onSuccess = (path) => {
+  const onSuccess = () => {
     setLoading(false);
     History.replace('/home')
   };

@@ -1,5 +1,4 @@
-import { Button, CircularProgress, Divider, Link, TextField, Typography } from '@material-ui/core';
-import { MailOutline } from '@material-ui/icons';
+import { Button, CircularProgress, Link, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 
 export default function PhoneAndEmail({ phone, email, errors, onChange = () => {}, setAction = () => {}, buttonText }) {

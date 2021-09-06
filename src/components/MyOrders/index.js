@@ -2,14 +2,13 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listOrders } from '../../store/actions';
 import AppBaseScreen from '../common/layout/user/AppBaseScreen';
-import { Card, CardContent, CardHeader, Divider, Grid, List, ListItem, ListItemAvatar, Paper, Typography } from '@material-ui/core'
-import { getImage } from '../../config/Utils';
+import { Card, CardContent, CardHeader, Divider, Grid, Paper, Typography } from '@material-ui/core'
 export default function MyOrders(props){
     const orders = useSelector(({orders}) => orders.list)
     const dispatch = useDispatch()
     useEffect(()=> {
         dispatch(listOrders())
-    },[])
+    },[dispatch])
     return <AppBaseScreen>
         <Card component={Paper}>
             <CardHeader title="My Orders"/>

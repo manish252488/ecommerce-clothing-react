@@ -1,6 +1,5 @@
 import {
   Button,
-  ButtonGroup,
   Card,
   CardContent,
   Paper,
@@ -11,7 +10,7 @@ import { renderIfElse } from "../../config/Utils";
 import Login from "./Login";
 import SignUp from "./Signup";
 import "./index.less";
-import { Facebook, Instagram, LockOutlined, PersonOutlined, Twitter } from "@material-ui/icons";
+import { Facebook, Instagram, Twitter } from "@material-ui/icons";
 import { useSelector } from "react-redux";
 import History from "../../@history";
 import { loginPage } from "../../assets";
@@ -26,8 +25,7 @@ const Authpage = (props) => {
   const {tab: current} = useParams()
   const [tab, setTab] = useState(current || tabs.login);
   const isAuthenticated = useSelector(({ Auth }) => Auth.isAuthenticated)
-  const user = useSelector(({Auth}) => Auth.user.roleId)
-  
+
   if (isAuthenticated) {
     History.replace("/home")
   }

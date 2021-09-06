@@ -6,11 +6,10 @@ import Logo from "../../Logo";
 import { checkJWT, listCart } from "../../../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../Loader/Loader";
-import { HomeOutlined, LocalShipping, MenuOpenOutlined, Money, PermContactCalendarOutlined, Person, ShoppingCartRounded } from "@material-ui/icons";
+import { Person, ShoppingCartRounded } from "@material-ui/icons";
 import ProfileMenu from "./ProfileMenu";
 import Footer from "../../Footer";
 import History from "../../../../@history";
-import ChatBot from "../../ChatBot";
 import StyledBadge from "../../StyledBadge";
 import NavBar from './NavBar'
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';

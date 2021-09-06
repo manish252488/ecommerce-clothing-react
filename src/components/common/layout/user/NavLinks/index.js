@@ -1,4 +1,4 @@
-import { Link, makeStyles, Typography } from '@material-ui/core';
+import { Link, makeStyles } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../../../../../store/actions';

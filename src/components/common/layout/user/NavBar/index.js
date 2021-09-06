@@ -4,13 +4,8 @@ import PropTypes from "prop-types";
 import "./index.less";
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Typography from '@material-ui/core/Typography';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
-import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import CategoryIcon from '@material-ui/icons/Category';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
@@ -42,7 +37,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
 
   const content = (
     <Grid container>
-      {isAuth && <Grid item xs={12} className="profile-container ">
+      {isAuth && <Grid item xs={12} className="profile-container">
         <img src={user.picture || "assets/images/logo-dark.png"} className="image" alt="profile" />
         <Typography variant="h6">{user.name}</Typography>
       </Grid>}
@@ -60,13 +55,13 @@ const NavBar = ({ onMobileClose, openMobile }) => {
             </ListItemIcon>
             <Typography variant="inherit">wallet</Typography>
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={() => History.push("/categories")}>
             <ListItemIcon>
               <CategoryIcon fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit">categories</Typography>
           </MenuItem>
-          <MenuItem>
+          <MenuItem  onClick={() => History.push("/offers")}>
             <ListItemIcon>
               <LocalOfferIcon fontSize="small" />
             </ListItemIcon>
@@ -74,7 +69,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
               offer zone
             </Typography>
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={() => History.push("/myorders")}>
             <ListItemIcon>
               <LocalShippingIcon fontSize="small" />
             </ListItemIcon>
@@ -82,20 +77,12 @@ const NavBar = ({ onMobileClose, openMobile }) => {
               my orders
             </Typography>
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={() => History.push("/profile")}>
             <ListItemIcon>
               <PersonIcon fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit" noWrap>
               profile
-            </Typography>
-          </MenuItem>
-          <MenuItem>
-            <ListItemIcon>
-              <ReceiptIcon fontSize="small" />
-            </ListItemIcon>
-            <Typography variant="inherit" noWrap>
-              vouchers & offers
             </Typography>
           </MenuItem>
           <Divider />
