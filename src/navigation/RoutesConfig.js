@@ -1,4 +1,3 @@
-import AdminRoutes from "../components/admin/Admin.routes";
 import HomeRoutes from "../components/home/Home.routes";
 import NotFoundRoutes from "../components/not-found/NotFound.routes";
 import PaymentRoutes from "../components/Payment/payment.routes";
@@ -9,6 +8,6 @@ import AuthRoutes from "../components/Login/auth.routes";
 import CheckoutRoutes from "../components/CheckoutPage/checkout.routes";
 import MyOrderRoutes from "../components/MyOrders/myorders.routes";
 
-const routesConfig = [HomeRoutes, AdminRoutes, NotFoundRoutes, PaymentRoutes, ContactRoutes, ProductDetailRoutes, AboutRoutes, AuthRoutes, CheckoutRoutes, MyOrderRoutes];
+const routesConfig = [HomeRoutes, NotFoundRoutes, PaymentRoutes, ContactRoutes, ProductDetailRoutes, AboutRoutes, AuthRoutes, CheckoutRoutes, MyOrderRoutes];
 
 export default routesConfig;

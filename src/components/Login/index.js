@@ -24,6 +24,7 @@ const tabs = {
 const Authpage = (props) => {
   const [tab, setTab] = useState(tabs.login);
   const isAuthenticated = useSelector(({ Auth }) => Auth.isAuthenticated)
+  const user = useSelector(({Auth}) => Auth.user.roleId)
   if (isAuthenticated) {
     History.replace("/home")
   }

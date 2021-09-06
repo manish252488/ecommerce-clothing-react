@@ -40,7 +40,7 @@ gulp.task("upload", function () {
         stdout: true // default = true, false means don't write stdout
     };
 
-    return gulp.src("./dist/**")
+    return gulp.src("./public/**")
         .pipe(s3({
             Bucket: envConfig.s3[env], //  Required
             ACL: 'public-read' //  Needs to be user-defined
@@ -48,9 +48,9 @@ gulp.task("upload", function () {
             // S3 Constructor Options, ie:
             maxRetries: 5
         }))
-        .pipe(exec(`aws s3 cp s3://${ envConfig.s3[env] }/static s3://${ envConfig.s3[env] }/bower_components --cache-control max-age=86400 --recursive`, options))
+        .pipe(exec(`aws s3 cp s3://${ envConfig.s3[env] }/assets s3://${ envConfig.s3[env] }/bower_components --cache-control max-age=86400 --recursive`, options))
         .pipe(exec.reporter(reportOptions))
-        .pipe(exec(`aws s3 cp s3://${ envConfig.s3[env] }/assets s3://${ envConfig.s3[env] }/fonts --cache-control max-age=86400 --recursive`, options))
+        .pipe(exec(`aws s3 cp s3://${ envConfig.s3[env] }/img s3://${ envConfig.s3[env] }/fonts --cache-control max-age=86400 --recursive`, options))
         .pipe(exec.reporter(reportOptions))
         .pipe(cloudfront(settings));
 
