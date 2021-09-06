@@ -15,7 +15,7 @@ import { Facebook, Instagram, LockOutlined, PersonOutlined, Twitter } from "@mat
 import { useSelector } from "react-redux";
 import History from "../../@history";
 import { loginPage } from "../../assets";
-
+import { SocialLinks } from '../../config/constants/constants'
 const tabs = {
   login: "login",
   signup: "signup",
@@ -23,46 +23,48 @@ const tabs = {
 
 const Authpage = (props) => {
   const [tab, setTab] = useState(tabs.login);
-  const isAuthenticated = useSelector(({Auth}) => Auth.isAuthenticated)
-  if(isAuthenticated){
+  const isAuthenticated = useSelector(({ Auth }) => Auth.isAuthenticated)
+  if (isAuthenticated) {
     History.replace("/home")
   }
 
   return (
     <Card className="auth-card" component={Paper}>
-    <div className="image" style={{ backgroundImage: `url(${loginPage})` }}>
-      <div className="nav-bar">
-        <Typography variant="h6">Follow us on:</Typography>
-        <Button startIcon={<Facebook /> } variant="outlined">@DapperFolks</Button>
-        <Button startIcon={<Instagram /> } variant="outlined">@dapper.folks</Button>
-        <Button startIcon={<Twitter /> } variant="outlined">@DapperFolks</Button>
+      <div className="image" style={{ backgroundImage: `url(${loginPage})` }}>
+        <div>
+            <img className="icon" src="assets/images/logo-dark.svg" alt="logo" />
+        </div>
+        <div className="nav-bar">
+          <Button fullWidth startIcon={<Facebook />} variant="contained" target="_blank" href={SocialLinks.Facebook}><Typography>@dapperfolks</Typography></Button>
+          <Button fullWidth startIcon={<Instagram />} variant="contained" target="_blank" href={SocialLinks.Instagram}>@dapper.folks</Button>
+          <Button fullWidth startIcon={<Twitter />} variant="contained" target="_blank" href={SocialLinks.twitter}>@DapperFolks</Button>
+        </div>
       </div>
-    </div>
-    <CardContent>
-      <div className="web-view">
-        <img className="icon" src="assets/images/logo-dark.svg" alt="logo"/>
-      </div> 
-      <ButtonGroup style={{ marginTop: 20}}>
+      <CardContent className="auth-card-tabs">
+        {/*  <ButtonGroup>
         <Button
-          className={tab === tabs.login ? "active" : ""}
+          variant="contained"
+          color={tab === tabs.login ? "primary" : "secondary"}
           onClick={() => setTab(tabs.login)}
         >
-          <LockOutlined color="primary"/>
+          <LockOutlined color={tab === tabs.login ? "secondary" : "primary"}/>
           Login
         </Button>
         <Button
-          className={tab === tabs.signup ? "active" : ""}
+         variant="contained"
+          color={tab === tabs.signup ? "primary" : "secondary"}
           onClick={() => setTab(tabs.signup)}
         >
-          <PersonOutlined color="primary"/>
-          Sign Up
+          <PersonOutlined color={tab === tabs.signup ? "secondary" : "primary"}/>
+          Sign Uplogin
         </Button>
-      </ButtonGroup>
-      <div className="tabs">
-        {renderIfElse(tab === tabs.login, <Login />, <SignUp />)}
-      </div>
-    </CardContent>
-  </Card>
+      </ButtonGroup> */}
+        <div className="tabs">
+          {renderIfElse(tab === tabs.login, <Login changeTab={() => setTab(tabs.signup)} />,
+            <SignUp changeTab={() => setTab(tabs.login)} />)}
+        </div>
+      </CardContent>
+    </Card>
   )
 
 };

@@ -2,11 +2,27 @@ import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./index.less";
+import MenuList from '@material-ui/core/MenuList';
+import MenuItem from '@material-ui/core/MenuItem';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Typography from '@material-ui/core/Typography';
+import DraftsIcon from '@material-ui/icons/Drafts';
+import SendIcon from '@material-ui/icons/Send';
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import CategoryIcon from '@material-ui/icons/Category';
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+import LocalShippingIcon from '@material-ui/icons/LocalShipping';
+import PersonIcon from '@material-ui/icons/Person';
+import ReceiptIcon from '@material-ui/icons/Receipt';
+import InfoIcon from '@material-ui/icons/Info';
 import {
-  Box,
   Drawer,
+  Grid,
   Hidden,
-  Typography,
+  Divider
 } from "@material-ui/core";
 
 
@@ -21,16 +37,70 @@ const NavBar = ({ onMobileClose, openMobile }) => {
   }, [location.pathname]);
 
   const content = (
-    <Box
-      className="navbar-root"
-      width={250}
-      display="flex"
-      flexDirection="column"
-    >
-      <Typography>Filters</Typography>
-      <Box className="navbar-box-2" p={2}>
-      </Box>
-    </Box>
+    <Grid container>
+      <Grid item xs={12} className="profile-container ">
+        <img src="assets/images/logo-dark.png" className="image" alt="profile"/>
+        <Typography variant="h6">Manish Singh</Typography>
+      </Grid>
+      <Grid item xs={12}>
+      <MenuList>
+        <MenuItem>
+          <ListItemIcon>
+            <AccountBalanceWalletIcon fontSize="small" />
+          </ListItemIcon>
+          <Typography variant="inherit">wallet</Typography>
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <CategoryIcon fontSize="small" />
+          </ListItemIcon>
+          <Typography variant="inherit">categories</Typography>
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <LocalOfferIcon fontSize="small" />
+          </ListItemIcon>
+          <Typography variant="inherit" noWrap>
+            offer zone
+          </Typography>
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <LocalShippingIcon fontSize="small" />
+          </ListItemIcon>
+          <Typography variant="inherit" noWrap>
+           my orders
+          </Typography>
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <PersonIcon fontSize="small" />
+          </ListItemIcon>
+          <Typography variant="inherit" noWrap>
+           profile
+          </Typography>
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <ReceiptIcon fontSize="small" />
+          </ListItemIcon>
+          <Typography variant="inherit" noWrap>
+           vouchers & offers
+          </Typography>
+        </MenuItem>
+        <Divider />
+        <div className="grow"></div>
+        <MenuItem>
+          <ListItemIcon>
+            <InfoIcon fontSize="small" />
+          </ListItemIcon>
+          <Typography variant="inherit" noWrap>
+           about
+          </Typography>
+        </MenuItem>
+      </MenuList>
+      </Grid>
+    </Grid>
   );
 
   return (

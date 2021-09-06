@@ -66,6 +66,7 @@ export default function Products({ data }) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(null);
   const cart = useSelector(({ Auth }) => Auth.cart)
+  const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated)
   const addToCart = id => {
     setLoading(id)
     dispatch(Actions.addToCart(id, () => setLoading(null)))
@@ -76,13 +77,14 @@ export default function Products({ data }) {
   }
 
   return (
-    <Card className={classes.root} onClick={() => History.push(`/product-detail/${data.id}`)}>
+    <Card className={classes.root} >
+     
+      <CardContent onClick={() => History.push(`/product-detail/${data.id}`)}>
       <CardMedia
         className={classes.media}
         image={getImage(data.pictures[0],'products')}
         title={data.brand}
       />
-      <CardContent>
         <Typography variant="h5" color="primary">
           {data?.name}
         </Typography>
@@ -95,9 +97,9 @@ export default function Products({ data }) {
           </Typography>
       </CardContent>
       <CardActions>
-          <IconButton aria-label="add to cart" onClick={() => cart.find(val => val.product === data.id)? removeCart(data.id) : addToCart(data.id)}>
+          {isAuth && <IconButton aria-label="add to cart" onClick={() => cart.find(val => val.product === data.id)? removeCart(data.id) : addToCart(data.id)}>
               <ShoppingCartRounded color={cart.find(val => val.product === data.id)? "primary": "inherit"}  />
-          </IconButton>
+          </IconButton>}
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>

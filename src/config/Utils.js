@@ -1,5 +1,5 @@
 import { url } from "../api/client";
-
+import ImageApi from '../api/image'
 export function isFunction(callback) {
   if (typeof callback == "function") return true;
   else return false;
@@ -71,5 +71,5 @@ export function shuffle(array) {
 }
 
 export function getImage(file, type){
-  return url + '/image/' + type + "/" + file
+  return 'http://dapperdata-test.s3.us-east-1.amazonaws.com/'+file
 }

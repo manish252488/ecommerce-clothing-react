@@ -5,6 +5,7 @@ import {
   CircularProgress,
   FormControlLabel,
   Grid,
+  Link,
   TextField,
   Typography,
 } from "@material-ui/core";
@@ -13,40 +14,35 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { authPage, setMailAccount, signUp } from "../../store/actions";
 import "./index.less";
-import GoogleLogin from "react-google-login";
-import constants from "../../config/constants";
-import { Facebook } from "@material-ui/icons";
 import History from "../../@history";
-/**
- * 
- *  "name": "manish singh",
-    "email": "manish@gmail.com",
-    "password": "123456",
-    "source": "sso",
-    "picture": "http://somepicture.com",
-    "roleId": 1
- * 
- */
+import PhoneAndEmail from "../common/PhoneAndEmail";
+import DatePicker from "../common/DatePicker";
 class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: {
         name: "",
+        lname: "",
         email: "",
         password1: "",
         password2: "",
         picture: null,
+        phoneNo: "",
+        birthdate: ''
       },
       errors: {
         main: "",
+        lname: "",
         name: "",
         email: "",
         password1: "",
         password2: "",
+        phoneNo: '',
       },
       loading: false,
       checked: false,
+      type: 1
     };
   }
   onChange = (key, value) => {
@@ -68,6 +64,10 @@ class SignUp extends React.Component {
       err.name = "name cannot be empty!";
       flag = false;
     }
+    if (user.lname === "") {
+      err.lname = "name cannot be empty!";
+      flag = false;
+    }
     if (user.email === "") {
       err.email = "email cannot be empty!";
       flag = false;
@@ -81,7 +81,12 @@ class SignUp extends React.Component {
       flag = false;
     }
     if (user.password1 !== user.password2) {
-      err.main = "passwords do not match!";
+      err.password1 = "passwords do not match!";
+      err.password2 = "passwords do not match!";
+      flag = false;
+    }
+    if (user.phoneNo === "") {
+      err.phoneNo = "phoneNo cannot be empty!";
       flag = false;
     }
     this.setState({ errors: err });
@@ -90,7 +95,7 @@ class SignUp extends React.Component {
   onSuccess = (path) => {
     this.setState({ loading: false });
     History.push('/home')
-    
+
   };
   onFailure = (msg) => {
     this.setState((prev) => {
@@ -107,6 +112,7 @@ class SignUp extends React.Component {
   register = () => {
     const { user } = this.state;
     this.setState({
+      ...this.state,
       loading: true,
       errors: {
         main: "",
@@ -114,6 +120,7 @@ class SignUp extends React.Component {
         email: "",
         password1: "",
         password2: "",
+        phoneNo: ""
       },
     });
     if (this.validate()) {
@@ -122,10 +129,12 @@ class SignUp extends React.Component {
         password: user.password1,
         email: user.email,
         roleId: 1,
+        phoneNo: this.state.user.phoneNo,
         source: this.state.user.source || "form",
         picture: this.state.user.picture ? this.state.user.picture : null,
-        marketingNotification: this.state.checked
+        marketingNotification: this.state.checked,
       };
+      console.log(data)
       this.props.register(data, this.onSuccess, this.onFailure);
     } else {
       this.setState({ loading: false });
@@ -134,110 +143,90 @@ class SignUp extends React.Component {
   handleChangeCheckbox = (e) => {
     this.setState({ checked: e.target.checked });
   };
-  socialRegister = (data, type = "facebook" || "google") => {
-    if (type === "google") {
-      this.setState({
-        user: {
-          name: data.profileObj.givenName + " " + data.profileObj.familyName,
-          email: data.profileObj.email,
-          password1: data.profileObj.googleId,
-          password2: data.profileObj.googleId,
-          picture: data.profileObj.imageUrl,
-          source: type,
-          marketingNotification: true
-        },
-      });
-    }
-    this.props.setMailAccount(data.tokenObj);
-    this.register();
-  };
+  changeTab = (tab) => {
+    this.setState({type: tab})
+  }
   render() {
     const { user, errors, loading, checked } = this.state;
     return (
       <div className="signup-form">
-        <Typography color="error">{errors.main}</Typography>
-        <TextField
-          variant="outlined"
-          color="primary"
-          defaultValue={user.name}
-          label="Full name"
-          fullWidth
-          onChange={(ev) => this.onChange("name", ev.target.value)}
-          helperText={errors.name}
-        />
-        <TextField
-          type="email"
-          variant="outlined"
-          color="primary"
-          defaultValue={user.email}
-          label="Email"
-          fullWidth
-          onChange={(ev) => this.onChange("email", ev.target.value)}
-          helperText={errors.email}
-        />
-
-        <TextField
-          variant="outlined"
-          color="primary"
-          defaultValue={user.password1}
-          label="Password"
-          fullWidth
-          onChange={(ev) => this.onChange("password1", ev.target.value)}
-          helperText={errors.password1}
-        />
-        <TextField
-          variant="outlined"
-          color="primary"
-          defaultValue={user.password2}
-          label="Re-Enter you password"
-          fullWidth
-          onChange={(ev) => this.onChange("password2", ev.target.value)}
-          helperText={errors.password2}
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              defaultChecked={checked}
-              onChange={this.handleChangeCheckbox}
-            />
-          }
-          label="I want to receive inspiration, marketing promotions and updates via email."
-        />
-        <Button
-          startIcon={
-            loading && <CircularProgress size={20} color="secondary" />
-          }
-          variant="contained"
-          color="primary"
-          onClick={this.register}
-          fullWidth
-          disabled={!checked}
-        >
-          Register
-        </Button>
-        <Grid container justifyContent="center" className="or-divider">
-          <Grid item xs={1}>
-            <Typography color="primary">OR</Typography>
-          </Grid>
-        </Grid>
-        <Grid container justifyContent="center">
-          <Grid item xs={8}>
-          <div className="social-logins">
-          <GoogleLogin
-            clientId={constants.google_client_id}
-            buttonText="Login with Google"
-            onSuccess={(data) => this.socialRegister(data, "google")}
-              onFailure={(err) => this.onFailure(err.message)}
-              cookiePolicy={"single_host_origin"}
-              autoLoad={false}
-            render={() => <Chip avatar={<Facebook />} label="Google" clickable/>}
-            prompt={"select_account"}
-            discoveryDocs="https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"
-            scope="https://www.googleapis.com/auth/gmail.readonly"
+        <Typography variant="h5">
+          Start your Registration:
+        </Typography>
+        {
+          this.state.type === 2 && <PhoneAndEmail
+          buttonText="Proceed"
+          email={user.email}
+          errors={this.state.errors}
+          phone={user.phoneNo}
+          onChange={this.onChange}
+          setAction={() => this.changeTab(2)}/>
+        }
+        {this.state.type === 1 && <>
+          <TextField
+            variant="outlined"
+            color="primary"
+            defaultValue={user.name}
+            label="First name"
+            fullWidth
+            onChange={(ev) => this.onChange("name", ev.target.value)}
+            helperText={errors.name}
+            size="small"
           />
-          </div>
-          </Grid>
-        </Grid>
+          <TextField
+            variant="outlined"
+            color="primary"
+            defaultValue={user.lname}
+            label="Last name"
+            fullWidth
+            onChange={(ev) => this.onChange("lname", ev.target.value)}
+            helperText={errors.lname}
+            size="small"
+          />
+          {/* <DatePicker title="Birthday" selectedDate={(res) => this.onChange('birthdate', res)} /> */}
+          <TextField
+            variant="outlined"
+            color="primary"
+            defaultValue={user.password1}
+            label="Password"
+            fullWidth
+            onChange={(ev) => this.onChange("password1", ev.target.value)}
+            helperText={errors.password1}
+            size="small"
+          />
+          <TextField
+            variant="outlined"
+            color="primary"
+            defaultValue={user.password2}
+            label="Re-Enter you password"
+            fullWidth
+            onChange={(ev) => this.onChange("password2", ev.target.value)}
+            helperText={errors.password2}
+            size="small"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                color="primary"
+                defaultChecked={checked}
+                onChange={this.handleChangeCheckbox}
+              />
+            }
+            label={<Typography>I agree to the&nbsp;{<Link target="_blank" href="/terms-policies">terms and policies.</Link>}</Typography>}
+          />
+          <Button
+            startIcon={
+              loading && <CircularProgress size={20} color="secondary" />
+            }
+            variant="contained"
+            color="secondary"
+            onClick={this.register}
+            fullWidth
+            disabled={!checked}
+          >
+            Register
+          </Button>
+        </>}
       </div>
     );
   }
