@@ -45,13 +45,13 @@ const Home = (props) => {
           >
           </CardHeader>
           <Divider className={classes.divider} />
-          {products.length > 0 && <CardContent className="product-container">
+          {(products && products.length > 0) && <CardContent className="product-container">
             {products?.map((val, index) => (
               <Products key={index} data={val} />
             ))}
           </CardContent>}
           {
-            products.length <= 0 && <div className="no-data">
+            (!products || products.length <= 0 ) && <div className="no-data">
               No Items Available!
             </div>
           }

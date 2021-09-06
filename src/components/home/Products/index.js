@@ -57,12 +57,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Products({ data }) {
-  const classes = useStyles();/* 
-  const [expanded, setExpanded] = React.useState(false); */
-
-  /*  const handleExpandClick = () => {
-     setExpanded(!expanded);
-   }; */
+  const classes = useStyles();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(null);
   const cart = useSelector(({ Auth }) => Auth.cart)
@@ -82,15 +77,15 @@ export default function Products({ data }) {
       <CardContent onClick={() => History.push(`/product-detail/${data.id}`)}>
       <CardMedia
         className={classes.media}
-        image={getImage(data.pictures[0],'products')}
-        title={data.brand}
+        image={data.pictures[0]}
+        title={data.name}
       />
-        <Typography variant="h5" color="primary">
+        <Typography variant="h6" color="primary">
           {data?.name}
         </Typography>
-        <Typography variant="h6" color="primary">{
-          data?.brand 
-        } by @{data?.designer}</Typography>
+        <Typography variant="body1" color="primary">{
+          data.brand.name
+        } {data?.designer ? 'by @' + data.designer : ''}</Typography>
         <RatingComponent value={2} />
         <Typography variant="h6" className={classes.bold}>₹ {data.sellingCost}&nbsp;
           <del className={classes.muted}>₹ {data.cost}</del>

@@ -15,7 +15,29 @@
         width: 48%;
     }
 }
+.flex {
+    display: flex;
+    flex-flow: row;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.reviewContainer{
+    padding: 0 10%;
+    .MuiList-root{
+        .MuiListItem-root{
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            margin-top: 5px;
+            flex-flow: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+    }
+}
 @media @phone-strict {
+    .reviewContainer{
+        padding: 0;
+    }
     .container {
         padding-left: 0 !important; 
         padding-right: 0 !important;
@@ -31,7 +53,7 @@
             width: 100%;
             justify-content: center;
         }
-        .makeStyles-similiarProducts-8 {
+        .similiar-products {
             flex-direction: column;
             align-items: center;
             .MuiCard-root{

@@ -1,8 +1,10 @@
 import * as Actions from '../actions/actionTypes';
+import { LIST_CATEGORY } from '../actions/actionTypes';
 
 const initialState = {
     products: [],
-    productDetails: {}
+    productDetails: {},
+    categories: []
 }
 function ProductsReducer(state = initialState, action) {
     switch (action.type) {
@@ -16,6 +18,11 @@ function ProductsReducer(state = initialState, action) {
             return {
                 ...state,
                 productDetails: action.payload
+            }
+            case LIST_CATEGORY: 
+            return {
+                ...state,
+                categories: action.payload
             }
             
         default: return state;

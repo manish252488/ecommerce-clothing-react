@@ -1,6 +1,7 @@
+import CategoriesApi from "../../api/categories"
 import ProductsApi from "../../api/products"
 import { isFunction } from "../../config/Utils"
-import { LIST_PRODUCTS, PRODUCT_DETAIL } from "./actionTypes"
+import { LIST_CATEGORY, LIST_PRODUCTS, PRODUCT_DETAIL } from "./actionTypes"
 
 export const createProduct = (data, onSuccess, onFailure) => {
     return dispatch => {
@@ -61,10 +62,26 @@ export const productDetail = (id, onSuccess, onFailure) => {
                     type: PRODUCT_DETAIL,
                     payload: res.data
                 })
-                if (isFunction(onSuccess)) onSuccess(res.meesage)
+                if (isFunction(onSuccess)) onSuccess(res.message)
             }
         ).catch(err => {
                 if (isFunction(onFailure)) onSuccess(err.meesage)
             })
+    }
+}
+
+export const getCategories = (onSuccess, onFailure) => {
+    return dispatch => {
+        CategoriesApi.listCategories().then(
+            res=> {
+                dispatch({
+                    type: LIST_CATEGORY,
+                    payload: res.data
+                })
+                if (isFunction(onSuccess)) onSuccess(res.meesage)
+            }
+        ).catch(err => {
+            if (isFunction(onFailure)) onSuccess(err.meesage)
+        })
     }
 }

@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import History from "../../@history";
 import { loginPage } from "../../assets";
 import { SocialLinks } from '../../config/constants/constants'
+import { useParams } from "react-router";
 const tabs = {
   login: "login",
   signup: "signup",
@@ -25,6 +26,7 @@ const Authpage = (props) => {
   const [tab, setTab] = useState(tabs.login);
   const isAuthenticated = useSelector(({ Auth }) => Auth.isAuthenticated)
   const user = useSelector(({Auth}) => Auth.user.roleId)
+  const {tab} = useParams()
   if (isAuthenticated) {
     History.replace("/home")
   }

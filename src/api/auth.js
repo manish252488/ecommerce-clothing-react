@@ -8,7 +8,8 @@ const Auth = {
   addAddress: (data) => client.post("/users/address-create", data),
   setDefaultAddress: (id) => client.post("/users/address-default", {id: id}),
   deleteAddress: (id) => client.delete("/users/delete-address", {id: id}),
-  updateAddress: (data) => client.post("/users/address-update", data)
+  updateAddress: (data) => client.post("/users/address-update", data),
+  updateProfilePicture: (data) => client.post("/users/upload-profile-picture",data)
 };
 
 export default Auth;

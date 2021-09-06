@@ -71,5 +71,5 @@ export function shuffle(array) {
 }
 
 export function getImage(file, type){
-  return 'http://dapperdata-test.s3.us-east-1.amazonaws.com/'+file
+  return file
 }

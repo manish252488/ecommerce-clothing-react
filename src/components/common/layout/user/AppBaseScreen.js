@@ -19,6 +19,7 @@ import { alpha } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import NavLinks from "./NavLinks";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -42,12 +43,12 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       marginLeft: theme.spacing(5),
       width: '30%',
-      
+
     },
     [theme.breakpoints.down('md')]: {
       marginRight: theme.spacing(1),
       width: 'auto',
-      
+
     },
   },
   searchIcon: {
@@ -67,16 +68,16 @@ const useStyles = makeStyles((theme) => ({
   },
   inputRoot: {
     color: theme.palette.primary.main,
- 
+
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
- 
+
     borderRadius: 10,
-    
+
     width: '100%',
     [theme.breakpoints.up('md')]: {
       backgroundColor: alpha(theme.palette.common.white, 0.95),
@@ -87,15 +88,25 @@ const useStyles = makeStyles((theme) => ({
       '&:focus': {
         border: '1px solid #ddd',
         borderRadius: 10,
-        width: '23ch',
+        width: '17ch',
         backgroundColor: alpha(theme.palette.common.white, 0.95)
       },
     },
   },
   flex: {
-    display:'flex',
+    display: 'flex',
     flexFlow: 'row',
-    alignItems : 'center'
+    alignItems: 'center'
+  },
+  app: {
+    backgroundColor: theme.palette.secondary.main,
+  },
+  nav: {
+    backgroundColor: theme.palette.primary.main,
+  },
+  navTool: {
+    minHeight: 'unset',
+    padding: 5
   }
 }));
 const AppBaseScreen = (props) => {
@@ -135,7 +146,7 @@ const AppBaseScreen = (props) => {
   return (
     <div className={classes.root}>
       {showHeader && (
-        <AppBar position="sticky">
+        <AppBar className={classes.app} position="sticky" variant="outlined">
           <Toolbar>
             <div className="web">
               <IconButton
@@ -149,15 +160,15 @@ const AppBaseScreen = (props) => {
               </IconButton>
             </div>
             <Hidden mdDown>
-                <Logo />
+              <Logo />
             </Hidden>
             <div className="web">
-            <div className={classes.Grow} />
+              <div className={classes.Grow} />
             </div>
             <div className={classes.search}>
               <IconButton className={classes.searchIcon}>
-                <SearchIcon color="primary"/>
-                </IconButton>
+                <SearchIcon color="primary" />
+              </IconButton>
               <InputBase
                 placeholder="Search…"
                 classes={{
@@ -168,7 +179,7 @@ const AppBaseScreen = (props) => {
               />
             </div>
             <Hidden mdDown>
-            <div className={classes.Grow} />
+              <div className={classes.Grow} />
             </Hidden>
             <div className={classes.flex}>
 
@@ -177,11 +188,11 @@ const AppBaseScreen = (props) => {
                   <Hidden xsDown>
                     <ProfileMenu />
                     <Chip
-                        icon={<AccountBalanceWalletIcon />}
-
-                        label={`${'wallet'}: ${'Available soon!'}`}
-                        color="secondary"
-                      />
+                      icon={<AccountBalanceWalletIcon color="secondary" />}
+                      clickable
+                      label={`${'wallet'}: ${'Available soon!'}`}
+                      color="primary"
+                    />
                   </Hidden>
                   <IconButton onClick={() => History.push("/cart")}>
                     <StyledBadge badgeContent={value} color="primary">
@@ -209,6 +220,14 @@ const AppBaseScreen = (props) => {
           </Toolbar>
         </AppBar>
       )}
+      {History.location.pathname === "/home" && <Hidden mdDown>
+        <AppBar position="static" className={classes.nav}>
+          <Toolbar className={classes.navTool}>
+            <NavLinks />
+          </Toolbar>
+        </AppBar>
+      </Hidden>}
+
       <div className="web">
         <NavBar
           onMobileClose={() => setMobileNavOpen(false)}

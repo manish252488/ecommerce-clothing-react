@@ -22,13 +22,17 @@ import {
   Drawer,
   Grid,
   Hidden,
-  Divider
+  Divider,
+  Button
 } from "@material-ui/core";
+import { useSelector } from "react-redux";
+import History from "../../../../../@history";
 
 
 const NavBar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
-
+  const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated)
+  const user = useSelector(({ Auth }) => Auth.user)
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();
@@ -38,67 +42,73 @@ const NavBar = ({ onMobileClose, openMobile }) => {
 
   const content = (
     <Grid container>
-      <Grid item xs={12} className="profile-container ">
-        <img src="assets/images/logo-dark.png" className="image" alt="profile"/>
-        <Typography variant="h6">Manish Singh</Typography>
-      </Grid>
+      {isAuth && <Grid item xs={12} className="profile-container ">
+        <img src={user.picture || "assets/images/logo-dark.png"} className="image" alt="profile" />
+        <Typography variant="h6">{user.name}</Typography>
+      </Grid>}
+      {
+        !isAuth && <Grid item xs={12} className="profile-container-1 ">
+           <img src="assets/images/logo-dark.png" className="image" alt="profile" />
+          <Button onClick={() => History.push("/login")} variant="contained" size="small" color="secondary">Login</Button>
+        </Grid>
+      }
       <Grid item xs={12}>
-      <MenuList>
-        <MenuItem>
-          <ListItemIcon>
-            <AccountBalanceWalletIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit">wallet</Typography>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <CategoryIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit">categories</Typography>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <LocalOfferIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit" noWrap>
-            offer zone
-          </Typography>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <LocalShippingIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit" noWrap>
-           my orders
-          </Typography>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <PersonIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit" noWrap>
-           profile
-          </Typography>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <ReceiptIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit" noWrap>
-           vouchers & offers
-          </Typography>
-        </MenuItem>
-        <Divider />
-        <div className="grow"></div>
-        <MenuItem>
-          <ListItemIcon>
-            <InfoIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit" noWrap>
-           about
-          </Typography>
-        </MenuItem>
-      </MenuList>
+        <MenuList>
+          <MenuItem>
+            <ListItemIcon>
+              <AccountBalanceWalletIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit">wallet</Typography>
+          </MenuItem>
+          <MenuItem>
+            <ListItemIcon>
+              <CategoryIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit">categories</Typography>
+          </MenuItem>
+          <MenuItem>
+            <ListItemIcon>
+              <LocalOfferIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit" noWrap>
+              offer zone
+            </Typography>
+          </MenuItem>
+          <MenuItem>
+            <ListItemIcon>
+              <LocalShippingIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit" noWrap>
+              my orders
+            </Typography>
+          </MenuItem>
+          <MenuItem>
+            <ListItemIcon>
+              <PersonIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit" noWrap>
+              profile
+            </Typography>
+          </MenuItem>
+          <MenuItem>
+            <ListItemIcon>
+              <ReceiptIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit" noWrap>
+              vouchers & offers
+            </Typography>
+          </MenuItem>
+          <Divider />
+          <div className="grow"></div>
+          <MenuItem>
+            <ListItemIcon>
+              <InfoIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit" noWrap>
+              about
+            </Typography>
+          </MenuItem>
+        </MenuList>
       </Grid>
     </Grid>
   );
@@ -130,7 +140,7 @@ NavBar.propTypes = {
 };
 
 NavBar.defaultProps = {
-  onMobileClose: () => {},
+  onMobileClose: () => { },
   openMobile: false,
 };
 

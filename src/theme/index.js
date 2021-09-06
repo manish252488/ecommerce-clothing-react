@@ -25,6 +25,9 @@ const theme = createTheme({
     },
   },
   typography: {
+    h6 : {
+      fontSize: 15,
+    }
   },
   overrides: {
     MuiCssBaseline: {
