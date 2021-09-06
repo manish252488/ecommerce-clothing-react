@@ -1,18 +1,19 @@
-import { Button, Chip, CircularProgress, Grid, Link, TextField, Typography } from "@material-ui/core";
+import { Button, CircularProgress, Grid, Link, TextField, Typography } from "@material-ui/core";
 import GoogleLogin from "react-google-login";
 import { Facebook } from "@material-ui/icons";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import "./index.less";
 import * as actions from "../../store/actions";
-import { setMailAccount } from "../../store/actions";
 import constants from "../../config/constants";
 import History from "../../@history";
-const Login = (props) => {
+import ReactFacebookLogin from "react-facebook-login";
+const Login = ({changeTab}) => {
   const [password, setPassword] = useState("");
   const [email, changeEmail] = useState("");
-  const [error, setError] = useState("");
+  const [, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [ , setFacebookLoading] = useState(false)
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -33,7 +34,7 @@ const Login = (props) => {
     setErrors({ ...err });
     return flag;
   };
-  const onSuccess = (path) => {
+  const onSuccess = () => {
     setLoading(false);
     History.replace('/home')
   };
@@ -55,20 +56,11 @@ const Login = (props) => {
     }
   };
   const socialLogin = (data, source = "facebook" || "google") => {
-    if (source === "google") {
-      dispatch(
-        actions.login(
-          { email: data.profileObj.email, password: data.profileObj.googleId },
-          onSuccess,
-          onFailure
-        )
-      );
-      dispatch(setMailAccount(data.tokenObj));
-    }
+    console.log(source, data)
   };
   return (
     <div className="loginPanel">
-      <Typography color="error">{error}</Typography>
+      <Typography variant="h5">Log In:</Typography>
       <TextField
         type="email"
         variant="outlined"
@@ -76,11 +68,13 @@ const Login = (props) => {
         defaultValue={email}
         label="Email *"
         fullWidth
+        size="small"
         onChange={(ev) => changeEmail(ev.target.value)}
         helperText={errors.email}
       />
       <TextField
         type="password"
+        size="small"
         variant="outlined"
         color="primary"
         defaultValue={password}
@@ -95,6 +89,7 @@ const Login = (props) => {
         color="primary"
         onClick={login}
         fullWidth
+        size="small"
       >
         Login
       </Button>
@@ -106,32 +101,40 @@ const Login = (props) => {
           </Link>
         </Grid>
       </Grid>
-      <Grid container justifyContent="center" className="or-divider">
-        <Grid item xs={1}>
-          <Typography color="primary">OR</Typography>
+      <Grid container justifyContent="flex-end" className="or-divider">
+        <Grid item xs={6} style={{textAlign: 'right'}}>
+          <Link onClick={changeTab}>Create an account!</Link>
         </Grid>
       </Grid>
-      <Grid container justifyContent="center">
-        <Grid item xs={8}>
-        <div className="social-logins">
-          <GoogleLogin
-            clientId={constants.google_client_id}
-            buttonText="Login with Google"
-            onSuccess={(data) => socialLogin(data, "google")}
-            onFailure={(err) => onFailure(err.message)}
-            cookiePolicy={"single_host_origin"}
-            autoLoad={false}
-            render={() => <Chip avatar={<Facebook />} label="Google" clickable/>}
-            prompt={"select_account"}
-            discoveryDocs="https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"
-            scope="https://www.googleapis.com/auth/gmail.readonly"
-          />
-          {/* <Chip avatar={<Facebook />} label="Facebook" clickable onClick={socialLogin}/>
-        <Chip avatar={<Instagram />} label="Instagram" clickable onClick={socialLogin}/> */}
+      <Grid container>
+        <Grid item xs={12}>
+          <div className="social-logins">
+            <GoogleLogin
+              uxMode="redirect"
+              clientId={constants.google_client_id}
+              buttonText="Login with Google"
+              onSuccess={(data) => socialLogin(data, "google")}
+              onFailure={(err) => onFailure(err.message)}
+              cookiePolicy={"single_host_origin"}
+              autoLoad={false}
+              redirectUri={constants.login_redirects}
+              className="google-login"
+              prompt={"select_account"}
+              discoveryDocs="https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"
+              scope="https://www.googleapis.com/auth/gmail.readonly"
+            />
+            <ReactFacebookLogin
+              appId={constants.facebook_app_id}
+              autoLoad={false}
+              fields="name,email,picture"
+              onClick={() => setFacebookLoading(true)}
+              cssClass="facebook-login"
+              icon={<Facebook style={{ marginRight: 13 }} />}
+              callback={(res) => socialLogin(res, 'facebook')} />,
           </div>
         </Grid>
       </Grid>
-      </div>
+    </div>
   );
 };
 export default Login;

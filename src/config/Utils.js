@@ -1,5 +1,3 @@
-import { url } from "../api/client";
-
 export function isFunction(callback) {
   if (typeof callback == "function") return true;
   else return false;
@@ -71,5 +69,5 @@ export function shuffle(array) {
 }
 
 export function getImage(file, type){
-  return url + '/public/' + type + "/" + file
+  return file
 }

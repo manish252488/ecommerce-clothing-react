@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Rating from '@material-ui/lab/Rating';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { Box } from '@material-ui/core';
-
+import './index.less'
 const StyledRating = withStyles({
   iconFilled: {
     color: '#ff6d75',

@@ -3,20 +3,23 @@ import React from 'react';
 import History from '../../@history';
 const useStyles=makeStyles({
   root: {
-    width: 100,
     cursor: 'pointer'
+  },
+  img: {
+    height: 50
   }
 })
 const Logo = (props) => {
   const cls = useStyles();
-  return (
+  return (<div className={cls.root}>
     <img
       alt="Logo"
       src={'/assets/images/logo-dark.svg'}
-      className={props.size||cls.root}
+      className={props.size||cls.img}
       onClick={()=> History.push("/")}
       {...props}
     />
+    </div>
   );
 };
 

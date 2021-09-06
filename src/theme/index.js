@@ -21,20 +21,12 @@ const theme = createTheme({
       main: "#203A43",
     },
     secondary:{
-    main:"#203A43",
-    },
-    text: {
-      primary: "#333",
-      secondary: "#ddd",
+    main:"#fff",
     },
   },
   typography: {
-    h1:{
-       fontFamily: "Raleway, Arial",
-       textTransform: 'capitalize'
-    },
-    h6: {
-      fontSize: 14
+    h6 : {
+      fontSize: 15,
     }
   },
   overrides: {

@@ -1,14 +1,32 @@
 @import "../../../Base.less";
 
 .body2{
-  margin-top: 5%;
+ min-height: 100vh;
 }
 
+.web {
+  display: none !important
+}
+.mobile {
+  display: inherit !important;
+}
 @media @phone-strict {
+  .web {
+    display: inherit !important;
+    flex-grow: 1;
+  }
+  .mobile {
+    display: none !important;
+  }
   .MuiAppBar-root{
     .MuiToolbar-root {
+     display: flex;
+     flex-flow: row;
+     justify-content: space-between;
       img {
         margin: auto;
+     
+        
       }
       .MuiButtonBase-root{
         width: auto;
@@ -17,12 +35,11 @@
     }
   }
   .body2{
-    margin-top: 5%;
   }
 }
 
 @media @tablet-strict {
   .body2{
-    margin-top: 12%;
   }
+
 }

@@ -8,7 +8,7 @@ const SignOut = (props) => {
     dispatch(Actions.signOut(()=> History.push('/')));
   };
   return (
-    <div onClick={logout}>{props.children ? props.children : "logout"}</div>
+    <div style={{width: "100%", display:'flex',alignItems: 'center'}} onClick={logout}>{props.children ? props.children : "logout"}</div>
   );
 };
 export default SignOut;

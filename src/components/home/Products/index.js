@@ -10,17 +10,19 @@ import { red } from '@material-ui/core/colors';
 import ShareIcon from '@material-ui/icons/Share';
 import RatingComponent from './components/Rating';
 import { ShoppingCartRounded } from '@material-ui/icons';
-import { Button, Chip } from '@material-ui/core';
-import FlashOnIcon from '@material-ui/icons/FlashOn';
-import CustomTooltip from '../../common/CustomTooltip';
+import { Chip } from '@material-ui/core';
 import History from '../../../@history';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../../../store/actions'
-import { getImage } from '../../../config/Utils';
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 250,
-    minWidth: 250
+    maxWidth: 200,
+    minWidth: 200,
+    cursor: 'pointer',
+    [theme.breakpoints.down('md')]:{
+      maxWidth: '49%',
+      minWidth: '48%',
+    }
   },
   media: {
     height: 0,
@@ -56,15 +58,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Products({ data }) {
-  const classes = useStyles();/* 
-  const [expanded, setExpanded] = React.useState(false); */
-
-  /*  const handleExpandClick = () => {
-     setExpanded(!expanded);
-   }; */
+  const classes = useStyles();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(null);
   const cart = useSelector(({ Auth }) => Auth.cart)
+  const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated)
   const addToCart = id => {
     setLoading(id)
     dispatch(Actions.addToCart(id, () => setLoading(null)))
@@ -76,22 +74,32 @@ export default function Products({ data }) {
 
   return (
     <Card className={classes.root} >
+     
+      <CardContent onClick={() => History.push(`/product-detail/${data.id}`)}>
       <CardMedia
         className={classes.media}
-        image={getImage(data.pictures[0],'products')}
-        title={data.brand}
-        onClick={() => History.push(`/product-detail/${data.id}`)}
+        image={data.pictures[0]}
+        title={data.name}
       />
-      <CardContent>
-        <Typography variant="h6" color="primary" component="p">
-          {data.name} - {data.brand}
+        <Typography variant="h6" color="primary">
+          {data?.name}
         </Typography>
+        <Typography variant="body1" color="primary">{
+          data.brand.name
+        } {data?.designer ? 'by @' + data.designer : ''}</Typography>
         <RatingComponent value={2} />
         <Typography variant="h6" className={classes.bold}>₹ {data.sellingCost}&nbsp;
           <del className={classes.muted}>₹ {data.cost}</del>
-
           </Typography>
-          {data.stock > 0 && <Chip
+      </CardContent>
+      <CardActions>
+          {isAuth && <IconButton aria-label="add to cart" onClick={() => cart.find(val => val.product === data.id)? removeCart(data.id) : addToCart(data.id)}>
+              <ShoppingCartRounded color={cart.find(val => val.product === data.id)? "primary": "inherit"}  />
+          </IconButton>}
+        <IconButton aria-label="share">
+          <ShareIcon fontSize="small"/>
+        </IconButton>
+        {data.stock > 0 && <Chip
             className={classes.chip}
             color="primary"
             label="In Stock"
@@ -100,23 +108,8 @@ export default function Products({ data }) {
             className={classes.chip}
             label="Stock Out"
           />}
-      </CardContent>
-      <CardActions>
-        {(!cart.find(val => val.product === data.id) && !loading) &&
-          <IconButton aria-label="add to cart" onClick={() => addToCart(data.id)}>
-            <CustomTooltip title="Add to Cart!">
-              <ShoppingCartRounded color="secondary"  />
-            </CustomTooltip>
-          </IconButton>
-        }
-        {cart.find(val => val.product === data.id) &&
-          <IconButton aria-label="Remove from Cart!" onClick={() => removeCart(data.id)} >
-            <ShoppingCartRounded color="primary" />
-          </IconButton>}
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <Button startIcon={<FlashOnIcon color="inherit" />} variant="contained" color="primary" size="small">Buy Now</Button>
+        {/* 
+        <Button startIcon={<FlashOnIcon color="inherit" />} variant="contained" color="primary" size="small">Buy Now</Button> */}
       </CardActions>
     </Card>
   );

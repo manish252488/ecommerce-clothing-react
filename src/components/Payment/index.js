@@ -1,15 +1,16 @@
-import { Button, Card, CardContent, CardHeader, CardMedia, Container, Divider, Grid, IconButton, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
-import { Visibility } from '@material-ui/icons'
+import { Button, Card, CardContent, CardHeader, CardMedia, Container, Divider, Grid, IconButton, Link, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
+import { ArrowRight, ShoppingBasket, Visibility } from '@material-ui/icons'
 import React, { useEffect, useState } from 'react'
 import { MinusCircle, PlusCircle, ShoppingBag } from 'react-feather'
 import { useDispatch, useSelector } from 'react-redux'
+import History from '../../@history'
 import Auth from '../../api/auth'
+import OrderApis from '../../api/order'
 import { getImage } from '../../config/Utils'
 import { listCart, listProducts, addToCart as addCart, removeFromCart as removeCart, checkJWT } from '../../store/actions'
 import AddressCard from '../common/AddressCard'
 import CustomizedSpinner from '../common/CustomizedSpinner'
 import AppBaseScreen from '../common/layout/user/AppBaseScreen'
-import Stripe from '../common/Stripe'
 import './index.less'
 
 const useStyles = makeStyles({
@@ -32,6 +33,7 @@ export default function Payment(props) {
     const products = useSelector(({ products }) => products.products)
     const [selectedAddress] = useState(null)
     const [loading, setLoading] = useState(false);
+    const [loadingOrder, setLoadingOrder] = useState(false);
     const [addCont,
         showAddContainer] = useState(false)
     const [errorFields, setErrorFields] = useState({
@@ -117,23 +119,52 @@ export default function Payment(props) {
         return flag
     }
 
-    /* const createOrder = () =>{
-        
-    } */
-    const checkStripeAccess = () => {
-        if(savedAddress.find(v=> v.default === true) && cart.length>0) {
+    const createOrder = () => {
+        const addedPro = []
+        setLoadingOrder(true)
+        cart.forEach(val => {
+            let prod = products.find(v => v.id === val.product)
+            console.log(prod)
+            delete val.product;
+            delete val.id;
+            delete val.userId;
+            let data = {
+                ...val,
+                ...prod,
+            }
+            addedPro.push(data)
+        })
+        if (!validateOrder()) {
+            return false
+        }
+        let data = {};
+        data.products = addedPro;
+        data.billingAddress = validateOrder()
+        console.log(data)
+        OrderApis.createOrder(data).then(res => {
+            setLoadingOrder(false)
+            dispatch(listCart())
+            History.push("/checkout/" + res.data.id)
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+    const validateOrder = () => {
+        if (savedAddress.find(v => v.default === true) && cart.length > 0) {
+            return savedAddress.find(v => v.default === true)
+        } else {
             return false
         }
     }
     return <AppBaseScreen>
         <Container className="payment-container" >
-       
+
             <Typography variant="h4">  <ShoppingBag /> Cart</Typography>
             <div className="cart-panel">
                 {
-                    getProducts().map(val => (
-                        <Card component={Paper} className="cart-card">
-                            <CardMedia className={classes.media} title="sometitle" image={getImage(val.pictures[0])} />
+                    getProducts().map((val, index) => (
+                        <Card key={index} component={Paper} className="cart-card">
+                            <CardMedia className={classes.media} title="sometitle" image={getImage(val.pictures[0], 'products')} />
                             <CardContent>
                                 <Typography variant="h6">{val.name} - {val.brand}</Typography>
                                 <Typography variant="h6">size</Typography>
@@ -153,23 +184,26 @@ export default function Payment(props) {
                 }
                 {
                     getProducts().length <= 0 && <div className="no-banner">
+                        <ShoppingBasket />
                         <Typography variant={"h5"}>Add Some Item to Cart!</Typography>
+
+                        <Link size="medium" style={{ cursor: 'pointer' }} href="/home">Continue shopping</Link>
                     </div>
                 }
             </div>
-            <div className="billingPanel">
+            {validateOrder() && <div className="billingPanel">
                 <Card component={Paper}>
                     <CardContent>
                         <Grid container>
                             {(!addCont) && <Grid item xs={12}>
-                                <CardHeader title="Saved Address" action={<Button endIcon={<PlusCircle/>} onClick={() => showAddContainer(true)}>
+                                <CardHeader title="Saved Address" action={<Button endIcon={<PlusCircle />} onClick={() => showAddContainer(true)}>
                                     Add Address
-                                </Button>}/>
+                                </Button>} />
                                 <Divider />
 
                                 <div className="address-container">
                                     {savedAddress.map((val, index) => (
-                                        <AddressCard key={index} data={val} setDefaultAdd={setdefaultAdd}/>
+                                        <AddressCard key={index} data={val} setDefaultAdd={setdefaultAdd} />
                                     ))}
                                 </div>
                             </Grid>}
@@ -177,8 +211,8 @@ export default function Payment(props) {
                                 (addCont) && (
                                     <Grid item xs={12}>
                                         <CardHeader title={selectedAddress ? 'Edit Address' : 'Add Address'} action={<IconButton onClick={() => showAddContainer(false)}>
-                                    <Visibility/>
-                                </IconButton>}/>
+                                            <Visibility />
+                                        </IconButton>} />
                                         <Divider />
                                         <Container className="address-form">
                                             <TextField
@@ -275,7 +309,7 @@ export default function Payment(props) {
                             <Grid item xs={6}>
                                 <CardHeader title="Billing Details" />
                                 <Divider />
-                                <Grid className="billing-data" >
+                                <Grid container className="billing-data" >
                                     <Grid item xs={4}>Amount</Grid>
                                     <Grid item xs={5} style={{ textAlign: "right" }}>₹{billingData.totalAmount}</Grid>
                                     <Grid item xs={4}>Delivery Charges</Grid>
@@ -294,7 +328,7 @@ export default function Payment(props) {
                                         <Divider />
                                         <Typography variant={"h5"}>₹ {billingData.billAmount}</Typography></Grid>
                                 </Grid>
-                                <Stripe amount={billingData.billAmount} disabled={checkStripeAccess()}/>
+                                <Button startIcon={loadingOrder ? <CustomizedSpinner /> : null} disabled={!validateOrder()} onClick={createOrder} variant="contained" color="primary" endIcon={<ArrowRight />}>₹ {billingData.billAmount} Checkout</Button>
                             </Grid>
 
                         </Grid>
@@ -302,6 +336,6 @@ export default function Payment(props) {
                     </CardContent>
                 </Card>
             </div>
-        </Container>
+            } </Container>
     </AppBaseScreen>
 }
