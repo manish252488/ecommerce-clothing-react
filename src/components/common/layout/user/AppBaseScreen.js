@@ -130,7 +130,7 @@ const AppBaseScreen = (props) => {
   useEffect(() => {
     dispatch(checkJWT(null, onfailure));
     dispatch(listCart())
-  }, [dispatch]);
+  }, []);
   const onfailure = (val) => {
     if (!val) {
       setIsLoggedIn(true)
@@ -143,7 +143,7 @@ const AppBaseScreen = (props) => {
     History.push("/login")
   }
   return (
-    <div className={classes.root}>
+    <div className={classes.root} >
       {showHeader && (
         <AppBar className={classes.app} position="sticky" variant="outlined">
           <Toolbar>

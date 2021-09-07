@@ -3,7 +3,7 @@ var argv = require('yargs').argv;
 var env = argv.env || 'test';
 const cloudfront = require('gulp-cloudfront-invalidate');
 const exec = require('gulp-exec');
-
+console.log(env)
 const envConfig = {
     s3: {
         live: 'dapperfolks.in',

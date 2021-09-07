@@ -2965,6 +2965,15 @@ autoprefixer@^9.6.1:
     postcss "^7.0.32"
     postcss-value-parser "^4.1.0"
 
+aws-sdk@2.1.x:
+  version "2.1.50"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1.50.tgz#65ddc2b840e69021087ed35f282d632a05294a1b"
+  integrity sha1-Zd3CuEDmkCEIftNfKC1jKgUpShs=
+  dependencies:
+    sax "0.5.3"
+    xml2js "0.2.8"
+    xmlbuilder "0.4.2"
+
 aws-sdk@^2.88.0:
   version "2.983.0"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.983.0.tgz#4c6d98d802b2cf159acbc105979b892b427b5fb3"
@@ -5645,7 +5654,7 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-fancy-log@^1.3.2:
+fancy-log@1.3.x, fancy-log@^1.3.2:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/fancy-log/-/fancy-log-1.3.3.tgz#dbc19154f558690150a23953a0adbd035be45fc7"
   integrity sha512-k9oEhlyc0FrVh25qYuSELjr8oxsCoc4/LEZfg2iJJrfEk/tZL9bCoJE47gqAvI2m/AUjluCS4+3I0eTx8n3AEw==
@@ -6295,6 +6304,16 @@ gulp-cli@^2.2.0:
     semver-greatest-satisfied-range "^1.1.0"
     v8flags "^3.2.0"
     yargs "^7.1.0"
+
+gulp-cloudfront-invalidate@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/gulp-cloudfront-invalidate/-/gulp-cloudfront-invalidate-0.1.5.tgz#cbb15923bb4d82d700f51d956992e6dfa11d919d"
+  integrity sha1-y7FZI7tNgtcA9R2VaZLm36EdkZ0=
+  dependencies:
+    aws-sdk "2.1.x"
+    fancy-log "1.3.x"
+    plugin-error "1.0.x"
+    through2 "2.0.x"
 
 gulp-s3-upload@^1.7.3:
   version "1.7.3"
@@ -8323,6 +8342,11 @@ lodash.templatesettings@^4.0.0:
   dependencies:
     lodash._reinterpolate "^3.0.0"
 
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+  integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
+
 lodash.truncate@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.truncate/-/lodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
@@ -9637,7 +9661,7 @@ pkg-up@^2.0.0:
   dependencies:
     find-up "^2.1.0"
 
-plugin-error@^1.0.1:
+plugin-error@1.0.x, plugin-error@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/plugin-error/-/plugin-error-1.0.1.tgz#77016bd8919d0ac377fdcdd0322328953ca5781c"
   integrity sha512-L1zP0dk7vGweZME2i+EeakvUNqSrdiI3F91TwEoYiGrAfUXmVv6fJIq4g82PAXxNsWOp0J7ZqQy/3Szz0ajTxA==
@@ -10914,6 +10938,14 @@ react-scroll-to-bottom@^4.1.0:
     prop-types "15.7.2"
     simple-update-in "2.2.0"
 
+react-scroll@^1.8.4:
+  version "1.8.4"
+  resolved "https://registry.yarnpkg.com/react-scroll/-/react-scroll-1.8.4.tgz#7cc882d7058d5b5aedcd362b1de13c88d64ebe4c"
+  integrity sha512-J9rFqmdzularCXJoK2vleHVg2//y9Fs6zh7K13x7Yz3Y1kHPfQ/TTq029L09q1Gr5/5JjFLBOB2Sa3yYIqyTyQ==
+  dependencies:
+    lodash.throttle "^4.1.1"
+    prop-types "^15.7.2"
+
 react-swipeable-views-core@^0.13.7:
   version "0.13.7"
   resolved "https://registry.yarnpkg.com/react-swipeable-views-core/-/react-swipeable-views-core-0.13.7.tgz#c082b553f26e83fd20fc17f934200eb717023c8a"
@@ -11531,6 +11563,16 @@ sass-loader@8.0.2:
     neo-async "^2.6.1"
     schema-utils "^2.6.1"
     semver "^6.3.0"
+
+sax@0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/sax/-/sax-0.5.3.tgz#3773714a0d9157caaa7302971efa5c6dcda552d6"
+  integrity sha1-N3NxSg2RV8qqcwKXHvpcbc2lUtY=
+
+sax@0.5.x:
+  version "0.5.8"
+  resolved "https://registry.yarnpkg.com/sax/-/sax-0.5.8.tgz#d472db228eb331c2506b0e8c15524adb939d12c1"
+  integrity sha1-1HLbIo6zMcJQaw6MFVJK25OdEsE=
 
 sax@1.2.1:
   version "1.2.1"
@@ -12572,7 +12614,7 @@ through2-filter@^3.0.0:
     through2 "~2.0.0"
     xtend "~4.0.0"
 
-through2@^2.0.0, through2@^2.0.3, through2@~2.0.0:
+through2@2.0.x, through2@^2.0.0, through2@^2.0.3, through2@~2.0.0:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/through2/-/through2-2.0.5.tgz#01c1e39eb31d07cb7d03a96a70823260b23132cd"
   integrity sha512-/mrRod8xqpA+IHSLyGCQ2s8SPHiCDEeQJSep1jqLYeEUClOFG2Qsh+4FU6G9VeqpZnGW/Su8LQGc4YKni5rYSQ==
@@ -13716,6 +13758,13 @@ xml-name-validator@^3.0.0:
   resolved "https://registry.yarnpkg.com/xml-name-validator/-/xml-name-validator-3.0.0.tgz#6ae73e06de4d8c6e47f9fb181f78d648ad457c6a"
   integrity sha512-A5CUptxDsvxKJEU3yO6DuWBSJz/qizqzJKOMIfUJHETbBw/sFaDxgd6fxm1ewUaM0jZ444Fc5vC5ROYurg/4Pw==
 
+xml2js@0.2.8:
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.2.8.tgz#9b81690931631ff09d1957549faf54f4f980b3c2"
+  integrity sha1-m4FpCTFjH/CdGVdUn69U9PmAs8I=
+  dependencies:
+    sax "0.5.x"
+
 xml2js@0.4.17:
   version "0.4.17"
   resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.4.17.tgz#17be93eaae3f3b779359c795b419705a8817e868"
@@ -13731,6 +13780,11 @@ xml2js@0.4.19:
   dependencies:
     sax ">=0.6.0"
     xmlbuilder "~9.0.1"
+
+xmlbuilder@0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-0.4.2.tgz#1776d65f3fdbad470a08d8604cdeb1c4e540ff83"
+  integrity sha1-F3bWXz/brUcKCNhgTN6xxOVA/4M=
 
 xmlbuilder@^4.1.0:
   version "4.2.1"

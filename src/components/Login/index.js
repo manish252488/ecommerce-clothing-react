@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   CardContent,
+  Hidden,
   Paper,
   Typography,
 } from "@material-ui/core";
@@ -16,13 +17,14 @@ import History from "../../@history";
 import { loginPage } from "../../assets";
 import { SocialLinks } from '../../config/constants/constants'
 import { useParams } from "react-router";
+import Logo from "../common/Logo";
 const tabs = {
   login: "login",
   signup: "signup",
 };
 
 const Authpage = (props) => {
-  const {tab: current} = useParams()
+  const { tab: current } = useParams()
   const [tab, setTab] = useState(current || tabs.login);
   const isAuthenticated = useSelector(({ Auth }) => Auth.isAuthenticated)
 
@@ -32,16 +34,18 @@ const Authpage = (props) => {
 
   return (
     <Card className="auth-card" component={Paper}>
-      <div className="image" style={{ backgroundImage: `url(${loginPage})` }}>
-        <div>
+      <Hidden mdDown>
+        <div className="image" style={{ backgroundImage: `url(${loginPage})` }}>
+          <div>
             <img className="icon" src="assets/images/logo-dark.svg" alt="logo" />
+          </div>
+          <div className="nav-bar">
+            <Button fullWidth startIcon={<Facebook />} variant="contained" target="_blank" href={SocialLinks.Facebook}><Typography>@dapperfolks</Typography></Button>
+            <Button fullWidth startIcon={<Instagram />} variant="contained" target="_blank" href={SocialLinks.Instagram}>@dapper.folks</Button>
+            <Button fullWidth startIcon={<Twitter />} variant="contained" target="_blank" href={SocialLinks.twitter}>@DapperFolks</Button>
+          </div>
         </div>
-        <div className="nav-bar">
-          <Button fullWidth startIcon={<Facebook />} variant="contained" target="_blank" href={SocialLinks.Facebook}><Typography>@dapperfolks</Typography></Button>
-          <Button fullWidth startIcon={<Instagram />} variant="contained" target="_blank" href={SocialLinks.Instagram}>@dapper.folks</Button>
-          <Button fullWidth startIcon={<Twitter />} variant="contained" target="_blank" href={SocialLinks.twitter}>@DapperFolks</Button>
-        </div>
-      </div>
+      </Hidden>
       <CardContent className="auth-card-tabs">
         {/*  <ButtonGroup>
         <Button
@@ -61,7 +65,11 @@ const Authpage = (props) => {
           Sign Uplogin
         </Button>
       </ButtonGroup> */}
+
         <div className="tabs">
+          <Hidden mdUp>
+            <Logo style={{ width: '50%', height: 'auto', marginLeft: '25%' }} />
+          </Hidden>
           {renderIfElse(tab === tabs.login, <Login changeTab={() => setTab(tabs.signup)} />,
             <SignUp changeTab={() => setTab(tabs.login)} />)}
         </div>

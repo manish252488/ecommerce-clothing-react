@@ -22,6 +22,7 @@ import {
 } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import History from "../../../../../@history";
+import { PersonAddOutlined } from "@material-ui/icons";
 
 
 const NavBar = ({ onMobileClose, openMobile }) => {
@@ -87,7 +88,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           </MenuItem>
           <Divider />
           <div className="grow"></div>
-          <MenuItem>
+          <MenuItem onClick={() => History.push("/about")}>
             <ListItemIcon>
               <InfoIcon fontSize="small" />
             </ListItemIcon>
@@ -95,7 +96,16 @@ const NavBar = ({ onMobileClose, openMobile }) => {
               about
             </Typography>
           </MenuItem>
+          <MenuItem onClick={() => History.push("/contact-support")}>
+            <ListItemIcon>
+              <PersonAddOutlined fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit" noWrap>
+              
+            </Typography>
+          </MenuItem>
         </MenuList>
+
       </Grid>
     </Grid>
   );

@@ -5,7 +5,7 @@ const ContactRoutes = {
   auth: authRoles.guest,
   routes: [
     {
-      path: "/contact",
+      path: "/contact-support",
       component: Component,
       exact: true,
     },

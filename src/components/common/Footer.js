@@ -42,12 +42,11 @@ const Footer = (props) => {
             <Link href="/privacy-policy">privacy policies</Link>
 
             <Typography variant="inherit">
-              Copyright &copy; 2021 dapperfolks.in
+              Copyright &copy; 2021<Link href="https://www.dapperfolks.in">www.dapperfolks.in</Link>
             </Typography>
 
           </div>
         </Grid>
-        <Grid item xs={2}></Grid>
       </Grid>
     </div>
   );

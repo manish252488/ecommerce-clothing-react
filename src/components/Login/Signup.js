@@ -148,7 +148,7 @@ class SignUp extends React.Component {
     return (
       <div className="signup-form">
         <Typography variant="h5">
-          Start your Registration:
+          Start your Registration
         </Typography>
         {
           this.state.type === 2 && <PhoneAndEmail

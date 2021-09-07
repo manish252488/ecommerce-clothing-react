@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -9,11 +9,12 @@ import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import ShareIcon from '@material-ui/icons/Share';
 import RatingComponent from './components/Rating';
-import { ShoppingCartRounded } from '@material-ui/icons';
+import {  Star } from '@material-ui/icons';
 import { Chip } from '@material-ui/core';
 import History from '../../../@history';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../../../store/actions'
+import { listCart } from '../../../store/actions';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 200,
@@ -59,18 +60,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Products({ data }) {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(null);
-  const cart = useSelector(({ Auth }) => Auth.cart)
   const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated)
-  const addToCart = id => {
-    setLoading(id)
-    dispatch(Actions.addToCart(id, () => setLoading(null)))
-  }
-  const removeCart = id => {
-    setLoading(id)
-    dispatch(Actions.removeFromCart(id, () => setLoading(null)))
-  }
 
   return (
     <Card className={classes.root} >
@@ -87,14 +77,14 @@ export default function Products({ data }) {
         <Typography variant="body1" color="primary">{
           data.brand.name
         } {data?.designer ? 'by @' + data.designer : ''}</Typography>
-        <RatingComponent value={2} />
+        {/* <RatingComponent value={2} /> */}
         <Typography variant="h6" className={classes.bold}>₹ {data.sellingCost}&nbsp;
           <del className={classes.muted}>₹ {data.cost}</del>
           </Typography>
       </CardContent>
       <CardActions>
-          {isAuth && <IconButton aria-label="add to cart" onClick={() => cart.find(val => val.product === data.id)? removeCart(data.id) : addToCart(data.id)}>
-              <ShoppingCartRounded color={cart.find(val => val.product === data.id)? "primary": "inherit"}  />
+          {isAuth && <IconButton aria-label="add to FAV" onClick={() => {}}>
+              <Star className={true? "start-active": "start-in"}  />
           </IconButton>}
         <IconButton aria-label="share">
           <ShareIcon fontSize="small"/>
