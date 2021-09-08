@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, CardHeader, CardMedia, Container, Divider, Grid, IconButton, Link, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
+import { Button, Card, CardContent, CardHeader, CardMedia, CircularProgress, Container, Divider, Grid, IconButton, Link, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
 import { ArrowRight, ShoppingBasket, Visibility } from '@material-ui/icons'
 import React, { useEffect, useState } from 'react'
 import { MinusCircle, PlusCircle, ShoppingBag } from 'react-feather'
@@ -9,15 +9,13 @@ import OrderApis from '../../api/order'
 import { getImage } from '../../config/Utils'
 import { listCart, listProducts, addToCart as addCart, removeFromCart as removeCart, checkJWT } from '../../store/actions'
 import AddressCard from '../common/AddressCard'
-import CustomizedSpinner from '../common/CustomizedSpinner'
 import AppBaseScreen from '../common/layout/user/AppBaseScreen'
 import './index.less'
 
 const useStyles = makeStyles({
     media: {
-        height: 220,
+        height: 150,
         margin: 10,
-        width: "100%",
         backgroundPosition: 'inherit',
         transition: '0.5s',
         cursor: 'pointer',
@@ -77,7 +75,10 @@ export default function Payment(props) {
             const sample = products.find(c => c.id === val.product)
             if (sample) {
                 sample.quantity = cart.find(v => v.product === sample.id)?.quantity
-                productsAdded.push(sample)
+                sample.size = cart.find(v => v.product === sample.id)?.size;
+                sample.color = cart.find(v => v.product === sample.id)?.color;
+                sample.brand =
+                    productsAdded.push(sample)
             }
         })
         return productsAdded;
@@ -157,7 +158,7 @@ export default function Payment(props) {
         }
     }
     return <AppBaseScreen>
-        <Container className="payment-container" >
+        <Container maxWidth="md" className="payment-container" >
 
             <Typography variant="h4">  <ShoppingBag /> Cart</Typography>
             <div className="cart-panel">
@@ -167,17 +168,25 @@ export default function Payment(props) {
                             <CardMedia className={classes.media} title="sometitle" image={getImage(val.pictures[0], 'products')} />
                             <CardContent>
                                 <Typography variant="h6">{val.name} - {val.brand}</Typography>
-                                <Typography variant="h6">size</Typography>
-                                <Typography variant="h6">colors</Typography>
-                                <Typography variant="h6" align="right">₹{val.sellingCost}</Typography>
-                                <Typography variant="h6" align="right"><del>₹{val.cost}</del></Typography>
-                                <Typography variant="h6">quantity</Typography>
-                                <div className="quantity-buttons">
-                                    <IconButton variant="outline" color="primary" onClick={() => removeFromCart(val.id)}><MinusCircle /></IconButton>
-                                    <TextField value={val.quantity} variant="outlined" size="small" disabled />
-                                    <IconButton variant="outline" color="primary" onClick={() => addToCart(val.id)}><PlusCircle /></IconButton>
-                                </div>
+                                <Typography variant="h6">Size: {val.size}</Typography>
+                                <Typography variant="h6">Theme : <div className="color-box" style={{ background: val.color }}></div></Typography>
+                                <Grid container wrap={true}>
+                                    <Grid item xs={6}>
+                                        <Typography variant="h6">Quantity</Typography>
+                                        <div className="quantity-buttons">
 
+                                            <IconButton variant="outline" color="primary" onClick={() => removeFromCart(val.id)}><MinusCircle /></IconButton>
+                                            <TextField value={val.quantity} variant="outlined" size="small" disabled />
+                                            <IconButton variant="outline" color="primary" onClick={() => addToCart(val.id)}><PlusCircle /></IconButton>
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={5}>
+                                    <Typography variant="h6" align="right">Price</Typography>
+                                        <Typography variant="h6" align="right">₹{val.sellingCost}</Typography>
+                                        <Typography variant="h6" align="right"><del>₹{val.cost}</del></Typography>
+
+                                    </Grid>
+                                </Grid>
                             </CardContent>
                         </Card>
                     ))
@@ -191,7 +200,7 @@ export default function Payment(props) {
                     </div>
                 }
             </div>
-            {validateOrder() && <div className="billingPanel">
+            {true && <div className="billingPanel">
                 <Card component={Paper}>
                     <CardContent>
                         <Grid container>
@@ -221,6 +230,8 @@ export default function Payment(props) {
                                                 placeholder="Full Name"
                                                 value={addressForm.name}
                                                 helperText={errorFields.name}
+                                                fullWidth
+                                                size="small"
                                                 error={errorFields.name}
                                                 onChange={value => change('name', value)}
                                             />
@@ -229,6 +240,8 @@ export default function Payment(props) {
                                                 label="Mobile Number"
                                                 placeholder="Mobile Number"
                                                 value={addressForm.phoneno}
+                                                fullWidth
+                                                size="small"
                                                 helperText={errorFields.phoneno}
                                                 error={errorFields.phoneno}
                                                 onChange={value => change('phoneno', value)}
@@ -240,6 +253,8 @@ export default function Payment(props) {
                                                 placeholder="Location/Address"
                                                 value={addressForm.address1}
                                                 helperText={errorFields.address1}
+                                                fullWidth
+                                                size="small"
                                                 error={errorFields.address1}
                                                 onChange={value => change('address1', value)}
                                                 multiline
@@ -251,6 +266,8 @@ export default function Payment(props) {
                                                 placeholder="House No/Locality"
                                                 value={addressForm.address2}
                                                 helperText={errorFields.address2}
+                                                fullWidth
+                                                size="small"
                                                 error={errorFields.address2}
                                                 onChange={value => change('address2', value)}
                                                 multiline
@@ -262,6 +279,8 @@ export default function Payment(props) {
                                                 placeholder="LandMark"
                                                 value={addressForm.landmark}
                                                 helperText={errorFields.landmark}
+                                                fullWidth
+                                                size="small"
                                                 error={errorFields.landmark}
                                                 onChange={value => change('landmark', value)}
                                             />
@@ -273,6 +292,8 @@ export default function Payment(props) {
                                                 helperText={errorFields.city}
                                                 error={errorFields.city}
                                                 onChange={value => change('city', value)}
+                                                fullWidth
+                                                size="small"
                                             />
                                             <TextField
                                                 variant="outlined"
@@ -282,6 +303,8 @@ export default function Payment(props) {
                                                 helperText={errorFields.state}
                                                 error={errorFields.state}
                                                 onChange={value => change('state', value)}
+                                                fullWidth
+                                                size="small"
                                             />
                                             <TextField
                                                 variant="outlined"
@@ -291,6 +314,8 @@ export default function Payment(props) {
                                                 error={errorFields.pincode}
                                                 value={addressForm.pincode}
                                                 onChange={value => change('pincode', value)}
+                                                fullWidth
+                                                size="small"
                                             />
                                             <TextField
                                                 variant="outlined"
@@ -300,8 +325,10 @@ export default function Payment(props) {
                                                 error={errorFields.country}
                                                 value={addressForm.country}
                                                 onChange={value => change('country', value)}
+                                                fullWidth
+                                                size="small"
                                             />
-                                            <Button variant="contained" color="primary" onClick={saveAddress}>{loading ? <CustomizedSpinner style={{ width: 25, height: 25 }} /> : 'Save Address'}</Button>
+                                            <Button variant="contained" color="primary" onClick={saveAddress}>{loading ? <CircularProgress size={20} /> : 'Save Address'}</Button>
                                         </Container>
                                     </Grid>
                                 )
@@ -328,7 +355,7 @@ export default function Payment(props) {
                                         <Divider />
                                         <Typography variant={"h5"}>₹ {billingData.billAmount}</Typography></Grid>
                                 </Grid>
-                                <Button startIcon={loadingOrder ? <CustomizedSpinner /> : null} disabled={!validateOrder()} onClick={createOrder} variant="contained" color="primary" endIcon={<ArrowRight />}>₹ {billingData.billAmount} Checkout</Button>
+                                <Button startIcon={loadingOrder ? <CircularProgress size={20} /> : null} disabled={!validateOrder()} onClick={createOrder} variant="contained" color="primary" endIcon={<ArrowRight />}>₹ {billingData.billAmount} Checkout</Button>
                             </Grid>
 
                         </Grid>

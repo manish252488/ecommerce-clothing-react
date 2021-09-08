@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./index.less";
 import AppBaseScreen from "../common/layout/user/AppBaseScreen";
-import { Button, Card, CardContent, CardHeader, Container, Divider, makeStyles, Paper, Typography } from "@material-ui/core";
+import { Button, Card, Link, CardContent, CardHeader, Container, Divider, makeStyles, Paper, Typography } from "@material-ui/core";
 import FilterListIcon from '@material-ui/icons/FilterList';
 import Products from "./Products";
 import CustomCarousel from "../common/corousels/CustomCarousel";
@@ -9,6 +9,11 @@ import { Pagination } from "@material-ui/lab";
 import * as Actions from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { loginPage } from "../../assets";
+import { ArrowDown } from "react-feather";
+import * as Scroll from 'react-scroll';
+const Events = Scroll.Events;
+const scroll = Scroll.animateScroll;
+const scrollSpy = Scroll.scrollSpy;
 const useStyles = makeStyles({
   divider: {
     marginBottom: 5,
@@ -24,18 +29,34 @@ const useStyles = makeStyles({
 })
 const Home = (props) => {
   const classes = useStyles();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const products = useSelector(({ products }) => products.products)
   const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated)
+  useEffect(() => {
+    Events.scrollEvent.register('begin', function (to, element) {
+      console.log('begin', arguments);
+    });
+
+    Events.scrollEvent.register('end', function (to, element) {
+      console.log('end', arguments);
+    });
+
+    scrollSpy.update();
+
+  }, [])
   useEffect(() => {
     dispatch(Actions.listProducts())
     if (isAuth) {
       dispatch(Actions.listCart())
       dispatch(Actions.listOrders())
     }
-  }, [dispatch, isAuth])
+  }, [])
+  const loadMore = () => {
+    console.log('loadMore')
+  }
+
   return (
-    <AppBaseScreen>
+    <AppBaseScreen >
       <CustomCarousel images={[loginPage]} autoPlay={false} />
       <Container maxWidth="lg" className="scroll-container">
         <Card component={Paper}>
@@ -51,14 +72,16 @@ const Home = (props) => {
             ))}
           </CardContent>}
           {
-            (!products || products.length <= 0 ) && <div className="no-data">
+            (!products || products.length <= 0) && <div className="no-data">
               No Items Available!
             </div>
           }
+          <div className={classes.pagination}>
+            <Link onClick={loadMore} style={{ display: 'flex' }}><ArrowDown /> Load More</Link>
+            {/*  <Pagination count={20} variant="outlined" shape="rounded" />
+        */} </div>
         </Card>
-        <div className={classes.pagination}>
-          <Pagination count={20} variant="outlined" shape="rounded" />
-        </div>
+
       </Container>
     </AppBaseScreen>
   );

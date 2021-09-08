@@ -9,11 +9,15 @@ import { CreateOutlined } from '@material-ui/icons';
 
 
 export default function AddressCard({data, setDefaultAdd, width}) {
-  const useStyles = makeStyles({
+  const useStyles = makeStyles(theme => ({
     root: {
       minWidth: width ? width : 200,
       maxWidth: 200,
-      cursor: 'pointer'
+      cursor: 'pointer',
+      [theme.breakpoints.down('md')]:{
+        minWidth: '100%',
+        maxWidth: "100%"
+      }
     },
     bullet: {
       display: 'inline-block',
@@ -28,7 +32,7 @@ export default function AddressCard({data, setDefaultAdd, width}) {
       marginBottom: 12,
       fontSize: 12
     },
-  });
+  }));
   const classes = useStyles();
   const isFunction = typeof setDefaultAdd === 'function' 
   const setDefault = id => {

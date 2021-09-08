@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import CustomTooltip from "./CustomTooltip";
 import { SocialLinks } from "../../config/constants/constants";
+import { logoLight } from "../../assets";
 const Footer = (props) => {
   return (
     <div className="footer">
@@ -19,7 +20,7 @@ const Footer = (props) => {
         <Grid item xs={2}></Grid>
         <Grid item xs={8}>
           <div className="link-list">
-            <img src="/assets/images/logo-light.svg" className="icon" alt="check" />
+            <img src={logoLight} className="icon" alt="check" />
           </div>
           <div className="link-list icons">
             <CustomTooltip title="Follow us on Instagram!"><>
@@ -42,12 +43,11 @@ const Footer = (props) => {
             <Link href="/privacy-policy">privacy policies</Link>
 
             <Typography variant="inherit">
-              Copyright &copy; 2021 dapperfolks.in
+              Copyright &copy; 2021<Link href="https://www.dapperfolks.in">www.dapperfolks.in</Link>
             </Typography>
 
           </div>
         </Grid>
-        <Grid item xs={2}></Grid>
       </Grid>
     </div>
   );

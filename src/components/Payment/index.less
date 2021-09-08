@@ -4,7 +4,7 @@
     margin: 0px;
     padding: 25px;
     display: flex !important;
-    flex-flow: column;
+    flex-wrap: wrap;
     .cart-panel {
         align-items: center;
         justify-content: flex-start;
@@ -14,10 +14,10 @@
         padding: 10px;
         width: 100%;
     .cart-card{
-        width: 300px;
+        width: 280px;
         border-radius: 5px;
         display: flex;
-        flex-flow: row;
+        flex-flow: column;
         margin-top: 5px;
         .quantity-buttons{
             display: flex;
@@ -26,6 +26,7 @@
             justify-content: center;
         }
         .MuiInputBase-input {
+            max-width: 50px;
             text-align: center;
         }
         .MuiOutlinedInput-input {
@@ -63,8 +64,7 @@
         padding-right: 20px;
         padding-top: 10px;
         .MuiTextField-root {
-            margin-left: 15px !important;
-            margin-top: 5px !important;
+            margin-top: 15px !important;
         }
         .MuiButton-root {
             margin-top: 5px !important;
@@ -108,7 +108,25 @@
     }
     .cart-panel {
         justify-content: center !important;
+        .cart-card{
+            width: 100% !important;
+            border-radius: 5px;
+            display: flex;
+            flex-flow: column;
+            margin-top: 5px;
+        }
     }
+    .payment-container .address-form {
+        width: 100% !important;
+        padding: 10px !important;
+
+    }
+}
+.color-box {
+    display: inline-block;
+    padding: 12px;
+    vertical-align: middle;
+    border-radius: 15px;
 }
 .MuiContainer-maxWidthLg {
     max-width: unset !important;

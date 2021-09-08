@@ -1,18 +1,15 @@
-import { AppBar, Button, Chip, Hidden, IconButton, makeStyles, Toolbar } from "@material-ui/core";
+import { AppBar, Button, Chip, Hidden, IconButton, makeStyles, Toolbar, useTheme } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import "../index.less";
 import PropTypes from "prop-types";
 import Logo from "../../Logo";
 import { checkJWT, listCart } from "../../../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../../Loader/Loader";
 import { Person, ShoppingCartRounded } from "@material-ui/icons";
 import ProfileMenu from "./ProfileMenu";
-import Footer from "../../Footer";
 import History from "../../../../@history";
 import StyledBadge from "../../StyledBadge";
 import NavBar from './NavBar'
-import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -61,9 +58,6 @@ const useStyles = makeStyles((theme) => ({
   },
   Grow: {
     flexGrow: 1,
-    [theme.breakpoints.down('md')]: {
-      flexGrow: 'unset'
-    },
   },
   inputRoot: {
     color: theme.palette.primary.main,
@@ -106,9 +100,45 @@ const useStyles = makeStyles((theme) => ({
   navTool: {
     minHeight: 'unset',
     padding: 5
-  }
+  },
+  search2: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
+  },
+  searchIcon2: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot2: {
+    color: 'inherit',
+  },
+  inputInput2: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
 }));
 const AppBaseScreen = (props) => {
+  const theme = useTheme();
   const classes = useStyles()
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
   const {
@@ -130,7 +160,7 @@ const AppBaseScreen = (props) => {
   useEffect(() => {
     dispatch(checkJWT(null, onfailure));
     dispatch(listCart())
-  }, [dispatch]);
+  }, []);
   const onfailure = (val) => {
     if (!val) {
       setIsLoggedIn(true)
@@ -143,11 +173,11 @@ const AppBaseScreen = (props) => {
     History.push("/login")
   }
   return (
-    <div className={classes.root}>
+    <div className={classes.root} >
       {showHeader && (
-        <AppBar className={classes.app} position="sticky" variant="outlined">
+        <AppBar className={classes.app} position={theme.breakpoints.down("md") ? "relative": "sticky"} variant="outlined">
           <Toolbar>
-            <div className="web">
+            <Hidden mdUp>
               <IconButton
                 edge="start"
                 className={classes.menuButton}
@@ -157,35 +187,35 @@ const AppBaseScreen = (props) => {
               >
                 <MenuIcon />
               </IconButton>
-            </div>
-            <Hidden mdDown>
-              <Logo />
             </Hidden>
-            <div className="web">
-              <div className={classes.Grow} />
-            </div>
-            <div className={classes.search}>
-              <IconButton className={classes.searchIcon}>
-                <SearchIcon color="primary" />
-              </IconButton>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </div>
-            <Hidden mdDown>
-              <div className={classes.Grow} />
-            </Hidden>
-            <div className={classes.flex}>
+            <Logo />
 
+            <div className={classes.Grow} />
+            <Hidden mdDown>
+              <div className={classes.search}>
+                <IconButton className={classes.searchIcon}>
+                  <SearchIcon color="primary" />
+                </IconButton>
+                <InputBase
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ 'aria-label': 'search' }}
+                />
+
+              </div>
+            </Hidden>
+            <div className={classes.Grow} />
+            <div className={classes.flex}>
+              <Hidden mdDown>
+                <ProfileMenu />
+              </Hidden>
               {
                 isLoggedIn && (<>
                   <Hidden xsDown>
-                    <ProfileMenu />
+
                     <Chip
                       icon={<AccountBalanceWalletIcon color="secondary" />}
                       clickable
@@ -204,40 +234,50 @@ const AppBaseScreen = (props) => {
 
               {
                 !isLoggedIn && (
-                  <Hidden xsDown>
-                    <Button onClick={showAuthPanel} startIcon={<Person color="primary" />} variant="contained" color="secondary" size="small">
-                      Login</Button>
-                  </Hidden>
+                  <Button onClick={showAuthPanel} startIcon={<Person color="primary" />} variant="contained" color="secondary" size="small">
+                    Login</Button>
                 )
               }
-              <Hidden xsDown>
-                <IconButton onClick={() => History.push("/contact-support")}>
-                  <ContactSupportIcon color="primary" />
-                </IconButton>
-              </Hidden>
+              {
+                isLoggedIn && (<Hidden mdUp>
+                  <IconButton onClick={() => History.push("/profile")}>
+                    <Person color="primary" />
+                  </IconButton>
+                </Hidden>
+                )
+              }
             </div>
           </Toolbar>
         </AppBar>
       )}
-      {History.location.pathname === "/home" && <Hidden mdDown>
-        <AppBar position="static" className={classes.nav}>
+     <Hidden mdUp>
+        <AppBar position="sticky" className={classes.nav}>
           <Toolbar className={classes.navTool}>
-            <NavLinks />
+          <div className={classes.search2}>
+            <div className={classes.searchIcon2}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search…"
+              classes={{
+                root: classes.inputRoot2,
+                input: classes.inputInput2,
+              }}
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </div>
           </Toolbar>
         </AppBar>
-      </Hidden>}
-
-      <div className="web">
+      </Hidden>
+      <Hidden mdUp>
         <NavBar
           onMobileClose={() => setMobileNavOpen(false)}
           openMobile={isMobileNavOpen}
         />
-      </div>
-      <Loader />
+      </Hidden>
       <div className="body2">
         {children}
       </div>
-      <Footer />
     </div>
   );
 };

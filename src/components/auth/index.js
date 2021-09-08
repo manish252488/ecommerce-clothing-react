@@ -70,7 +70,7 @@ const Authpage = (props) => {
     </div>
     <CardContent>
       <div className="web-view">
-        <img className="icon" src="assets/images/logo-dark.svg" alt="logo"/>
+        <img className="icon" src={logodark} alt="logo"/>
       </div> 
       <ButtonGroup style={{ marginTop: 20}}>
         <Button

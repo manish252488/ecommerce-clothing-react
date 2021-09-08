@@ -18,7 +18,7 @@ const raleway = {
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#203A43",
+      main: "#de6262",
     },
     secondary:{
     main:"#fff",

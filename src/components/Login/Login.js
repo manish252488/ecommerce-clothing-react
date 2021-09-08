@@ -60,7 +60,7 @@ const Login = ({changeTab}) => {
   };
   return (
     <div className="loginPanel">
-      <Typography variant="h5">Log In:</Typography>
+      <Typography variant="h5">Log In</Typography>
       <TextField
         type="email"
         variant="outlined"

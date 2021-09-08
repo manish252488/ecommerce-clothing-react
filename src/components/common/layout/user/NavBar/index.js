@@ -11,20 +11,27 @@ import CategoryIcon from '@material-ui/icons/Category';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import PersonIcon from '@material-ui/icons/Person';
-import ReceiptIcon from '@material-ui/icons/Receipt';
 import InfoIcon from '@material-ui/icons/Info';
 import {
   Drawer,
   Grid,
   Hidden,
   Divider,
-  Button
+  Button,
+  makeStyles
 } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import History from "../../../../../@history";
+import { Person, PersonAddOutlined } from "@material-ui/icons";
+import { defaultUser } from "../../../../../assets";
 
-
+const useStyles = makeStyles(theme => ({
+  primary: {
+    background: theme.palette.primary.light
+  }
+}))
 const NavBar = ({ onMobileClose, openMobile }) => {
+  const classes = useStyles();
   const location = useLocation();
   const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated)
   const user = useSelector(({ Auth }) => Auth.user)
@@ -37,65 +44,73 @@ const NavBar = ({ onMobileClose, openMobile }) => {
 
   const content = (
     <Grid container>
-      {isAuth && <Grid item xs={12} className="profile-container">
-        <img src={user.picture || "assets/images/logo-dark.png"} className="image" alt="profile" />
+      {isAuth && <Grid item xs={12} className={classes.primary + " profile-container-1"}>
+        <img src={defaultUser} className="image" alt="profile" />
         <Typography variant="h6">{user.name}</Typography>
       </Grid>}
       {
-        !isAuth && <Grid item xs={12} className="profile-container-1 ">
-           <img src="assets/images/logo-dark.png" className="image" alt="profile" />
-          <Button onClick={() => History.push("/login")} variant="contained" size="small" color="secondary">Login</Button>
+        !isAuth && <Grid item xs={12} className={classes.primary + " profile-container-1"}>
+           <img src={defaultUser} className="image" alt="profile" />
         </Grid>
       }
       <Grid item xs={12}>
         <MenuList>
           <MenuItem>
             <ListItemIcon>
-              <AccountBalanceWalletIcon fontSize="small" />
+              <AccountBalanceWalletIcon  color="primary" fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit">wallet</Typography>
           </MenuItem>
           <MenuItem onClick={() => History.push("/categories")}>
             <ListItemIcon>
-              <CategoryIcon fontSize="small" />
+              <CategoryIcon  color="primary" fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit">categories</Typography>
           </MenuItem>
           <MenuItem  onClick={() => History.push("/offers")}>
             <ListItemIcon>
-              <LocalOfferIcon fontSize="small" />
+              <LocalOfferIcon  color="primary" fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit" noWrap>
-              offer zone
+              Offer Zone
             </Typography>
           </MenuItem>
           <MenuItem onClick={() => History.push("/myorders")}>
             <ListItemIcon>
-              <LocalShippingIcon fontSize="small" />
+              <LocalShippingIcon  color="primary" fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit" noWrap>
-              my orders
+              My Orders
             </Typography>
           </MenuItem>
           <MenuItem onClick={() => History.push("/profile")}>
             <ListItemIcon>
-              <PersonIcon fontSize="small" />
+              <PersonIcon color="primary" color="primary" fontSize="small" />
             </ListItemIcon>
-            <Typography variant="inherit" noWrap>
-              profile
+            <Typography  variant="inherit" noWrap>
+              Profile
             </Typography>
           </MenuItem>
           <Divider />
           <div className="grow"></div>
-          <MenuItem>
+          <MenuItem onClick={() => History.push("/about")}>
             <ListItemIcon>
-              <InfoIcon fontSize="small" />
+              <InfoIcon color="primary" fontSize="small" />
             </ListItemIcon>
-            <Typography variant="inherit" noWrap>
-              about
+            <Typography color="textSecondary" variant="inherit" noWrap>
+              About
+            </Typography>
+          </MenuItem>
+          <MenuItem onClick={() => History.push("/contact-support")}>
+            <ListItemIcon>
+              <Person color="primary" fontSize="small" />
+            </ListItemIcon>
+            <Typography color="textSecondary" variant="inherit" noWrap>
+              Contact
             </Typography>
           </MenuItem>
         </MenuList>
+
       </Grid>
     </Grid>
   );

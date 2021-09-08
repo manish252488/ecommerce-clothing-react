@@ -1,17 +1,18 @@
 import { Button, Card, CardHeader, Chip, Container, Divider, Grid, Link, List, ListItem, ListItemIcon, ListItemText, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
-import { Person } from '@material-ui/icons';
+import { FlashAuto, FlashOn, Person, ShoppingCart } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import History from '../../@history';
 import ProductsApi from '../../api/products';
 import { shuffle } from '../../config/Utils';
-import { listProducts } from '../../store/actions';
+import { listCart, listProducts } from '../../store/actions';
 import CustomCarousel from '../common/corousels/CustomCarousel';
 import AppBaseScreen from '../common/layout/user/AppBaseScreen';
 import Products from '../home/Products';
 import RatingComponent from '../home/Products/components/Rating';
 import './index.less'
+import * as Actions from '../../store/actions'
 const useStyles = makeStyles(theme => ({
     root: {
 
@@ -65,14 +66,27 @@ const useStyles = makeStyles(theme => ({
 export default function ProductDetails(props) {
     const classes = useStyles()
     const { productId } = useParams();
-    const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated)
+    const cart = useSelector(({ Auth }) => Auth.cart || [])
+    const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated || false)
     const [product, setProduct] = useState(null)
     const dispatch = useDispatch();
     const products = useSelector(({ products }) => products.products)
     const [data, setData] = useState(null)
-
+    const [size, setSize] = useState("")
+    const [color, setColor] = useState("")
+    const [loading, setLoading] = useState(false)
+    const [error, setErrors] = useState({
+        size: {
+            message: ''
+        },
+        color: {
+            message: ''
+        }
+    })
+    
     useEffect(() => {
         dispatch(listProducts())
+        dispatch(listCart())
         ProductsApi.productDetail(productId).then(res => {
             setProduct(res.data.product)
             setData(res.data)
@@ -80,15 +94,44 @@ export default function ProductDetails(props) {
             console.log(err)
         })
     }, [productId, dispatch])
-    const checkAuth = () => {
-        if (isAuth) {
-            return true;
-        } else {
-            History.push("/login")
-        }
-    }
-    const addToCart = () => {
 
+    useEffect(()=> {
+        if (size && size !== "") {
+            setErrors({ ...error, size: { message: '' } })
+        }
+        if (product && product.colorOptions.length > 0) {
+            if (color && color !== "") {
+                setErrors({ ...error, color: { message: '' } })
+            }
+        }
+    }, [color,size])
+    const addToCart = (id) => {
+        let flag = true
+
+        if (!size || size === "") {
+            setErrors({ ...error, size: { message: 'Select one size!' } })
+            flag = false
+        }
+        if (product.colorOptions.length > 0) {
+            if (!color || color === "") {
+                setErrors({ ...error, color: { message: 'Select one !' } })
+                flag = false
+            }
+        }
+        if (!flag) {
+            return;
+        }
+        setLoading(id)
+        const data ={
+            productId: id,
+            color: color,
+            size: size
+        }
+        dispatch(Actions.addToCart(data, () => setLoading(null)))
+    }
+    const removeFromCart = (id) => {
+        setLoading(id)
+        dispatch(Actions.removeFromCart(id, () => setLoading(null)))
     }
     if (!product) {
         return null
@@ -131,21 +174,21 @@ export default function ProductDetails(props) {
                                 </Typography>
                             </div>
                             <Typography variant={'h6'}>
-                                Available Sizes
+                                Available Sizes {error.size.message ? <span className="highlight"><sup>*</sup>{error.size.message}</span> : ''}
                             </Typography>
                             <Divider />
                             <div className={classes.description}>
                                 <div className={classes.boxContainer}>
-                                    {product.sizes.map((val, index) => <div key={index} className={classes.colorbox}>{val}</div>)}
+                                    {product.sizes.map((val, index) => <div key={index} className={classes.colorbox + (val === size ? " active" : '')} onClick={() => setSize(val)}>{val}</div>)}
                                 </div>
                             </div>
                             <Typography variant={'h6'}>
-                                Available Colours
+                                Available Colours {error.color.message ? <span className="highlight"><sup>*</sup>{error.color.message}</span> : ''}
                             </Typography>
                             <Divider />
                             <div className={classes.description}>
                                 <div className={classes.boxContainer}>
-                                    {product.colorOptions.map((val, index) => <div key={index} className={classes.colorbox} style={{ background: val }}></div>)}
+                                    {product.colorOptions.map((val, index) => <div key={index} className={classes.colorbox + (val === color ? " active" : '')} style={{ background: val }} onClick={() => setColor(val)}></div>)}
                                 </div>
                             </div>
                             <Typography variant={'h6'}>
@@ -175,8 +218,15 @@ export default function ProductDetails(props) {
                             <img src={data?.brand.logo} alt="logo" className={classes.logo} />
                             <Divider />
                             <div className="btn-container">
-                                <Button variant="contained" color="primary">Add to Cart</Button>
-                                <Button variant="contained" color="primary">Buy Now</Button>
+                                <Button
+                                    startIcon={<ShoppingCart />}
+                                    onClick={() => cart?.find(v => v.product === product.id) ? removeFromCart(product.id) : addToCart(product.id)}
+                                    variant="contained" color={cart?.find(v => v.product === product.id) ? "primary" : "secondary"}>
+                                    {cart?.find(v => v.product === product.id) ? "Remove Cart" : "Add to Cart"}
+                                </Button>
+                                <Button
+                                    startIcon={<FlashOn />}
+                                    variant="contained" color="primary">Buy Now</Button>
                             </div>
                         </Container>
                     </Grid>
