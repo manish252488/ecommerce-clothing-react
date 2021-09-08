@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Chip, Grid, IconButton } from '@material-ui/core';
 import { CreateOutlined } from '@material-ui/icons';
-
+import PlacesAutocomplete from 'react-places-autocomplete';
 
 
 export default function AddressCard({data, setDefaultAdd, width}) {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -10,6 +10,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
+import { Grid } from '@material-ui/core';
+import AppSlider from '../PrettoSlider';
 
 const styles = theme => ({
   root: {
@@ -18,36 +20,39 @@ const styles = theme => ({
   heading: {
     fontSize: theme.typography.pxToRem(15),
   },
-  secondaryHeading: {
-    fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary,
-  },
-  icon: {
-    verticalAlign: 'bottom',
-    height: 20,
-    width: 20,
-  },
+
   details: {
     alignItems: 'center',
   },
   column: {
     flexBasis: '33.33%',
   },
-  helper: {
-    borderLeft: `2px solid ${theme.palette.divider}`,
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
-  },
-  link: {
-    color: theme.palette.primary.main,
-    textDecoration: 'none',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
-  },
+  container : {
+    flexBasis: '33.33%',
+    maxWidth: '33.33%',
+    [theme.breakpoints.down("xs")] :{
+      flexBasis: '100%',
+      maxWidth: "100%"
+    }
+  }
 });
 
 function FilterExpansionPanel(props) {
   const { classes } = props;
+  const [filters, setFilters] = useState({
+    priceRange: {
+      min: 0,
+      max: 10000
+    },
+    categories: [],
+    brands: [],
+    colors: [],
+    size: [],
+  })
+  const [sorts, setSorts] = useState({
+    alpha: 1,
+    price: 1
+  })
   return (
     <div className={classes.root}>
       <ExpansionPanel>
@@ -56,13 +61,25 @@ function FilterExpansionPanel(props) {
             <Typography className={classes.heading}>Filters</Typography>
           </div>
           <div className={classes.column}>
-            <Typography className={classes.secondaryHeading}>filters applied</Typography>
+          <Chip label="Deletable primary" onDelete={() => {}} color="primary" />
           </div>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.details}>
-            
+        <Grid container wrap={true}>
+         
+            <Grid item className={classes.container}>
+              <Typography variant="h6">Price Range</Typography>
+              <Divider />
+              <AppSlider 
+                value={10} 
+                step={100}
+                onChange={(val) => console.log(val)}
+                />
+            </Grid>
+            <Grid item className={classes.container}></Grid>
+            <Grid item className={classes.container}></Grid>
+        </Grid>
         </ExpansionPanelDetails>
-        <Divider />
         <ExpansionPanelActions>
           <Button size="small">Cancel</Button>
           <Button size="small" color="primary">

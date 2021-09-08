@@ -10,6 +10,7 @@ import { getImage } from '../../config/Utils'
 import { listCart, addToCart as addCart, removeFromCart as removeCart, checkJWT } from '../../store/actions'
 import AddressCard from '../common/AddressCard'
 import AppBaseScreen from '../common/layout/user/AppBaseScreen'
+import CountrySelect from '../common/CountrySelectField'
 import './index.less'
 
 const useStyles = makeStyles({
@@ -158,7 +159,6 @@ export default function Payment(props) {
     }
     return <AppBaseScreen>
         <Container maxWidth="md" className="payment-container" >
-
             <Typography variant="h4">  <ShoppingBag /> Cart</Typography>
             <div className="cart-panel">
                 {
@@ -313,6 +313,7 @@ export default function Payment(props) {
                                                 fullWidth
                                                 size="small"
                                             />
+                                            <CountrySelect />
                                             <TextField
                                                 variant="outlined"
                                                 label="Country"
