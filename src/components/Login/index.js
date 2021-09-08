@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   Hidden,
+  IconButton,
   Paper,
   Typography,
 } from "@material-ui/core";
@@ -11,7 +12,7 @@ import { renderIfElse } from "../../config/Utils";
 import Login from "./Login";
 import SignUp from "./Signup";
 import "./index.less";
-import { Facebook, Instagram, Twitter } from "@material-ui/icons";
+import { ArrowBackIos, Facebook, Instagram, Twitter } from "@material-ui/icons";
 import { useSelector } from "react-redux";
 import History from "../../@history";
 import { loginPage, logoIcon } from "../../assets";
@@ -34,6 +35,9 @@ const Authpage = (props) => {
 
   return (
     <Card className="auth-card" component={Paper}>
+      <IconButton color="secondary" className="iconback" onClick={() => History.goBack()}>
+      <ArrowBackIos color="primary" />
+      </IconButton>
       <Hidden mdDown>
         <div className="image" style={{ backgroundImage: `url(${loginPage})` }}>
           <div>

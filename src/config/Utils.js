@@ -71,3 +71,4 @@ export function shuffle(array) {
 export function getImage(file, type){
   return file
 }
+

@@ -1,6 +1,6 @@
 import AppContext from "./AppContext";
 import { Provider } from "react-redux";
-import { Router } from "react-router-dom";
+import { HashRouter, Router } from "react-router-dom";
 import store from "./store";
 import history from "./@history";
 import AppRoute from "./navigation/AppRoute";
@@ -13,12 +13,13 @@ function App() {
   return (
     <AppContext.Provider value={routesConfig}>
       <Provider store={store}>
-        <Router history={history}>
+        <HashRouter basename="/" hashType="hashbang">
+        {/* <Router history={history}> */}
           <ThemeProvider theme={theme}>
             <CssBaseline/>
           <AppRoute routes={routesConfig}/>
           </ThemeProvider>
-        </Router>
+        </HashRouter>
       </Provider>
     </AppContext.Provider>
   );

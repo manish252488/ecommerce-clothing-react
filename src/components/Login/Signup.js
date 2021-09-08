@@ -91,7 +91,7 @@ class SignUp extends React.Component {
   };
   onSuccess = (path) => {
     this.setState({ loading: false });
-    History.push('/home')
+    History.goBack()
 
   };
   onFailure = (msg) => {

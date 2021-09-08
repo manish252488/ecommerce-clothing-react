@@ -5,8 +5,7 @@ const cloudfront = require('gulp-cloudfront-invalidate');
 const exec = require('gulp-exec');
 console.log(env)
 /* 
-export AWS_ACCESS_KEY_ID=AKIAVYLQZZBNTNKVNXO6
-export AWS_SECRET_ACCESS_KEY=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
+
 */
 const envConfig = {
     s3: {

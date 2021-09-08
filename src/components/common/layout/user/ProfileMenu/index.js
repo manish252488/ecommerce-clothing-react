@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import History from '../../../../../@history';
 import { logoIcon } from '../../../../../assets';
-import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import InfoIcon from '@material-ui/icons/Info';
 const  useStyles = makeStyles(theme => ({
     text: {
