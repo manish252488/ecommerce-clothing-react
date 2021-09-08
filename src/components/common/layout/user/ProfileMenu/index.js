@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import History from '../../../../../@history';
 import { logoIcon } from '../../../../../assets';
-import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import InfoIcon from '@material-ui/icons/Info';
 const  useStyles = makeStyles(theme => ({
     text: {
@@ -55,7 +54,7 @@ export default function ProfileMenu() {
 
   return (
     <div>
-      <Button variant="default" color="primary" startIcon={/* user.picture */ true ? <img className={classes.profileicon} src={logoIcon} alt="profile"/>:<Person color="primary"/>} aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick} size="small">
+      <Button color="primary" startIcon={/* user.picture */ true ? <img className={classes.profileicon} src={logoIcon} alt="profile"/>:<Person color="primary"/>} aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick} size="small">
         <span className={classes.text}>{user.name}</span>
       </Button>
       <Menu

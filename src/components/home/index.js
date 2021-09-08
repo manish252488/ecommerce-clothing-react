@@ -31,7 +31,7 @@ const Home = (props) => {
   const dispatch = useDispatch();
   const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated)
   const products = useSelector(({products}) => products.products)
-  const maxPage = useSelector(({products}) => products.metadata.maxPageSize)
+  const maxPage = useSelector(({products}) => products?.metadata?.maxPageSize || 0)
   const [page, setPage] = useState(1);
   const [perPage,] = useState(10)
   const observer = useRef()

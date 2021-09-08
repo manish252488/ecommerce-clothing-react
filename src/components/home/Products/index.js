@@ -15,6 +15,8 @@ import History from '../../../@history';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Actions from '../../../store/actions'
 import { listCart } from '../../../store/actions';
+import { addDataIntoCache } from '../../../config/Utils';
+import { useCookies } from 'react-cookie'
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 200,
@@ -61,7 +63,16 @@ const useStyles = makeStyles((theme) => ({
 export default function Products({ data }) {
   const classes = useStyles();
   const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated)
-
+  const cacheName = 'favorites'
+  const [cookies, setCookie, removeCookie] = useCookies([cacheName]);
+  const setFav = () => {
+    if(isAuth){
+      // set to database
+    } else {
+      // set to session
+      setCookie(cacheName, [data?._id || data?.id])
+    }
+  }
   return (
     <Card className={classes.root} >
       <CardContent onClick={() => History.push(`/product-detail/${data?.id || data?._id}`)}>
@@ -76,15 +87,14 @@ export default function Products({ data }) {
         <Typography variant="body1" color="primary">{
           data.brand.name
         } {data?.designer ? 'by @' + data.designer : ''}</Typography>
-        {/* <RatingComponent value={2} /> */}
         <Typography variant="h6" className={classes.bold}>₹ {data.sellingCost}&nbsp;
           <del className={classes.muted}>₹ {data.cost}</del>
           </Typography>
       </CardContent>
       <CardActions>
-          {isAuth && <IconButton aria-label="add to FAV" onClick={() => {}}>
+          <IconButton aria-label="Add to FAV" onClick={setFav}>
               <Star className={true? "start-active": "start-in"}  />
-          </IconButton>}
+          </IconButton>
         {data.stock > 0 && <Chip
             className={classes.chip}
             color="primary"

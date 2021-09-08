@@ -36,7 +36,7 @@ const Login = ({changeTab}) => {
   };
   const onSuccess = () => {
     setLoading(false);
-    History.replace('/home')
+    History.goBack()
   };
   const onFailure = (error) => {
     setLoading(false);
