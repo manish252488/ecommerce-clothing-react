@@ -4,11 +4,14 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
 import SignOut from '../../../../auth/SignOut';
-import { ListItemIcon, makeStyles, Typography } from '@material-ui/core';
-import { LocalShipping, Person } from '@material-ui/icons';
+import { ListItemIcon, makeStyles, Typography, } from '@material-ui/core';
+import { LocalShipping, Person, ContactSupport as ContactSupportIcon } from '@material-ui/icons';
 import { useSelector } from 'react-redux';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import History from '../../../../../@history';
+import { logoIcon } from '../../../../../assets';
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+import InfoIcon from '@material-ui/icons/Info';
 const  useStyles = makeStyles(theme => ({
     text: {
         textTransform: "capitalize"
@@ -25,6 +28,16 @@ const  useStyles = makeStyles(theme => ({
       height: 30,
       borderRadius: 50,
       background: theme.palette.common.white
+    },
+    profile: {
+      background: theme.palette.primary.light,
+      color: theme.palette.common.white,
+      textTransform: 'capitalize',
+      marginTop: 0,
+      '&:hover': {
+        background: theme.palette.primary.light
+      }
+
     }
 }))
 export default function ProfileMenu() {
@@ -42,7 +55,7 @@ export default function ProfileMenu() {
 
   return (
     <div>
-      <Button variant="default" color="primary" startIcon={/* user.picture */ true ? <img className={classes.profileicon} src={"assets/images/logo-dark.png"} alt="profile"/>:<Person color="primary"/>} aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick} size="small">
+      <Button variant="default" color="primary" startIcon={/* user.picture */ true ? <img className={classes.profileicon} src={logoIcon} alt="profile"/>:<Person color="primary"/>} aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick} size="small">
         <span className={classes.text}>{user.name}</span>
       </Button>
       <Menu
@@ -53,9 +66,9 @@ export default function ProfileMenu() {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={() => History.push("/profile")}>
+        <MenuItem className={classes.profile} onClick={() => History.push("/profile")}>
         <ListItemIcon>
-        {user.picture && <img className={classes.profilepic} src={"assets/images/logo-dark.png"} alt="profile"/>}
+        {user.picture && <img className={classes.profilepic} src={logoIcon} alt="profile"/>}
                 {!user.picture && <Person/>}
           </ListItemIcon>
                 
@@ -63,9 +76,23 @@ export default function ProfileMenu() {
         </MenuItem>
         <MenuItem onClick={() => History.push("/myorders")}>
           <ListItemIcon>
-            <LocalShipping/>
+            <LocalShipping color="primary"/>
           </ListItemIcon>
           <Typography>My orders</Typography>
+        </MenuItem>
+        <MenuItem onClick={() => History.push("/about")}>
+            <ListItemIcon>
+              <InfoIcon color="primary" fontSize="small" />
+            </ListItemIcon>
+            <Typography color="textSecondary" variant="inherit" noWrap>
+              About
+            </Typography>
+          </MenuItem>
+        <MenuItem onClick={() => History.push("/contact-support")}>
+          <ListItemIcon>
+          <ContactSupportIcon color="primary" />
+          </ListItemIcon>
+          <Typography>Contact</Typography>
         </MenuItem>
         <MenuItem><SignOut>
           <ListItemIcon>

@@ -86,9 +86,6 @@ export default function Products({ data }) {
           {isAuth && <IconButton aria-label="add to FAV" onClick={() => {}}>
               <Star className={true? "start-active": "start-in"}  />
           </IconButton>}
-        <IconButton aria-label="share">
-          <ShareIcon fontSize="small"/>
-        </IconButton>
         {data.stock > 0 && <Chip
             className={classes.chip}
             color="primary"

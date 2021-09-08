@@ -11,8 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginPage } from "../../assets";
 import { ArrowDown } from "react-feather";
 import * as Scroll from 'react-scroll';
-const Events    = Scroll.Events;
-const scroll    = Scroll.animateScroll;
+const Events = Scroll.Events;
+const scroll = Scroll.animateScroll;
 const scrollSpy = Scroll.scrollSpy;
 const useStyles = makeStyles({
   divider: {
@@ -33,16 +33,16 @@ const Home = (props) => {
   const products = useSelector(({ products }) => products.products)
   const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated)
   useEffect(() => {
-    Events.scrollEvent.register('begin', function(to, element) {
+    Events.scrollEvent.register('begin', function (to, element) {
       console.log('begin', arguments);
     });
 
-    Events.scrollEvent.register('end', function(to, element) {
+    Events.scrollEvent.register('end', function (to, element) {
       console.log('end', arguments);
     });
 
     scrollSpy.update();
-   
+
   }, [])
   useEffect(() => {
     dispatch(Actions.listProducts())
@@ -76,11 +76,12 @@ const Home = (props) => {
               No Items Available!
             </div>
           }
-        </Card>
-        <div className={classes.pagination}>
-          <Link onClick={loadMore} style={{ display: 'flex' }}><ArrowDown /> Load More</Link>
-          {/*  <Pagination count={20} variant="outlined" shape="rounded" />
+          <div className={classes.pagination}>
+            <Link onClick={loadMore} style={{ display: 'flex' }}><ArrowDown /> Load More</Link>
+            {/*  <Pagination count={20} variant="outlined" shape="rounded" />
         */} </div>
+        </Card>
+
       </Container>
     </AppBaseScreen>
   );

@@ -1,14 +1,14 @@
 @import "../../../../../Base.less";
 .MuiDrawer-root {
+  height: 100vh;
   .MuiPaper-root {
     top: 65px;
     margin: 10px;
-    height: calc(100% - 110px);
+    height: 100vh;
     box-shadow: 1px 1px 2px #ddd;
     width: 70%;
     .MuiGrid-root{
         .profile-container {
-          background-color: @secondary-color-300;
           justify-content: flex-start;
           color: #fff;
           align-items: center;
@@ -19,8 +19,8 @@
           padding-bottom: 5px;
         }
         .profile-container-1{
-          background-color: @secondary-color-300;
-          justify-content: space-between;
+          justify-content: flex-start;
+          text-transform: capitalize;
           color: #fff;
           align-items: center;
           display: flex;
@@ -33,11 +33,11 @@
         }
     }
     .image {
-        min-width: 140px;
-      min-height: 140px;
+      max-width: 80px;
       overflow: hidden;
       background-color: inherit;
       border-radius: 50%;
+      padding: 10px;
     }
   }
 }

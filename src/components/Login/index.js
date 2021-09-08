@@ -14,7 +14,7 @@ import "./index.less";
 import { Facebook, Instagram, Twitter } from "@material-ui/icons";
 import { useSelector } from "react-redux";
 import History from "../../@history";
-import { loginPage } from "../../assets";
+import { loginPage, logoIcon } from "../../assets";
 import { SocialLinks } from '../../config/constants/constants'
 import { useParams } from "react-router";
 import Logo from "../common/Logo";
@@ -37,7 +37,7 @@ const Authpage = (props) => {
       <Hidden mdDown>
         <div className="image" style={{ backgroundImage: `url(${loginPage})` }}>
           <div>
-            <img className="icon" src="assets/images/logo-dark.svg" alt="logo" />
+            <img className="icon" src={logoIcon} alt="logo" />
           </div>
           <div className="nav-bar">
             <Button fullWidth startIcon={<Facebook />} variant="contained" target="_blank" href={SocialLinks.Facebook}><Typography>@dapperfolks</Typography></Button>
