@@ -38,7 +38,6 @@ export const listProducts = ({ perPage, page, search, onSuccess, onFailure }) =>
         ProductsApi.listProducts(perPage, page, search).then(
             res => {
                 if (res.data.products.length > 0) {
-                    console.log("insied action")
                     dispatch({
                         type: LIST_PRODUCTS,
                         payload: res.data

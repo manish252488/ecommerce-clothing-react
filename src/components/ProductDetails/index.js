@@ -1,12 +1,12 @@
 import { Button, Card, CardHeader, Chip, CircularProgress, Container, Divider, Grid, Link, List, ListItem, ListItemIcon, ListItemText, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
-import { FlashAuto, FlashOn, Person, ShoppingCart } from '@material-ui/icons';
+import { FlashOn, Person, ShoppingCart } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import History from '../../@history';
 import ProductsApi from '../../api/products';
 import { shuffle } from '../../config/Utils';
-import { listCart, listProducts } from '../../store/actions';
+import { listCart } from '../../store/actions';
 import CustomCarousel from '../common/corousels/CustomCarousel';
 import AppBaseScreen from '../common/layout/user/AppBaseScreen';
 import Products from '../home/Products';

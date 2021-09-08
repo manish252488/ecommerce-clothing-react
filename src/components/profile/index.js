@@ -19,6 +19,7 @@ const Profile = (props) => {
         } else {
             History.push('/login')
         }
+        //eslint-disable-next-line
     }, [isAuth])
 
     const ProfileComponent = () => (

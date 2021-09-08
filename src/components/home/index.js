@@ -1,17 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./index.less";
 import AppBaseScreen from "../common/layout/user/AppBaseScreen";
-import { Button, Card, Link, CardContent, CardHeader, Container, Divider, makeStyles, Paper, Typography } from "@material-ui/core";
-import FilterListIcon from '@material-ui/icons/FilterList';
+import { Card, Link, CardContent, CardHeader, Container, Divider, makeStyles, Paper } from "@material-ui/core";
 import Products from "./Products";
 import CustomCarousel from "../common/corousels/CustomCarousel";
-import { Pagination } from "@material-ui/lab";
 import * as Actions from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { loginPage } from "../../assets";
 import { ArrowDown } from "react-feather";
-import ProductsApi from "../../api/products";
-import FilterExpansionPanel from "../common/ExpansionPanelFilters/FilterExpansionPanel";
+import FilterExpansionPanel from "../common/ExpansionPanelFilters.js/FilterExpansionPanel";
 
 const useStyles = makeStyles({
   divider: {
@@ -42,7 +39,8 @@ const Home = (props) => {
       dispatch(Actions.listCart())
       dispatch(Actions.getCategories())
     }
-  }, [])
+   // eslint-disable-next-line
+  }, [dispatch])
   const lastBookElementRef = useCallback(node => {
     if (loading) return
     if (observer.current) observer.current.disconnect()
@@ -52,10 +50,12 @@ const Home = (props) => {
       }
     })
     if (node) observer.current.observe(node)
+    // eslint-disable-next-line
   }, [loading])
   useEffect(() => {
     setLoading(true)
     dispatch(Actions.listProducts({perPage: perPage, page: page, onSuccess: () => setLoading(() => false)}))
+  //eslint-disable-next-line
   }, [page])
   const loadMore = () => {
     if(page + 1 <= maxPage){

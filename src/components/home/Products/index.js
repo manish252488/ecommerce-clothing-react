@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -7,16 +7,10 @@ import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
-import ShareIcon from '@material-ui/icons/Share';
-import RatingComponent from './components/Rating';
 import {  Star } from '@material-ui/icons';
 import { Chip } from '@material-ui/core';
 import History from '../../../@history';
-import { useDispatch, useSelector } from 'react-redux';
-import * as Actions from '../../../store/actions'
-import { listCart } from '../../../store/actions';
-import { addDataIntoCache } from '../../../config/Utils';
-import { useCookies } from 'react-cookie'
+import { useSelector } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 200,
@@ -62,9 +56,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Products({ data }) {
   const classes = useStyles();
-  const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated)
-  const cacheName = 'favorites'
-  const [cookies, setCookie, removeCookie] = useCookies([cacheName]);
+  // const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated)
+  // const cacheName = 'favorites'
+ /*  const [cookies, setCookie, removeCookie] = useCookies([cacheName]);
   const setFav = () => {
     if(isAuth){
       // set to database
@@ -72,7 +66,8 @@ export default function Products({ data }) {
       // set to session
       setCookie(cacheName, [data?._id || data?.id])
     }
-  }
+  } */
+  const setFav = () => {}
   return (
     <Card className={classes.root} >
       <CardContent onClick={() => History.push(`/product-detail/${data?.id || data?._id}`)}>

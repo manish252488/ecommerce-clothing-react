@@ -7,7 +7,7 @@ import History from '../../@history'
 import Auth from '../../api/auth'
 import OrderApis from '../../api/order'
 import { getImage } from '../../config/Utils'
-import { listCart, listProducts, addToCart as addCart, removeFromCart as removeCart, checkJWT } from '../../store/actions'
+import { listCart, addToCart as addCart, removeFromCart as removeCart, checkJWT } from '../../store/actions'
 import AddressCard from '../common/AddressCard'
 import AppBaseScreen from '../common/layout/user/AppBaseScreen'
 import './index.less'
@@ -252,7 +252,6 @@ export default function Payment(props) {
                                                 placeholder="Location/Address"
                                                 value={addressForm.address1}
                                                 helperText={errorFields.address1}
-                                                fullWidth
                                                 size="small"
                                                 error={errorFields.address1}
                                                 onChange={value => change('address1', value)}
@@ -260,7 +259,6 @@ export default function Payment(props) {
                                             />
                                             <TextField
                                                 variant="outlined"
-                                                fullWidth
                                                 label="Address 2"
                                                 placeholder="House No/Locality"
                                                 value={addressForm.address2}
@@ -273,7 +271,6 @@ export default function Payment(props) {
                                             />
                                             <TextField
                                                 variant="outlined"
-                                                fullWidth
                                                 label="Landmark"
                                                 placeholder="LandMark"
                                                 value={addressForm.landmark}
