@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./index.less";
 import AppBaseScreen from "../common/layout/user/AppBaseScreen";
 import { Button, Card, Link, CardContent, CardHeader, Container, Divider, makeStyles, Paper, Typography } from "@material-ui/core";
@@ -10,10 +10,9 @@ import * as Actions from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { loginPage } from "../../assets";
 import { ArrowDown } from "react-feather";
-import * as Scroll from 'react-scroll';
-const Events = Scroll.Events;
-const scroll = Scroll.animateScroll;
-const scrollSpy = Scroll.scrollSpy;
+import ProductsApi from "../../api/products";
+import FilterExpansionPanel from "../common/ExpansionPanelFilters/FilterExpansionPanel";
+
 const useStyles = makeStyles({
   divider: {
     marginBottom: 5,
@@ -30,56 +29,60 @@ const useStyles = makeStyles({
 const Home = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const products = useSelector(({ products }) => products.products)
   const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated)
+  const products = useSelector(({products}) => products.products)
+  const maxPage = useSelector(({products}) => products.metadata.maxPageSize)
+  const [page, setPage] = useState(1);
+  const [perPage,] = useState(10)
+  const observer = useRef()
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    Events.scrollEvent.register('begin', function (to, element) {
-      console.log('begin', arguments);
-    });
-
-    Events.scrollEvent.register('end', function (to, element) {
-      console.log('end', arguments);
-    });
-
-    scrollSpy.update();
-
-  }, [])
-  useEffect(() => {
-    dispatch(Actions.listProducts())
-    if (isAuth) {
+    dispatch(Actions.clearProducts())
+    if(isAuth) {
       dispatch(Actions.listCart())
-      dispatch(Actions.listOrders())
+      dispatch(Actions.getCategories())
     }
   }, [])
+  const lastBookElementRef = useCallback(node => {
+    if (loading) return
+    if (observer.current) observer.current.disconnect()
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        loadMore()
+      }
+    })
+    if (node) observer.current.observe(node)
+  }, [loading])
+  useEffect(() => {
+    setLoading(true)
+    dispatch(Actions.listProducts({perPage: perPage, page: page, onSuccess: () => setLoading(() => false)}))
+  }, [page])
   const loadMore = () => {
-    console.log('loadMore')
+    if(page + 1 <= maxPage){
+      setPage((prev) => prev + 1)
+    }
   }
-
   return (
     <AppBaseScreen >
       <CustomCarousel images={[loginPage]} autoPlay={false} />
       <Container maxWidth="lg" className="scroll-container">
         <Card component={Paper}>
           <CardHeader
-            action={<Button startIcon={<FilterListIcon />}>Filter</Button>}
-            avatar={<Typography variant="h5"></Typography>}
+            component={() => <FilterExpansionPanel/>}
           >
           </CardHeader>
           <Divider className={classes.divider} />
           {(products && products.length > 0) && <CardContent className="product-container">
             {products?.map((val, index) => (
-              <Products key={index} data={val} />
+                <Products key={index} data={val} />
             ))}
           </CardContent>}
-          {
-            (!products || products.length <= 0) && <div className="no-data">
-              No Items Available!
-            </div>
-          }
-          <div className={classes.pagination}>
-            <Link onClick={loadMore} style={{ display: 'flex' }}><ArrowDown /> Load More</Link>
-            {/*  <Pagination count={20} variant="outlined" shape="rounded" />
-        */} </div>
+          {page+1 <= maxPage && <div className={classes.pagination}>
+            <Link onClick={loadMore} ref={lastBookElementRef} style={{ display: 'flex' }}><ArrowDown /> Load More</Link>
+           </div>}
+           {page+1 > maxPage && <div className={classes.pagination}>
+            <Link style={{ display: 'flex' }}>No More Products!</Link>
+           </div>}
         </Card>
 
       </Container>

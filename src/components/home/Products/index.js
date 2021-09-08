@@ -64,8 +64,7 @@ export default function Products({ data }) {
 
   return (
     <Card className={classes.root} >
-     
-      <CardContent onClick={() => History.push(`/product-detail/${data.id}`)}>
+      <CardContent onClick={() => History.push(`/product-detail/${data?.id || data?._id}`)}>
       <CardMedia
         className={classes.media}
         image={data.pictures[0]}

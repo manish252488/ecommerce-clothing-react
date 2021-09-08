@@ -1,16 +1,16 @@
 import CategoriesApi from "../../api/categories"
 import ProductsApi from "../../api/products"
 import { isFunction } from "../../config/Utils"
-import { LIST_CATEGORY, LIST_PRODUCTS, PRODUCT_DETAIL } from "./actionTypes"
+import { LIST_CATEGORY, LIST_PRODUCTS, PRODUCT_CLEAR, PRODUCT_DETAIL } from "./actionTypes"
 
 export const createProduct = (data, onSuccess, onFailure) => {
     return dispatch => {
         ProductsApi.createProducts(data).then(
             res => {
-                if (isFunction(onSuccess)) onSuccess(res.meesage)
+                if (isFunction(onSuccess)) onSuccess(res.message)
             }
         ).catch(err => {
-            if (isFunction(onFailure)) onSuccess(err.meesage)
+            if (isFunction(onFailure)) onSuccess(err.message)
         })
     }
 }
@@ -19,26 +19,37 @@ export const updateProduct = (data, onSuccess, onFailure) => {
     return dispatch => {
         ProductsApi.updateProducts(data).then(
             res => {
-                if (isFunction(onSuccess)) onSuccess(res.meesage)
+                if (isFunction(onSuccess)) onSuccess(res.message)
             }
         ).catch(err => {
-            if (isFunction(onFailure)) onSuccess(err.meesage)
+            if (isFunction(onFailure)) onSuccess(err.message)
         })
     }
 }
-
-export const listProducts = (onSuccess, onFailure) => {
+export const clearProducts = () => {
     return dispatch => {
-        ProductsApi.listProducts().then(
+        dispatch({
+            type: PRODUCT_CLEAR
+        })
+    }
+}
+export const listProducts = ({ perPage, page, search, onSuccess, onFailure }) => {
+    return dispatch => {
+        ProductsApi.listProducts(perPage, page, search).then(
             res => {
-                dispatch({
-                    type: LIST_PRODUCTS,
-                    payload: res.data
-                })
-                if (isFunction(onSuccess)) onSuccess(res.meesage)
+                if (res.data.products.length > 0) {
+                    console.log("insied action")
+                    dispatch({
+                        type: LIST_PRODUCTS,
+                        payload: res.data
+                    })
+                    if (isFunction(onSuccess)) onSuccess(res.message)
+                } else {
+                    if (isFunction(onSuccess)) onSuccess("End of teh Page!")
+                }
             }
         ).catch(err => {
-            if (isFunction(onFailure)) onSuccess(err.meesage)
+            if (isFunction(onFailure)) onSuccess(err.message)
         })
     }
 }
@@ -47,9 +58,9 @@ export const deleteProduct = (id, onSuccess, onFailure) => {
     return dispatch => {
         ProductsApi.deleteProducts(id).then(
             res => {
-                if (isFunction(onSuccess)) onSuccess(res.meesage)
+                if (isFunction(onSuccess)) onSuccess(res.message)
             }).catch(err => {
-                if (isFunction(onFailure)) onSuccess(err.meesage)
+                if (isFunction(onFailure)) onSuccess(err.message)
             })
     }
 }
@@ -65,23 +76,23 @@ export const productDetail = (id, onSuccess, onFailure) => {
                 if (isFunction(onSuccess)) onSuccess(res.message)
             }
         ).catch(err => {
-                if (isFunction(onFailure)) onSuccess(err.meesage)
-            })
+            if (isFunction(onFailure)) onSuccess(err.message)
+        })
     }
 }
 
 export const getCategories = (onSuccess, onFailure) => {
     return dispatch => {
         CategoriesApi.listCategories().then(
-            res=> {
+            res => {
                 dispatch({
                     type: LIST_CATEGORY,
                     payload: res.data
                 })
-                if (isFunction(onSuccess)) onSuccess(res.meesage)
+                if (isFunction(onSuccess)) onSuccess(res.message)
             }
         ).catch(err => {
-            if (isFunction(onFailure)) onSuccess(err.meesage)
+            if (isFunction(onFailure)) onSuccess(err.message)
         })
     }
 }

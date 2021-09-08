@@ -85,7 +85,6 @@ export default function ProductDetails(props) {
     })
     
     useEffect(() => {
-        dispatch(listProducts())
         dispatch(listCart())
         ProductsApi.productDetail(productId).then(res => {
             setProduct(res.data.product)
@@ -106,6 +105,10 @@ export default function ProductDetails(props) {
         }
     }, [color,size])
     const addToCart = (id) => {
+        if(!isAuth) {
+           //login block
+           return;
+        }
         let flag = true
 
         if (!size || size === "") {

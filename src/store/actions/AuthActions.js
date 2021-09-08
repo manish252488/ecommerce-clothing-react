@@ -81,6 +81,9 @@ export const checkJWT = (onSuccess, onFailure) => (dispatch) => {
     })
     .catch((err) => {
       if (isFunction(onFailure)) onFailure(err.message);
+      dispatch({
+        type: SIGN_OUT,
+      });
     });
 };
 

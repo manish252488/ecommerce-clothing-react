@@ -60,7 +60,6 @@ export default function Payment(props) {
         default: false
     })
     useEffect(() => {
-        dispatch(listProducts())
         dispatch(listCart())
     }, [dispatch])
     const addToCart = id => {

@@ -23,7 +23,7 @@ import {
 import { useSelector } from "react-redux";
 import History from "../../../../../@history";
 import { Person, PersonAddOutlined } from "@material-ui/icons";
-import { defaultUser } from "../../../../../assets";
+import { defaultUser, logoLight } from "../../../../../assets";
 
 const useStyles = makeStyles(theme => ({
   primary: {
@@ -50,7 +50,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
       </Grid>}
       {
         !isAuth && <Grid item xs={12} className={classes.primary + " profile-container-1"}>
-           <img src={defaultUser} className="image" alt="profile" />
+           <img src={logoLight} className="image" alt="profile" />
         </Grid>
       }
       <Grid item xs={12}>

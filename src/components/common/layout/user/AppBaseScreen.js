@@ -149,7 +149,7 @@ const AppBaseScreen = (props) => {
   const cart = useSelector(({ Auth }) => Auth.cart)
   const isAuth = useSelector(({ Auth }) => Auth?.isAuthenticated)
   const [isLoggedIn, setIsLoggedIn] = useState(isAuth)
-
+  const searchBar = History.location.pathname ==="/home"
   const [value, setValue] = useState(0)
   useEffect(() => {
     setValue(cart ? cart.length : 0)
@@ -175,7 +175,7 @@ const AppBaseScreen = (props) => {
   return (
     <div className={classes.root} >
       {showHeader && (
-        <AppBar className={classes.app} position={theme.breakpoints.down("md") ? "relative": "sticky"} variant="outlined">
+        <AppBar className={classes.app} position={theme.breakpoints.down("md") && searchBar ? "relative": "sticky"} variant="outlined">
           <Toolbar>
             <Hidden mdUp>
               <IconButton
@@ -209,9 +209,9 @@ const AppBaseScreen = (props) => {
             </Hidden>
             <div className={classes.Grow} />
             <div className={classes.flex}>
-              <Hidden mdDown>
+              {isLoggedIn && <Hidden mdDown>
                 <ProfileMenu />
-              </Hidden>
+              </Hidden>}
               {
                 isLoggedIn && (<>
                   <Hidden xsDown>
@@ -250,7 +250,7 @@ const AppBaseScreen = (props) => {
           </Toolbar>
         </AppBar>
       )}
-     <Hidden mdUp>
+     {searchBar && <Hidden mdUp>
         <AppBar position="sticky" className={classes.nav}>
           <Toolbar className={classes.navTool}>
           <div className={classes.search2}>
@@ -268,7 +268,7 @@ const AppBaseScreen = (props) => {
           </div>
           </Toolbar>
         </AppBar>
-      </Hidden>
+      </Hidden>}
       <Hidden mdUp>
         <NavBar
           onMobileClose={() => setMobileNavOpen(false)}
