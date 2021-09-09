@@ -2,8 +2,8 @@ import axios from "axios";
 import store from "../store";
 import constants from '../config/constants';
 const env = process.env.REACT_APP_NODE_ENV;
-const devUrl = "http://localhost:3001";
-const testUrl = "http://domain.com";
+const devUrl = "https://3e72-103-249-233-160.ngrok.io";
+const testUrl = "https://3e72-103-249-233-160.ngrok.io";
 const prodUrl = "https://domain.com";
 export const url =
   env === "development"
