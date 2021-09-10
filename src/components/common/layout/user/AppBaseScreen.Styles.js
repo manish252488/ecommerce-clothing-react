@@ -73,7 +73,12 @@ export const useStyles = makeStyles((theme) => ({
     flex: {
       display: 'flex',
       flexFlow: 'row',
-      alignItems: 'center'
+      width: 380,
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      [theme.breakpoints.down("md")]: {
+        width: 'auto'
+      }
     },
     app: {
       backgroundColor: theme.palette.secondary.main,

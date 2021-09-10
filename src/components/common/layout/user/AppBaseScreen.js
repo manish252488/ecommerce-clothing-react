@@ -69,7 +69,7 @@ const AppBaseScreen = (props) => {
             <Logo />
 
             <div className={classes.Grow} />
-            <Hidden mdDown>
+            <Hidden xsDown>
               <div className={classes.search}>
                 <IconButton className={classes.searchIcon}>
                   <SearchIcon color="primary" />
@@ -87,7 +87,7 @@ const AppBaseScreen = (props) => {
             </Hidden>
             <div className={classes.Grow} />
             <div className={classes.flex}>
-              {isLoggedIn && <Hidden mdDown>
+              {isLoggedIn && <Hidden xsDown>
                 <ProfileMenu />
               </Hidden>}
               {
@@ -117,7 +117,7 @@ const AppBaseScreen = (props) => {
                 )
               }
               {
-                isLoggedIn && (<Hidden mdUp>
+                isLoggedIn && (<Hidden xsUp>
                   <IconButton onClick={() => History.push("/profile")}>
                     <Person color="primary" />
                   </IconButton>

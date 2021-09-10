@@ -12,6 +12,8 @@ import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import PersonIcon from '@material-ui/icons/Person';
 import InfoIcon from '@material-ui/icons/Info';
+
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {
   Drawer,
   Grid,
@@ -22,7 +24,7 @@ import {
 } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import History from "../../../../../@history";
-import { Person, PersonAddOutlined, PowerOffOutlined } from "@material-ui/icons";
+import { HomeOutlined, Person, PersonAddOutlined, PowerOffOutlined } from "@material-ui/icons";
 import { defaultUser, logoLight } from "../../../../../assets";
 import SignOut from "../../../../auth/SignOut";
 
@@ -56,6 +58,12 @@ const NavBar = ({ onMobileClose, openMobile }) => {
       }
       <Grid item xs={12}>
         <MenuList>
+        <MenuItem onClick={() => History.push("/home")}>
+            <ListItemIcon>
+              <HomeOutlined color="primary" fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit">Home</Typography>
+          </MenuItem>
           <MenuItem>
             <ListItemIcon>
               <AccountBalanceWalletIcon color="primary" fontSize="small" />
@@ -110,13 +118,14 @@ const NavBar = ({ onMobileClose, openMobile }) => {
               Contact
             </Typography>
           </MenuItem>
+          <Divider/>
           <MenuItem onClick={() => History.push("/contact-support")}>
             <SignOut>
-              <Typography color="textSecondary" variant="inherit" noWrap>
+              <Typography color="primary" variant="inherit" noWrap>
                 Logout
               </Typography>
               <ListItemIcon>
-              <PowerOffOutlined color="primary" fontSize="small" />
+              <ExitToAppIcon color="primary" fontSize="small"/>
             </ListItemIcon>
             </SignOut>
           </MenuItem>
