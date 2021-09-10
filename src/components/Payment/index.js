@@ -199,7 +199,7 @@ export default function Payment(props) {
                     </div>
                 }
             </div>
-            {true && <div className="billingPanel">
+            {cart.length > 0 && <div className="billingPanel">
                 <Card component={Paper}>
                     <CardContent>
                         <Grid container>

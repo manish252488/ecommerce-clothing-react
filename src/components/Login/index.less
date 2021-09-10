@@ -1,4 +1,39 @@
 @import "../../Base.less";
+.react-datepicker__header{
+  background-color: #de6262 !important;
+}
+
+.react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::before, .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::after {
+  border-bottom-color: #de6262 !important;
+}
+.react-datepicker__day--selected{
+  background-color: #de6262 !important;
+}
+.react-datepicker__day-name{
+  color: #fff !important;
+}
+.react-datepicker__current-month{
+  color: #fff !important;
+}
+.react-datepicker-popper{
+  z-index: 9999 !important;
+}
+.react-datepicker-wrapper .react-datepicker__input-container input {
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  outline-color:  #de6262;
+}
+.react-datepicker-wrapper {
+  margin-top: 15px;
+  width: 100%;
+  border-color: #ddd;
+  .react-datepicker__input-container{
+    input {
+      padding: 10px 20px;
+      width: 100%;
+    }
+  }
+}
 .auth-card {
 
   position: fixed;
@@ -113,7 +148,7 @@
   color: rgb(240, 105, 105)
 }
 .auth-card-tabs{
-  padding-top: 10% !important;
+  padding-top: 30% !important;
 }
 .loginPanel,
 .signup-form {
@@ -209,7 +244,7 @@ overflow: hidden !important;
     }
   }
   .auth-card-tabs{
-    padding: 150px 30px !important;
+    padding: 10px 30px !important;
   }
 }
 
@@ -218,7 +253,10 @@ overflow: hidden !important;
     display: block !important;
   }
   .auth-card-tabs{
-    padding: 5% 30px !important;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    padding-right: 30px;
+    padding-left: 30px;
   }
   .nav-bar {
     width: 80% !important;

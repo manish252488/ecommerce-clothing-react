@@ -4,7 +4,7 @@ module.exports = {
     "966450144756-fjue2of8js3jpjavn381l5am4npa1oh5.apps.googleusercontent.com",
   google_client_secret: "bul_Uy0EDWczZifIywmdGy12",
   facebook_app_id: "229710308972638",
-  login_redirects: "http://localhost:3000/login"
+  login_redirects: "http://localhost:3000/auth/login"
 };
 
 //company-web google console

@@ -10,7 +10,9 @@ const Auth = {
   deleteAddress: (id) => client.delete("/users/delete-address", {id: id}),
   updateAddress: (data) => client.post("/users/address-update", data),
   updateProfilePicture: (data) => client.post("/users/upload-profile-picture",data),
-  getUserDetail: () => client.get("/users/detail")
+  getUserDetail: () => client.get("/users/detail"),
+  generateOtp:(phone) => client.post("/users/otp-generate", {phoneNo: phone}),
+  verifyOtp: (otp,hash) => client.post("/users/otp-verify",{otp: otp, hash: hash})
 };
 
 export default Auth;

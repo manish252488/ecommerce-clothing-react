@@ -1,17 +1,17 @@
 import authRoles from "../../config/authRoles";
 import PrivacyPolicies from "./PrivacyPolicies";
-import TermsAndPolicy from "./TermsofServices";
+import TermsofServices from "./TermsofServices";
 const ProfileRoutes = {
     auth: authRoles.guest,
     routes: [
         {
             path: "/terms-of-use",
-            component: PrivacyPolicies,
+            component: TermsofServices,
             exact: true,
         },
         {
             path: "/privacy-policies",
-            component: TermsAndPolicy,
+            component: PrivacyPolicies,
             exact: true,
         },
     ],

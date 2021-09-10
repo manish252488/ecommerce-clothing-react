@@ -22,8 +22,9 @@ import {
 } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import History from "../../../../../@history";
-import { Person, PersonAddOutlined } from "@material-ui/icons";
+import { Person, PersonAddOutlined, PowerOffOutlined } from "@material-ui/icons";
 import { defaultUser, logoLight } from "../../../../../assets";
+import SignOut from "../../../../auth/SignOut";
 
 const useStyles = makeStyles(theme => ({
   primary: {
@@ -50,26 +51,26 @@ const NavBar = ({ onMobileClose, openMobile }) => {
       </Grid>}
       {
         !isAuth && <Grid item xs={12} className={classes.primary + " profile-container-1"}>
-           <img src={logoLight} className="image" alt="profile" />
+          <img src={logoLight} className="image" alt="profile" />
         </Grid>
       }
       <Grid item xs={12}>
         <MenuList>
           <MenuItem>
             <ListItemIcon>
-              <AccountBalanceWalletIcon  color="primary" fontSize="small" />
+              <AccountBalanceWalletIcon color="primary" fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit">wallet</Typography>
           </MenuItem>
           <MenuItem onClick={() => History.push("/categories")}>
             <ListItemIcon>
-              <CategoryIcon  color="primary" fontSize="small" />
+              <CategoryIcon color="primary" fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit">categories</Typography>
           </MenuItem>
-          <MenuItem  onClick={() => History.push("/offers")}>
+          <MenuItem onClick={() => History.push("/offers")}>
             <ListItemIcon>
-              <LocalOfferIcon  color="primary" fontSize="small" />
+              <LocalOfferIcon color="primary" fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit" noWrap>
               Offer Zone
@@ -77,7 +78,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           </MenuItem>
           <MenuItem onClick={() => History.push("/myorders")}>
             <ListItemIcon>
-              <LocalShippingIcon  color="primary" fontSize="small" />
+              <LocalShippingIcon color="primary" fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit" noWrap>
               My Orders
@@ -87,7 +88,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
             <ListItemIcon>
               <PersonIcon color="primary" color="primary" fontSize="small" />
             </ListItemIcon>
-            <Typography  variant="inherit" noWrap>
+            <Typography variant="inherit" noWrap>
               Profile
             </Typography>
           </MenuItem>
@@ -108,6 +109,16 @@ const NavBar = ({ onMobileClose, openMobile }) => {
             <Typography color="textSecondary" variant="inherit" noWrap>
               Contact
             </Typography>
+          </MenuItem>
+          <MenuItem onClick={() => History.push("/contact-support")}>
+            <SignOut>
+              <Typography color="textSecondary" variant="inherit" noWrap>
+                Logout
+              </Typography>
+              <ListItemIcon>
+              <PowerOffOutlined color="primary" fontSize="small" />
+            </ListItemIcon>
+            </SignOut>
           </MenuItem>
         </MenuList>
 
