@@ -26,10 +26,10 @@ const useStyles = makeStyles({
 export default function Payment(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
-    const billingData = useSelector(({ Auth }) => Auth.billingData)
+    const billingData = useSelector(({ Auth }) => Auth.billingData || {})
     const cart = useSelector(({ Auth }) => Auth.cart)
-    const savedAddress = useSelector(({ Auth }) => Auth.user.savedAddress)
-    const products = useSelector(({ products }) => products.products)
+    const savedAddress = useSelector(({ Auth }) => Auth.user.savedAddress || [])
+    const products = useSelector(({ products }) => products.products || [])
     const [selectedAddress] = useState(null)
     const [loading, setLoading] = useState(false);
     const [loadingOrder, setLoadingOrder] = useState(false);
@@ -71,7 +71,8 @@ export default function Payment(props) {
     }
     const getProducts = () => {
         let productsAdded = []
-        cart.forEach(val => {
+        if(cart && cart.length > 0){
+        cart?.forEach(val => {
             const sample = products.find(c => c.id === val.product)
             if (sample) {
                 sample.quantity = cart.find(v => v.product === sample.id)?.quantity
@@ -81,6 +82,7 @@ export default function Payment(props) {
                     productsAdded.push(sample)
             }
         })
+        }
         return productsAdded;
     }
     const saveAddress = () => {
@@ -157,6 +159,12 @@ export default function Payment(props) {
             return false
         }
     }
+    console.log({
+        billingData,
+cart,
+savedAddress,
+products,
+    })
     return <AppBaseScreen>
         <Container maxWidth="md" className="payment-container" >
             <Typography variant="h4">  <ShoppingBag /> Cart</Typography>

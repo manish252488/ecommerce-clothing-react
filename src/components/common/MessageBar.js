@@ -17,7 +17,7 @@ export default function MessageBarComponent(props) {
     return <Snackbar
     anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
      open={show} autoHideDuration={5000} onClose={handleClose} TransitionComponent={Slide}>
-        <Alert onClose={handleClose} severity="error">
+        <Alert onClose={handleClose} severity={type}>
             <AlertTitle style={{textTransform: 'uppercase'}}>{type}</AlertTitle>
             {message}!
         </Alert>

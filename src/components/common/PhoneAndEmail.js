@@ -106,14 +106,14 @@ export default function PhoneAndEmail({ phone, onChange = () => { }, setAction =
   }
   const validate = () => {
     if (error === null && phoneNo && phoneNo !== "") {
-      return false
-    } else return true
+      return true
+    } else return false
   }
   const validateOtp = () => {
     if (hash && hash !== "" && otp && checked) {
-      return false
-    } else {
       return true
+    } else {
+      return false
     }
   }
   return <>
@@ -136,7 +136,7 @@ export default function PhoneAndEmail({ phone, onChange = () => { }, setAction =
         onChange={(ev) => setPhoneNumber(ev.target.value)}
         onBlur={(ev) => CheckIndianNumber(ev.target.value)}
         startAdornment={<InputAdornment position="start">+91</InputAdornment>}
-        endAdornment={loading ? <InputAdornment><CircularProgress size={20} /></InputAdornment> : <></>}
+        endAdornment={loading ? <InputAdornment position="end"><CircularProgress size={20} /></InputAdornment> : <></>}
         labelWidth={70}
         disabled={inputDisabled}
       />
@@ -148,7 +148,7 @@ export default function PhoneAndEmail({ phone, onChange = () => { }, setAction =
         onClick={() => CheckIndianNumber(phone)}
         fullWidth
         size="small"
-        disabled={validate()}
+        disabled={!validate()}
       >
         {buttonText}
       </Button></>
@@ -188,7 +188,7 @@ export default function PhoneAndEmail({ phone, onChange = () => { }, setAction =
           size="small"
         startIcon={loading ? <CircularProgress color="secondary" size={15} /> : <></>}
 
-          disabled={validate() && validateOtp()}
+          disabled={!(validate() === true && validateOtp() === true)}
         >
           {'Verify'}
         </Button>

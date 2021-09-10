@@ -19,6 +19,7 @@ export const signUp = (data, onSuccess, onFailure) => (dispatch) => {
           token: data.data.token,
         };
         delete new_data.user.token;
+        console.log("new data", new_data)
         dispatch({
           type: SET_USER,
           payload: new_data,

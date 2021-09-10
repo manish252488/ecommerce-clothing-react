@@ -34,6 +34,7 @@ const Authpage = (props) => {
   if (isAuthenticated) {
     History.replace("/home")
   }
+
   return (
     <Card className="auth-card" component={Paper}>
       <IconButton color="secondary" className="iconback" onClick={() => History.goBack()}>
@@ -42,7 +43,7 @@ const Authpage = (props) => {
       <Hidden mdDown>
         <div className="image" style={{ backgroundImage: `url(${loginPage})` }}>
           <div>
-            {/* <img className="icon" src={logoIcon} alt="logo" /> */}
+            <img className="icon" src={logoIcon} alt="logo" />
           </div>
           <div className="nav-bar">
             <Button fullWidth startIcon={<Facebook />} variant="contained" target="_blank" href={SocialLinks.Facebook}><Typography>@dapperfolks</Typography></Button>
@@ -54,7 +55,7 @@ const Authpage = (props) => {
       <CardContent className="auth-card-tabs">
         <div className="tabs">
       
-            {/* <Logo style={{ width: '50%', height: 'auto', marginLeft: '25%' }} /> */}
+            <Logo style={{ width: '50%', height: 'auto', marginLeft: '25%' }} />
      
           {renderIfElse(tab === tabs.login, <Login changeTab={() => setTab(tabs.signup)} />,
             <SignUp changeTab={() => setTab(tabs.login)} />)}
