@@ -9,7 +9,7 @@ import {
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { authPage, setMailAccount, signUp } from "../../store/actions";
+import { authPage, setMailAccount, showMessageBar, signUp } from "../../store/actions";
 import "./index.less";
 import History from "../../@history";
 import PhoneAndEmail from "../common/PhoneAndEmail";
@@ -92,10 +92,11 @@ class SignUp extends React.Component {
   };
   onSuccess = (path) => {
     this.setState({ loading: false });
+    this.props.showMessageBar("success", "Registeration Successfull!")
     History.goBack()
-
   };
   onFailure = (msg) => {
+    this.props.showMessageBar("error", msg)
     this.setState((prev) => {
       return {
         ...prev,
@@ -197,6 +198,7 @@ class SignUp extends React.Component {
             color="primary"
             defaultValue={user.password1}
             label="Password"
+            autoComplete="new-password"
             fullWidth
             onChange={(ev) => this.onChange("password1", ev.target.value)}
             helperText={errors.password1}
@@ -207,6 +209,7 @@ class SignUp extends React.Component {
             color="primary"
             defaultValue={user.password2}
             label="Re-Enter you password"
+            autoComplete="new-password"
             fullWidth
             onChange={(ev) => this.onChange("password2", ev.target.value)}
             helperText={errors.password2}
@@ -214,7 +217,7 @@ class SignUp extends React.Component {
           />
           <Button
             startIcon={
-              loading && <CircularProgress size={20} color="secondary" />
+              loading && <CircularProgress size={20} color="primary" />
             }
             variant="contained"
             color="secondary"
@@ -226,7 +229,7 @@ class SignUp extends React.Component {
          
         </>}
         <Divider style={{ marginTop: 20, marginBottom: 20 }} />
-          <Link to="/auth/login">already a user? LOG IN</Link>
+          <Link onClick={() => History.push("/login")}>already a user? LOG IN</Link>
       </div>
     );
   }
@@ -235,6 +238,7 @@ class SignUp extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   register: bindActionCreators(signUp, dispatch),
   setMailAccount: bindActionCreators(setMailAccount, dispatch),
-  authPage: bindActionCreators(authPage, dispatch)
+  authPage: bindActionCreators(authPage, dispatch),
+  showMessageBar: bindActionCreators(showMessageBar,dispatch)
 });
 export default connect(null, mapDispatchToProps)(SignUp);

@@ -10,6 +10,7 @@ import History from "../../@history";
 import ReactFacebookLogin from "react-facebook-login";
 import { deviceDetect } from "react-device-detect";
 import { SocialLinks } from "../../config/constants/constants";
+import { showMessageBar } from "../../store/actions";
 const Login = ({ changeTab }) => {
   const theme = useTheme()
   const [password, setPassword] = useState("");
@@ -43,7 +44,8 @@ const Login = ({ changeTab }) => {
   };
   const onFailure = (error) => {
     setLoading(false);
-    setError(error);
+    console.log(error)
+    dispatch(showMessageBar("error", error))
   };
   const login = () => {
     const deviceData = deviceDetect();
@@ -61,6 +63,7 @@ const Login = ({ changeTab }) => {
   };
   return (
     <div className="loginPanel">
+      <form>
       <Typography variant="h5">Log In</Typography>
       <TextField
         type="email"
@@ -68,6 +71,7 @@ const Login = ({ changeTab }) => {
         color="primary"
         defaultValue={email}
         label="Email/Mobile No *"
+        autoComplete="username"
         fullWidth
         size="small"
         onChange={(ev) => changeEmail(ev.target.value)}
@@ -80,6 +84,7 @@ const Login = ({ changeTab }) => {
         color="primary"
         defaultValue={password}
         label="Password *"
+        autoComplete="current-password"
         fullWidth
         onChange={(ev) => setPassword(ev.target.value)}
         helperText={errors.password}
@@ -94,7 +99,7 @@ const Login = ({ changeTab }) => {
       >
         Login
       </Button>
-
+      </form>
       <Grid container>
         <Grid item xs={8}>
           <Link href="#" color="primary" variant="body2">

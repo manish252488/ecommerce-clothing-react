@@ -73,9 +73,10 @@
 
   <script>
     var chatbox = document.getElementById('fb-customer-chat');
-    chatbox.setAttribute("page_id", "103010518787539");
-    chatbox.setAttribute("attribution", "biz_inbox");
-
+    if (chatbox) {
+      chatbox.setAttribute("page_id", "103010518787539");
+      chatbox.setAttribute("attribution", "biz_inbox");
+    }
     window.fbAsyncInit = function () {
       FB.init({
         xfbml: true,
@@ -91,7 +92,8 @@
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
   </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQ7Ez2dV_JjOS8lN1cxK5OklgX5-JFQEE&libraries=places"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQ7Ez2dV_JjOS8lN1cxK5OklgX5-JFQEE&libraries=places"></script>
 </body>
 
 

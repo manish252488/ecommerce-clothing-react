@@ -56,13 +56,18 @@ export const login = (
           payload: new_data,
         });
       } else {
+        console.log("inres")
         if (isFunction(onFailure)) onFailure(data.message);
       }
     })
 
     .catch((err) => {
+      if(!err.status){
+        if (isFunction(onFailure))
+        onFailure("Invalid Email or Password!");
+      }else 
       if (isFunction(onFailure))
-        onFailure("Please sign up before login/ try again later!");
+        onFailure(err.message);
     });
 };
 

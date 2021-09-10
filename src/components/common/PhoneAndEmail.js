@@ -1,8 +1,10 @@
-import { Button, Checkbox, CircularProgress, FormControl, FormControlLabel, FormHelperText, InputAdornment, InputLabel, Link, OutlinedInput, TextField, Typography } from '@material-ui/core';
+import { Button, Checkbox, CircularProgress, Divider, FormControl, FormControlLabel, FormHelperText, InputAdornment, InputLabel, Link, OutlinedInput, TextField, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Auth from '../../api/auth';
+import OtpInput from 'react-otp-input';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -15,12 +17,16 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 12,
     marginTop: -6
   },
-  textField: {
-  },
+  error: {
+    color: "red",
+    textTransform: 'capitalize'
+  }
 }));
-
+const webInput = { padding: 10, width: 30, margin: 5, outlineColor: "#de6262" }
+const mobileInput = { padding: 5, width: 30, margin: 5, outlineColor: "#de6262" }
 export default function PhoneAndEmail({ phone, onChange = () => { }, setAction = () => { }, buttonText }) {
   const classes = useStyles()
+  const theme = useTheme()
   const [loading, setLoading] = useState(false);
   const [checked, setChecked] = useState(false);
   const [error, setError] = useState(null);
@@ -32,6 +38,10 @@ export default function PhoneAndEmail({ phone, onChange = () => { }, setAction =
   useEffect(() => {
     onChange("phoneNo", phoneNo)
   }, [phoneNo])
+  useEffect(() => {
+    setResponseMessage(null)
+    setError(null)
+  }, [otp])
   const handleChangeCheckbox = (e) => {
     setChecked(e.target.checked);
   };
@@ -64,17 +74,18 @@ export default function PhoneAndEmail({ phone, onChange = () => { }, setAction =
       }
     }
   };
+
   const verify = () => {
-    const otpval= /^\d{6}$/
+    const otpval = /^\d{6}$/
     setError(null)
     setLoading(true)
-    if(otp && otpval.test(otp)){
-      Auth.verifyOtp(otp, hash).then(res=> {
+    if (otp && otpval.test(otp)) {
+      Auth.verifyOtp(otp, hash).then(res => {
         setLoading(false)
-        if(res.data && res.data.status){
+        if (res.data && res.data.status) {
           // otp verified
           setAction(2)
-        }else {
+        } else {
           setError(res.data)
         }
       }).catch(err => {
@@ -85,16 +96,33 @@ export default function PhoneAndEmail({ phone, onChange = () => { }, setAction =
       setError("OTP not Valid!")
     }
   }
+  const ChangeNo = () => {
+    setError(null)
+    setResponseMessage(null)
+    setOtp(null)
+    setPhoneNumber(null)
+    sethash(null);
+    setInputDisabled(false)
+  }
   const validate = () => {
-    if (error === null && checked && phoneNo && phoneNo !== "" && hash && hash !== "" && otp) {
+    if (error === null && phoneNo && phoneNo !== "") {
       return false
     } else return true
   }
+  const validateOtp = () => {
+    if (hash && hash !== "" && otp && checked) {
+      return false
+    } else {
+      return true
+    }
+  }
   return <>
-   <Typography variant="h6">
-          Verify your Mobile Number to continue.
-        </Typography>
-    {!hash && <FormControl
+    <Typography variant="h5">
+      Verify your Mobile Number to continue.
+    </Typography>
+    {hash && <Link onClick={ChangeNo}>change no? {phone}</Link>}
+    <Divider style={{ marginTop: 8, marginBottom: 15 }} />
+    {!hash && <><FormControl
       size="small"
       fullWidth
       className={clsx(classes.margin, classes.textField)}
@@ -103,6 +131,7 @@ export default function PhoneAndEmail({ phone, onChange = () => { }, setAction =
         className={classes.position} htmlFor="outlined-adornment-amount">Mobile No.</InputLabel>
       <OutlinedInput
         value={phoneNo}
+        inputProps={{ maxLength: 10, inputMode: "numeric" }}
         onFocus={() => setError(null)}
         onChange={(ev) => setPhoneNumber(ev.target.value)}
         onBlur={(ev) => CheckIndianNumber(ev.target.value)}
@@ -112,51 +141,58 @@ export default function PhoneAndEmail({ phone, onChange = () => { }, setAction =
         disabled={inputDisabled}
       />
       <FormHelperText style={{ color: 'red' }}>{error}</FormHelperText>
-    </FormControl>}
+    </FormControl>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => CheckIndianNumber(phone)}
+        fullWidth
+        size="small"
+        disabled={validate()}
+      >
+        {buttonText}
+      </Button></>
+
+    }
     {
       hash && (<>
-        <FormControl
-          size="small"
-          fullWidth
-          className={clsx(classes.margin, classes.textField)}
-        >
-          <InputLabel
-            className={classes.position} htmlFor="outlined-adornment-amount">Enter OTP</InputLabel>
-          <OutlinedInput
-            value={otp}
-            onFocus={() => setError(null)}
-            onChange={(ev) => setOtp(ev.target.value)}
-            endAdornment={loading ? <InputAdornment><CircularProgress size={20} /></InputAdornment> : <></>}
-            labelWidth={70}
-          />
-          <FormHelperText style={{ color: 'red' }}>{error}</FormHelperText>
-        </FormControl>
-        <Typography variant="h6">
-          {responseMessage}
-        </Typography>
-     </> )
-    }
-    <FormControlLabel
-      control={
-        <Checkbox
-          color="primary"
-          defaultChecked={checked}
-          onChange={handleChangeCheckbox}
+        <OtpInput
+          shouldAutoFocus={true}
+          inputStyle={theme.breakpoints.down("md") ? mobileInput : webInput}
+          value={otp}
+          onChange={(val) => setOtp(val)}
+          numInputs={6}
+          separator={<span>-</span>}
         />
-      }
-      label={<Typography>By continuing, you agree to DapperFolks's{<Link target="_blank" href="/terms-of-use">Terms of Use</Link>}and
-        <Link target="_blank" href="/privacy-policies">Privacy Policy</Link>
-      </Typography>}
-    />
-    <Button
-      variant="contained"
-      color="primary"
-      onClick={verify}
-      fullWidth
-      size="small"
-      disabled={validate()}
-    >
-      {!hash ? buttonText : 'Verify'}
-    </Button>
+        <Typography style={{ marginLeft: 5 }} variant="h6" className={error ? classes.error : ""}>
+          {error || responseMessage}
+        </Typography>
+        <Link style={{ marginTop: 10 }} onClick={() => CheckIndianNumber(phone)}>RESEND OTP</Link>
+        <FormControlLabel
+          control={
+            <Checkbox
+              color="primary"
+              defaultChecked={checked}
+              onChange={handleChangeCheckbox}
+            />
+          }
+          label={<Typography>By continuing, you agree to DapperFolks's{<Link target="_blank" href="/terms-of-use">Terms of Use</Link>}and
+            <Link target="_blank" href="/privacy-policies">Privacy Policy</Link>
+          </Typography>}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={verify}
+          fullWidth
+          size="small"
+        startIcon={loading ? <CircularProgress color="secondary" size={15} /> : <></>}
+
+          disabled={validate() && validateOtp()}
+        >
+          {'Verify'}
+        </Button>
+      </>)
+    }
   </>
 }
