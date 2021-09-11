@@ -58,7 +58,7 @@ export default function ProfileMenu() {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" startIcon={/* user.picture */ true ? <img className={classes.profileicon} src={logoIcon} alt="profile"/>:<Person color="primary"/>} aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick} size="small">
+      <Button variant="outlined" color="primary" startIcon={user.picture ? <img className={classes.profileicon} src={user.picture} alt="profile"/>:<Person color="primary"/>} aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick} size="small">
         <span className={classes.text}>{user.name}</span>
       </Button>
       <Menu

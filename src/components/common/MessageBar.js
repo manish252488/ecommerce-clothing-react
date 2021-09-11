@@ -1,4 +1,4 @@
-import { Snackbar } from '@material-ui/core';
+import { Snackbar, Typography } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,7 +19,7 @@ export default function MessageBarComponent(props) {
      open={show} autoHideDuration={5000} onClose={handleClose} TransitionComponent={Slide}>
         <Alert onClose={handleClose} severity={type}>
             <AlertTitle style={{textTransform: 'uppercase'}}>{type}</AlertTitle>
-            {message}!
+        <Typography style={{textTransform: 'uppercase'}}>{message}!</Typography>
         </Alert>
     </Snackbar>
 }

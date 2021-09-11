@@ -1,4 +1,4 @@
-import { AppBar, Button, Chip, Hidden, IconButton, makeStyles, Toolbar, useTheme } from "@material-ui/core";
+import { AppBar, Button, Chip, Hidden, IconButton, Toolbar, useTheme, useMediaQuery } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import "../index.less";
 import PropTypes from "prop-types";
@@ -14,9 +14,11 @@ import InputBase from '@material-ui/core/InputBase';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
-import {useStyles} from './AppBaseScreen.Styles'
+import { useStyles } from './AppBaseScreen.Styles'
 const AppBaseScreen = (props) => {
+
   const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("xs"));
   const classes = useStyles()
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
   const {
@@ -27,7 +29,7 @@ const AppBaseScreen = (props) => {
   const cart = useSelector(({ Auth }) => Auth.cart)
   const isAuth = useSelector(({ Auth }) => Auth?.isAuthenticated)
   const [isLoggedIn, setIsLoggedIn] = useState(isAuth)
-  const searchBar = History.location.pathname ==="/home"
+  const searchBar = History.location.pathname === "/home"
   const [value, setValue] = useState(0)
   useEffect(() => {
     setValue(cart ? cart.length : 0)
@@ -47,13 +49,12 @@ const AppBaseScreen = (props) => {
     }
   }
   const showAuthPanel = () => {
-    // dispatch(authPage(true))
     History.push("/login")
   }
   return (
     <div className={classes.root} >
       {showHeader && (
-        <AppBar className={classes.app} position={theme.breakpoints.down("md") && searchBar ? "relative": "sticky"} variant="outlined">
+        <AppBar className={classes.app} position={searchBar && matches ? "relative" : "sticky"} variant="outlined">
           <Toolbar>
             <Hidden mdUp>
               <IconButton
@@ -69,7 +70,7 @@ const AppBaseScreen = (props) => {
             <Logo />
 
             <div className={classes.Grow} />
-            <Hidden xsDown>
+            <Hidden mdDown>
               <div className={classes.search}>
                 <IconButton className={classes.searchIcon}>
                   <SearchIcon color="primary" />
@@ -87,9 +88,7 @@ const AppBaseScreen = (props) => {
             </Hidden>
             <div className={classes.Grow} />
             <div className={classes.flex}>
-              {isLoggedIn && <Hidden xsDown>
-                <ProfileMenu />
-              </Hidden>}
+
               {
                 isLoggedIn && (<>
                   <Hidden xsDown>
@@ -101,6 +100,9 @@ const AppBaseScreen = (props) => {
                       color="primary"
                     />
                   </Hidden>
+                  <Hidden xsDown>
+                    <ProfileMenu />
+                  </Hidden>
                   <IconButton onClick={() => History.push("/cart")}>
                     <StyledBadge badgeContent={value} color="primary">
                       <ShoppingCartRounded color="primary" />
@@ -109,15 +111,8 @@ const AppBaseScreen = (props) => {
                 </>
                 )
               }
-
               {
-                !isLoggedIn && (
-                  <Button onClick={showAuthPanel} startIcon={<Person color="primary" />} variant="contained" color="secondary" size="small">
-                    Login</Button>
-                )
-              }
-              {
-                isLoggedIn && (<Hidden xsUp>
+                isLoggedIn && (<Hidden mdUp>
                   <IconButton onClick={() => History.push("/profile")}>
                     <Person color="primary" />
                   </IconButton>
@@ -125,25 +120,31 @@ const AppBaseScreen = (props) => {
                 )
               }
             </div>
+            {
+              !isLoggedIn && (
+                <Button onClick={showAuthPanel} startIcon={<Person color="primary" />} variant="contained" color="secondary" size="small">
+                  Login</Button>
+              )
+            }
           </Toolbar>
         </AppBar>
       )}
-     {searchBar && <Hidden mdUp>
+      {searchBar && <Hidden mdUp>
         <AppBar position="sticky" className={classes.nav}>
           <Toolbar className={classes.navTool}>
-          <div className={classes.search2}>
-            <div className={classes.searchIcon2}>
-              <SearchIcon />
+            <div className={classes.search2}>
+              <div className={classes.searchIcon2}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot2,
+                  input: classes.inputInput2,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+              />
             </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot2,
-                input: classes.inputInput2,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
           </Toolbar>
         </AppBar>
       </Hidden>}

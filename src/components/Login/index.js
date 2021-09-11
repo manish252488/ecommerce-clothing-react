@@ -55,7 +55,7 @@ const Authpage = (props) => {
       <CardContent className="auth-card-tabs">
         <div className="tabs">
       
-            <Logo style={{ width: '50%', height: 'auto', marginLeft: '25%' }} />
+            <Logo style={{ width: '50%', height: 'auto' }} />
      
           {renderIfElse(tab === tabs.login, <Login changeTab={() => setTab(tabs.signup)} />,
             <SignUp changeTab={() => setTab(tabs.login)} />)}

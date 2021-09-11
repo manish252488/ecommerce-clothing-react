@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Grid, Link, TextField, Typography, useTheme } from "@material-ui/core";
+import { Button, CircularProgress, Grid, Link, TextField, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import GoogleLogin from "react-google-login";
 import { Facebook } from "@material-ui/icons";
 import React, { useState } from "react";
@@ -13,6 +13,7 @@ import { SocialLinks } from "../../config/constants/constants";
 import { showMessageBar } from "../../store/actions";
 const Login = ({ changeTab }) => {
   const theme = useTheme()
+  const matches = useMediaQuery(theme.breakpoints.down("md"))
   const [password, setPassword] = useState("");
   const [email, changeEmail] = useState("");
   const [, setError] = useState("");
@@ -73,6 +74,7 @@ const Login = ({ changeTab }) => {
         label="Email/Mobile No *"
         autoComplete="username"
         fullWidth
+        type="tel" 
         size="small"
         onChange={(ev) => changeEmail(ev.target.value)}
         helperText={errors.email}
@@ -108,8 +110,8 @@ const Login = ({ changeTab }) => {
         </Grid>
       </Grid>
       <Grid container justifyContent="flex-end" className="or-divider">
-        <Grid item xs={theme.breakpoints.down("md")? 12 : 6} style={{ textAlign: 'right' }}>
-          <Link onClick={changeTab}>Create an account!</Link>
+        <Grid item xs={matches ? 12 : 6} style={{ textAlign: 'right' }}>
+          <Link onClick={() => History.push("/signup")}>Create an account!</Link>
         </Grid>
       </Grid>
       <Grid container>

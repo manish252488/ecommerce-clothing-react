@@ -2,6 +2,9 @@ import {
   Button,
   CircularProgress,
   Divider,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
   Link,
   TextField,
   Typography,
@@ -82,6 +85,12 @@ class SignUp extends React.Component {
       err.password2 = "passwords do not match!";
       flag = false;
     }
+    if(!this.validatePassword(user.password1,"password1")){
+      flag=false;
+    }
+    if(!this.validatePassword(user.password2,"password2")){
+      flag=false;
+    }
     if (user.phoneNo === "") {
       err.phoneNo = "phoneNo cannot be empty!";
       alert("movi;")
@@ -90,6 +99,19 @@ class SignUp extends React.Component {
     this.setState({ errors: err });
     return flag;
   };
+
+  validatePassword = (val,type) => {
+    const regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+      this.setState({errors: {[type]: ""}})
+    if(regularExpression.test(val)){
+      return true
+    }else {
+      let password1 = "Use 1 uppercase and 1 special character and number!";
+      this.setState({errors: {[type]: password1}})
+      return false
+    }
+  }
+
   onSuccess = (path) => {
     this.setState({ loading: false });
     this.props.showMessageBar("success", "Registeration Successfull!")
@@ -129,9 +151,9 @@ class SignUp extends React.Component {
         phoneNo: this.state.user.phoneNo,
         source: SocialLinks.signinOptions.mobile,
         marketingNotification: this.state.checked,
-        deviceData: [deviceData],
+        deviceData: deviceData,
         marketingNotification: true,
-        birthdate: this.state.user.birthdate
+        birthdate: this.state.user.birthdate,
       };
       console.log(data)
       this.props.register(data, this.onSuccess, this.onFailure);
@@ -184,7 +206,9 @@ class SignUp extends React.Component {
             helperText={errors.lname}
             size="small"
           />
+          <Typography variant="subtitle1" style={{fontSize: 12, marginTop: 15,marginLeft: 10, color: "rgba(0, 0, 0, 0.54)"}}>Birthdate</Typography>
           <DatePicker
+            name="date"
             maxDate={new Date()}
             className="date-picker"
             dateFormat="dd/MM/yyyy"
@@ -198,6 +222,7 @@ class SignUp extends React.Component {
             color="primary"
             defaultValue={user.password1}
             label="Password"
+            onBlur={(ev) => this.validatePassword(ev.target.value, "password1")}
             autoComplete="new-password"
             fullWidth
             onChange={(ev) => this.onChange("password1", ev.target.value)}
@@ -208,6 +233,7 @@ class SignUp extends React.Component {
             variant="outlined"
             color="primary"
             defaultValue={user.password2}
+            onBlur={(ev) => this.validatePassword(ev.target.value, "password2")}
             label="Re-Enter you password"
             autoComplete="new-password"
             fullWidth
@@ -217,10 +243,10 @@ class SignUp extends React.Component {
           />
           <Button
             startIcon={
-              loading && <CircularProgress size={20} color="primary" />
+              loading && <CircularProgress size={20} color="secondary" />
             }
             variant="contained"
-            color="secondary"
+            color="primary"
             onClick={this.register}
             fullWidth
           >

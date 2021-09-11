@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CountrySelect() {
+export default function CountrySelect({selectCountry, className}) {
   const classes = useStyles();
 
   return (
@@ -39,16 +39,20 @@ export default function CountrySelect() {
       size="small"
       color="primary"
       autoHighlight
+      onChange={(ev) => selectCountry(countries[ev.target.value].label)}
       getOptionLabel={(option) => option.label}
       renderOption={(option) => (
         <React.Fragment>
           <span>{countryToFlag(option.code)}</span>
-          {option.label} ({option.code}) +{option.phone}
+          {option.label} ({option.code})
         </React.Fragment>
       )}
       renderInput={(params) => (
         <TextField
           {...params}
+          className={className}
+          fullWidth
+          size="small"
           label="Choose a country"
           variant="outlined"
           inputProps={{
@@ -63,7 +67,8 @@ export default function CountrySelect() {
 
 // From https://bitbucket.org/atlassian/atlaskit-mk-2/raw/4ad0e56649c3e6c973e226b7efaeb28cb240ccb0/packages/core/select/src/data/countries.js
 const countries = [
-  { code: 'AD', label: 'Andorra', phone: '376' },
+  { code: 'IN', label: 'India', phone: '91' },
+ /* { code: 'AD', label: 'Andorra', phone: '376' },
   { code: 'AE', label: 'United Arab Emirates', phone: '971' },
   { code: 'AF', label: 'Afghanistan', phone: '93' },
   { code: 'AG', label: 'Antigua and Barbuda', phone: '1-268' },
@@ -166,7 +171,6 @@ const countries = [
   { code: 'IE', label: 'Ireland', phone: '353' },
   { code: 'IL', label: 'Israel', phone: '972' },
   { code: 'IM', label: 'Isle of Man', phone: '44' },
-  { code: 'IN', label: 'India', phone: '91' },
   { code: 'IO', label: 'British Indian Ocean Territory', phone: '246' },
   { code: 'IQ', label: 'Iraq', phone: '964' },
   { code: 'IR', label: 'Iran, Islamic Republic of', phone: '98' },
@@ -310,5 +314,5 @@ const countries = [
   { code: 'YT', label: 'Mayotte', phone: '262' },
   { code: 'ZA', label: 'South Africa', phone: '27' },
   { code: 'ZM', label: 'Zambia', phone: '260' },
-  { code: 'ZW', label: 'Zimbabwe', phone: '263' },
+  { code: 'ZW', label: 'Zimbabwe', phone: '263' },  */
 ];

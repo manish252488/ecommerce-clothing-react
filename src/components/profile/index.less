@@ -1,2 +1,97 @@
 @import '../../Base.less';
 
+.container {
+  min-height: 100vh;
+  .MuiGrid-container{
+    display: flex;
+    justify-content: center;
+    .image-handler{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding:  12px !important;
+        background: #ff9f9fde !important;
+        border-radius: 20px;
+        div {
+            width: 140px !important;
+            height: 140px !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            cursor: pointer !important;
+            .sc-bdfBQB{
+                margin-top: 0 !important;
+                width: 200px !important;
+                background: @theme-color-100 !important;
+                cursor: pointer !important;
+            }
+            .sc-hKgJUU{ 
+                width: 40px !important;
+                position: absolute !important;
+                right: 0 !important;
+                cursor: pointer !important;
+            }
+        }
+       
+    }
+    .MuiAccordionDetails-root{
+      flex-wrap: wrap;
+      .MuiCard-root{
+        margin: 5px;
+        .MuiGrid-container {
+          flex-flow: row;
+      }
+      }
+  }
+  }
+    .react-datepicker__header{
+        background-color: #de6262 !important;
+      }
+      
+      .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::before, .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::after {
+        border-bottom-color: #de6262 !important;
+      }
+      .react-datepicker__day--selected{
+        background-color: #de6262 !important;
+      }
+      .react-datepicker__day-name{
+        color: #fff !important;
+      }
+      .react-datepicker__current-month{
+        color: #fff !important;
+      }
+      .react-datepicker-popper{
+        z-index: 9999 !important;
+      }
+      .MuiFormHelperText-root {
+        color: #de6262 !important;
+      } 
+      .react-datepicker-wrapper .react-datepicker__input-container input {
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        outline-color:  #de6262;
+      }
+      .react-datepicker-wrapper {
+        margin-top: 0px;
+        width: 100%;
+        border-color: #ddd;
+        .react-datepicker__input-container{
+          input {
+            padding: 10px 20px;
+            width: 100%;
+          }
+        }
+      }
+      
+  
+}
+
+@media @phone-strict {
+  .MuiAccordionDetails-root{
+      flex-flow: column;
+      .MuiCard-root{
+        margin-top: 15px;
+      }
+  }
+}
