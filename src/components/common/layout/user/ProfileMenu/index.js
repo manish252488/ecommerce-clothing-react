@@ -72,7 +72,7 @@ export default function ProfileMenu() {
       >
         <MenuItem className={classes.profile} onClick={() => History.push("/profile")}>
         <ListItemIcon>
-        {user.picture && <img className={classes.profilepic} src={logoIcon} alt="profile"/>}
+        {user.picture && <img className={classes.profilepic} src={user.picture} alt="profile"/>}
                 {!user.picture && <Person className={classes.profilepic}/>}
           </ListItemIcon>
                 

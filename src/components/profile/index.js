@@ -17,6 +17,7 @@ import DetailView from './components/DetailView';
 import AddressUpdate from './components/AddressUpdate';
 import DetailUpdate from './components/DetailUpdate';
 import ResponsiveDialogs from '../common/ResponsiveDialogs';
+import { defaultUser } from '../../assets';
 
 const Profile = (props) => {
     const theme = useTheme()
@@ -26,14 +27,29 @@ const Profile = (props) => {
     const user = useSelector(({ Auth }) => Auth.user)
     const [userData, setUserData] = useState(null)
     const [imageSrc, setImageSrc] = useState()
-    const [addressEditor,openAddressEditor] = useState(false)
-    const [selectedAddress,setSelectedAddress] = useState(null)
+    const [addressEditor, openAddressEditor] = useState(false)
+    const [selectedAddress, setSelectedAddress] = useState(null)
     // container states
     const [profileEditor, openProfileEditor] = useState(false)
     const fetchUserDetails = () => {
         Auth.getUserDetail().then(res => setUserData(res.data))
             .catch(err => console.log(err.message))
     }
+    useEffect(() => {
+        console.log(imageSrc, '............')
+        if (imageSrc) {
+            const formdata = new FormData()
+            formdata.append('file', imageSrc)
+            Auth.updateProfilePicture(formdata).then(res => {
+                dispatch(checkJWT())
+                dispatch(showMessageBar("success", res.message))
+                setImageSrc(null)
+            }).catch(err => {
+                dispatch(showMessageBar("error", err.message))
+                setImageSrc(null)
+            })
+        }
+    }, [imageSrc])
     useEffect(() => {
         if (isAuth) {
             History.replace("/profile/" + user.id)
@@ -44,7 +60,7 @@ const Profile = (props) => {
         //eslint-disable-next-line
     }, [isAuth, user])
     const handleImageSelect = (e) => {
-        setImageSrc(URL.createObjectURL(e.target.files[0]))
+        setImageSrc(e.target.files[0])
     }
     const setdefaultAdd = (id) => {
         Auth.setDefaultAddress(id).then(res => {
@@ -58,74 +74,77 @@ const Profile = (props) => {
 
 
     const ProfileComponent = () => (
-            <Card variant="outlined" className="container">
-                <CardContent>
-                    <Grid container>
-                        <Grid item xs={matches ? 12 : 8} >
-                            <div className="image-handler">
-                            <ImageUpload
-                                handleImageSelect={handleImageSelect}
-                                imageSrc={imageSrc}
-                                setImageSrc={setImageSrc}
-                                style={{
-                                    width: 700,
-                                    height: 500,
-                                    background: 'gold'
-                                }}
-                            />
+        <Card variant="outlined" className="container">
+            <CardContent>
+                <Grid container>
+                    <Grid item xs={matches ? 12 : 8} >
+                        <div className="image-handler">
+                            <div className="image-container" style={{background: `url('${userData.picture || defaultUser}')`}}>
+                                <ImageUpload
+                                    handleImageSelect={handleImageSelect}
+
+                                    setImageSrc={setImageSrc}
+                                    style={{
+                                        width: 700,
+                                        height: 500,
+                                        background: 'gold'
+                                    }}
+                                /> 
                             </div>
 
-                            <Container maxWidth="lg" className="profileForm">
-                                <DetailView user={userData} editOnClick={() => openProfileEditor(true)}/>
-                                <Divider />
-                                <Accordion defaultExpanded>
-                                    <AccordionSummary expandIcon={<ExpandMore />}>
-                                    <Typography style={{fontWeight: 'bold'}}>Saved Address</Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        {
-                                            userData?.savedAddress?.map((val, index) => <AddressCard key={index} data={val} setDefaultAdd={setdefaultAdd} width={300} selectEditAddress={setSelectedAddress} />)
-                                        }
-                                    </AccordionDetails>
-                                    <AccordionActions>
-                                        <Button variant="contained" color="primary" size="small" onClick={() => openAddressEditor(true)}>Add Address</Button>
-                                    </AccordionActions>
-                                </Accordion>
-                                <Accordion>
-                                    <AccordionSummary expandIcon={<ExpandMore />}>
-                                       <Typography style={{fontWeight: 'bold'}}>Login Activities</Typography> 
-                                    </AccordionSummary>
-                                    {console.log(userData)}
-                                    <AccordionDetails >
-                                        <List>
+                        </div>
+
+                        <Container maxWidth="lg" className="profileForm">
+                            <DetailView user={userData} editOnClick={() => openProfileEditor(true)} />
+                            <Divider />
+                            <Accordion defaultExpanded>
+                                <AccordionSummary expandIcon={<ExpandMore />}>
+                                    <Typography style={{ fontWeight: 'bold' }}>Saved Address</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    {
+                                        userData?.savedAddress?.map((val, index) => <AddressCard key={index} data={val} setDefaultAdd={setdefaultAdd} width={300} selectEditAddress={setSelectedAddress} />)
+                                    }
+                                </AccordionDetails>
+                                <AccordionActions>
+                                    <Button variant="contained" color="primary" size="small" onClick={() => openAddressEditor(true)}>Add Address</Button>
+                                </AccordionActions>
+                            </Accordion>
+                            <Accordion>
+                                <AccordionSummary expandIcon={<ExpandMore />}>
+                                    <Typography style={{ fontWeight: 'bold' }}>Login Activities</Typography>
+                                </AccordionSummary>
+                                {console.log(userData)}
+                                <AccordionDetails >
+                                    <List>
                                         {
                                             userData.deviceData.map(val => (
                                                 <ListItem>
                                                     <ListItemAvatar>
-                                                        <Avatar>{val.os.slice(0,1)}</Avatar>
+                                                        <Avatar>{val.os.slice(0, 1)}</Avatar>
                                                     </ListItemAvatar>
-                                                    <ListItemText primary={`${val?.os} ${val?.vendor} - ${val?.model}`} 
-                                                    secondary={moment(val.date).fromNow()} />
+                                                    <ListItemText primary={`${val?.os} ${val?.vendor} - ${val?.model}`}
+                                                        secondary={moment(val.date).fromNow()} />
                                                 </ListItem>
                                             ))
                                         }
-                                        </List>
-                                    </AccordionDetails>
-                                </Accordion>
-                            </Container>
-                        </Grid>
+                                    </List>
+                                </AccordionDetails>
+                            </Accordion>
+                        </Container>
                     </Grid>
-                    <ResponsiveDialogs openState={profileEditor} handleCloseBar={openProfileEditor} title="Edit Profile">
-                        <DetailUpdate userData={userData} success={openProfileEditor}/>
-                    </ResponsiveDialogs>
-                    <ResponsiveDialogs openState={addressEditor} handleCloseBar={openAddressEditor} title="Edit Profile">
-                        <AddressUpdate success={openAddressEditor}/>
-                    </ResponsiveDialogs>
-                    <ResponsiveDialogs openState={selectedAddress} handleCloseBar={setSelectedAddress} title="Edit Profile">
-                        <AddressUpdate data={selectedAddress} success={setSelectedAddress}/>
-                    </ResponsiveDialogs>
-                </CardContent>
-            </Card>
+                </Grid>
+                <ResponsiveDialogs openState={profileEditor} handleCloseBar={openProfileEditor} title="Edit Profile">
+                    <DetailUpdate userData={userData} success={openProfileEditor} />
+                </ResponsiveDialogs>
+                <ResponsiveDialogs openState={addressEditor} handleCloseBar={openAddressEditor} title="Edit Profile">
+                    <AddressUpdate success={openAddressEditor} />
+                </ResponsiveDialogs>
+                <ResponsiveDialogs openState={selectedAddress} handleCloseBar={setSelectedAddress} title="Edit Profile">
+                    <AddressUpdate data={selectedAddress} success={setSelectedAddress} />
+                </ResponsiveDialogs>
+            </CardContent>
+        </Card>
     )
     return <AppBaseScreen>
         {renderIfElse(userData, <ProfileComponent />, null)}

@@ -13,7 +13,8 @@ const useStyles = makeStyles(theme => ({
     },
     title: {
         textTransform: 'capitalize',
-        color: theme.palette.text
+        color: theme.palette.text.primary,
+        marginLeft: 35
     },
     subtitle: {
         display: 'block'
