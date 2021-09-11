@@ -3,17 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listOrders } from '../../store/actions';
 import AppBaseScreen from '../common/layout/user/AppBaseScreen';
 import './index.less'
-import { Card, CardContent, CardHeader, Divider, Grid, Paper, Typography } from '@material-ui/core'
-import { FileCopyOutlined, LocalShipping } from '@material-ui/icons';
+import { Card, CardContent, CardHeader, Container, Divider, Grid, Link, Paper, Typography } from '@material-ui/core'
+import { FileCopyOutlined, LocalShipping, ShoppingBasket } from '@material-ui/icons';
 export default function MyOrders(props) {
     const orders = useSelector(({ orders }) => orders.list)
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(listOrders())
     }, [dispatch])
-    if(!orders || orders.length <= 0) {
-        return null
-    }
     const copyToClipBoard = (text) => {
 
         navigator.clipboard.writeText(text);
@@ -25,7 +22,7 @@ export default function MyOrders(props) {
         <Card className="order-container" component={Paper}>
             <CardHeader avatar={<LocalShipping />} title="My Orders"></CardHeader>
             <Divider/>
-            <CardContent>
+            {(orders || orders.length > 0) && (<CardContent>
                 {orders?.map(orderdata => <Card key={orderdata.id}>
                     <CardContent>
                         <Typography onClick={() => copyToClipBoard(orderdata.id)} vaiant="h6" style={{display: 'flex' , cursor: 'pointer'}}><FileCopyOutlined/> {orderdata?.id}</Typography>
@@ -46,7 +43,17 @@ export default function MyOrders(props) {
                         <Typography variant="h6">placed on</Typography>
                     </CardContent>
                 </Card>)}
-            </CardContent>
+            </CardContent>)}
+            {
+                (!orders || orders.length <= 0) && (
+                    <CardContent className="no-banner">
+                    <ShoppingBasket />
+                    <Typography variant={"h5"}>Get your Dapper Look now!!</Typography>
+
+                    <Link size="medium" style={{ cursor: 'pointer' }} href="/home">Continue shopping</Link>
+                </CardContent>
+                )
+            }
         </Card>
     </AppBaseScreen>
 }

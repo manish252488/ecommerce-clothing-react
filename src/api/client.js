@@ -3,8 +3,8 @@ import store from "../store";
 import constants from '../config/constants';
 const env = process.env.REACT_APP_NODE_ENV;
 const devUrl = "http://localhost:3001";
-const testUrl = "https://3e72-103-249-233-160.ngrok.io";
-const prodUrl = "https://domain.com";
+const testUrl = "https://testapi.dapperfolks.in";
+const prodUrl = "https://api.dapperfolks.in";
 export const url =
   env === "development"
     ? devUrl

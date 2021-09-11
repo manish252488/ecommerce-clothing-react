@@ -48,7 +48,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
   const content = (
     <Grid container>
       {isAuth && <Grid item xs={12} className={classes.primary + " profile-container-1"}>
-        <img src={defaultUser} className="image" alt="profile" />
+        <img src={user?.picture  || defaultUser} className="image" alt="profile" />
         <Typography variant="h6">{user.name}</Typography>
       </Grid>}
       {
@@ -63,12 +63,6 @@ const NavBar = ({ onMobileClose, openMobile }) => {
               <HomeOutlined color="primary" fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit">Home</Typography>
-          </MenuItem>
-          <MenuItem>
-            <ListItemIcon>
-              <AccountBalanceWalletIcon color="primary" fontSize="small" />
-            </ListItemIcon>
-            <Typography variant="inherit">wallet</Typography>
           </MenuItem>
           <MenuItem onClick={() => History.push("/categories")}>
             <ListItemIcon>
