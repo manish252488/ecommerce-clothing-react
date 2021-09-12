@@ -54,7 +54,7 @@ function AuthReducer(state = initialState, action) {
       case CART_ACTION: 
       return {
         ...state,
-        cart: action.payload.cart,
+        cart: action.payload,
         billingData: action.payload.billingData
       }
     default:

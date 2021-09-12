@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -39,7 +39,7 @@ const styles = theme => ({
 
 function FilterExpansionPanel(props) {
   const { classes } = props;
-  const [filters, setFilters] = useState({
+ /*  const [filters, setFilters] = useState({
     priceRange: {
       min: 0,
       max: 10000
@@ -52,7 +52,7 @@ function FilterExpansionPanel(props) {
   const [sorts, setSorts] = useState({
     alpha: 1,
     price: 1
-  })
+  }) */
   return (
     <div className={classes.root}>
       <ExpansionPanel>

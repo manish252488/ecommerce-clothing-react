@@ -9,7 +9,6 @@ import { LocalShipping, Person, ContactSupport as ContactSupportIcon } from '@ma
 import { useSelector } from 'react-redux';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import History from '../../../../../@history';
-import { logoIcon } from '../../../../../assets';
 import InfoIcon from '@material-ui/icons/Info';
 const  useStyles = makeStyles(theme => ({
     text: {

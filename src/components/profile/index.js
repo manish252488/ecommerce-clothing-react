@@ -1,5 +1,5 @@
-import { Button, Card, CardContent, CardHeader, CircularProgress, Container, Divider, Accordion, AccordionActions, AccordionDetails, AccordionSummary, Grid, IconButton, TextField, Typography, useMediaQuery, useTheme, List, ListItem, ListItemAvatar, Avatar, ListItemText } from '@material-ui/core';
-import { Create, ExpandMore, NaturePeopleOutlined, PlusOne, Visibility } from '@material-ui/icons';
+import { Button, Card, CardContent, Container, Divider, Accordion, AccordionActions, AccordionDetails, AccordionSummary, Grid, Typography, useMediaQuery, useTheme, List, ListItem, ListItemAvatar, Avatar, ListItemText } from '@material-ui/core';
+import { ExpandMore } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import History from '../../@history';
@@ -8,10 +8,8 @@ import { renderIfElse } from '../../config/Utils';
 import AppBaseScreen from '../common/layout/user/AppBaseScreen';
 import ImageUpload from 'image-upload-react'
 import './index.less'
-import DatePicker from 'react-datepicker';
 import AddressCard from '../common/AddressCard';
 import { checkJWT, showMessageBar } from '../../store/actions';
-import CountrySelect from '../common/CountrySelectField';
 import moment from 'moment'
 import DetailView from './components/DetailView';
 import AddressUpdate from './components/AddressUpdate';
@@ -49,6 +47,7 @@ const Profile = (props) => {
                 setImageSrc(null)
             })
         }
+        //eslint-disable-next-line
     }, [imageSrc])
     useEffect(() => {
         if (isAuth) {

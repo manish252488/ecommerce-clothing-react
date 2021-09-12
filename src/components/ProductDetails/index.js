@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
         padding: 1,
         cursor: 'pointer',
         margin: 5,
-        fontSize: 18,
+        fontSize: 15,
         display: 'flex',
         justifyContent: "center",
         alignItems: 'center'
@@ -67,7 +67,7 @@ export default function ProductDetails(props) {
     const classes = useStyles()
     const [cartLoading, setCartLoading] = useState(false)
     const { productId } = useParams();
-    const cart = useSelector(({ Auth }) => Auth.cart || [])
+    const cart = useSelector(({ Auth }) => Auth.cart.cart || [])
     const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated || false)
     const [product, setProduct] = useState(null)
     const dispatch = useDispatch();
@@ -75,7 +75,6 @@ export default function ProductDetails(props) {
     const [data, setData] = useState(null)
     const [size, setSize] = useState("")
     const [color, setColor] = useState("")
-    const [loading, setLoading] = useState(false)
     const [error, setErrors] = useState({
         size: {
             message: ''
@@ -104,6 +103,7 @@ export default function ProductDetails(props) {
                 setErrors({ ...error, color: { message: '' } })
             }
         }
+        // eslint-disable-next-line 
     }, [color,size])
     const addToCart = (id) => {
         if(!isAuth) {
@@ -112,17 +112,25 @@ export default function ProductDetails(props) {
         }
         setCartLoading(true)
         let flag = true
-
+        let errors = {
+            size: {
+                message: ''
+            },
+            color: {
+                message: ''
+            }
+        }
         if (!size || size === "") {
-            setErrors({ ...error, size: { message: 'Select one size!' } })
+            errors.size.message = 'Select one size!'
             flag = false
         }
         if (product.colorOptions.length > 0) {
             if (!color || color === "") {
-                setErrors({ ...error, color: { message: 'Select one !' } })
+                errors.color.message = 'Select one !'
                 flag = false
             }
         }
+        setErrors({ ...error, ...errors })
         if (!flag) {
             setCartLoading(false)
             return;

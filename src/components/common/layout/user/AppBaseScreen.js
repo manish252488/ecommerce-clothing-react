@@ -26,20 +26,23 @@ const AppBaseScreen = (props) => {
     showHeader,
   } = props;
   const dispatch = useDispatch();
-  const cart = useSelector(({ Auth }) => Auth.cart)
+  const cart = useSelector(({ Auth }) => Auth.cart.cart)
   const isAuth = useSelector(({ Auth }) => Auth?.isAuthenticated)
   const [isLoggedIn, setIsLoggedIn] = useState(isAuth)
   const searchBar = History.location.pathname === "/home"
   const [value, setValue] = useState(0)
   useEffect(() => {
     setValue(cart ? cart.length : 0)
+    // eslint-disable-next-line
   }, [cart])
   useEffect(() => {
     setIsLoggedIn(isAuth)
+    // eslint-disable-next-line
   }, [isAuth])
   useEffect(() => {
     dispatch(checkJWT(null, onfailure));
     dispatch(listCart())
+    // eslint-disable-next-line
   }, []);
   const onfailure = (val) => {
     if (!val) {

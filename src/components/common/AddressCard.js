@@ -8,7 +8,6 @@ import { CreateOutlined, DeleteForever } from '@material-ui/icons';
 import Auth from '../../api/auth';
 import { useDispatch } from 'react-redux';
 import { checkJWT, showMessageBar } from '../../store/actions';
-import { Alert } from '@material-ui/lab';
 import AlertDialogs from './AlertDialogs'
 export default function AddressCard({data, setDefaultAdd, width, selectEditAddress}) {
   const dispatch =  useDispatch()
@@ -92,9 +91,9 @@ export default function AddressCard({data, setDefaultAdd, width, selectEditAddre
         <Typography className={classes.pos} color="primary">
           {data?.name}, {data?.phoneno}
         </Typography>
-        <CardActions className={classes.action}>
+        {isFunction && <CardActions className={classes.action}>
           <IconButton onClick={() => setOpen(true)}><DeleteForever size={10}/></IconButton>
-        </CardActions>
+        </CardActions>}
       </CardContent>
       <AlertDialogs open={open} message="Are you sure you want to delete?" aggree={agree}></AlertDialogs>
     </Card>

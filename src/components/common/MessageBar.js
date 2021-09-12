@@ -1,6 +1,6 @@
 import { Snackbar, Typography } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideMessageBar } from '../../store/actions';
 import Slide from '@material-ui/core/Slide';

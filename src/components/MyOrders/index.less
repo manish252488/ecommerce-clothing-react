@@ -2,8 +2,72 @@
 
 .order-container{
     min-height: 100vh !important;
+    width: '70%';
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    .MuiCardContent-root {
+        .MuiPaper-root{
+            margin: 5px;
+        }
+    }
+    .MuiStep-horizontal {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    .order-card {
+        min-width: 45%;
+        max-width: 45%;
+        margin: 10px;
+        .image {
+            width: 85%;
+            min-width: 85%
+        }
+       
+    }
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
 }
 .footer {
     margin-top: 0 !important;
     padding-top: 0 !important;
+}
+
+
+@media @tablet-strict {
+    
+}
+
+@media @phone-strict {
+    .order-container{
+        min-height: 100vh !important;
+        width: '70%';
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        display: flex;
+        flex-wrap: wrap;
+        .MuiCardContent-root {
+            .MuiPaper-root{
+                margin: 5px;
+            }
+        }
+        .MuiStep-horizontal {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+        .order-card {
+            max-width: 100%;
+            .image {
+                width: 100%
+            }
+           
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
 }

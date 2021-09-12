@@ -2,9 +2,6 @@ import {
   Button,
   CircularProgress,
   Divider,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
   Link,
   TextField,
   Typography,
@@ -152,7 +149,6 @@ class SignUp extends React.Component {
         source: SocialLinks.signinOptions.mobile,
         marketingNotification: this.state.checked,
         deviceData: deviceData,
-        marketingNotification: true,
         birthdate: this.state.user.birthdate,
       };
       console.log(data)
