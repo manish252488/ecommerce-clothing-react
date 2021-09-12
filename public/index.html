@@ -12,8 +12,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1,user-scalable=0" />
   <base href="/" />
-  <link rel="icon" href="ico.png" />
-  <link rel="icon" href="https://www.dapperfolks.in/ico.png" />
+  <link rel="icon" href="/ico.png" />
   <link rel="canonical" href="https://www.dapperfolks.in/" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="abstract" content="DapperFolks" />
@@ -73,9 +72,10 @@
 
   <script>
     var chatbox = document.getElementById('fb-customer-chat');
-    chatbox.setAttribute("page_id", "103010518787539");
-    chatbox.setAttribute("attribution", "biz_inbox");
-
+    if (chatbox) {
+      chatbox.setAttribute("page_id", "103010518787539");
+      chatbox.setAttribute("attribution", "biz_inbox");
+    }
     window.fbAsyncInit = function () {
       FB.init({
         xfbml: true,
@@ -91,8 +91,7 @@
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
   </script>
-
-</body>
+ </body>
 
 
 </html>

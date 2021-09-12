@@ -19,7 +19,6 @@ export default function CheckoutPage(props) {
     const orderData = useSelector(({ orders }) => orders?.list)
     const order = orderData.find(val => val.id === orderId)
     const classes = useStyles();
-    console.log(order)
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(listOrders())
@@ -27,6 +26,7 @@ export default function CheckoutPage(props) {
     if(!orderData && orderData.length <= 0 && !order){
         return null
     }
+    console.log(order)
     const LoadingComponent = () => <div>loading</div>
     const PaymentComponent = () => (
         <Container maxWidth="lg" className={classes.root + ' payment-component'}>
@@ -40,13 +40,14 @@ export default function CheckoutPage(props) {
                             order?.products.map(val => (
                                 <ListItem>
                                     <ListItemIcon>
-                                        <img src={getImage( val.pictures[0], 'products')} alt="product"/>
+                                        <img src={getImage( val.pictures[0], 'products')} className="image" alt="product"/>
                                     </ListItemIcon>
                                     <ListItemText>
-                                        <Typography variant="h5">{val.name}-{val.brand}</Typography>
+                                        <Typography variant="h5" color="primary">{val.name} &nbsp;- &nbsp;{val.brand}</Typography>
                                         <Typography variant="h6">₹{val.sellingCost}-<del>₹{val.cost}</del></Typography>
                                         <Typography variant="h6">Size: {val?.size || 'NA'}</Typography>
                                         <Typography variant="h6">Color: {val?.color || 'NA'}</Typography>
+                                        <Typography variant="h6">Quantity: {val?.quantity || 'NA'}</Typography>
                                     </ListItemText>
                                     
                                 </ListItem>
@@ -91,7 +92,7 @@ export default function CheckoutPage(props) {
     )
     return <AppBaseScreen>
         {
-            renderIfElse(orderData, <PaymentComponent />, <LoadingComponent />)
+            renderIfElse(orderData && orderData.length > 0, <PaymentComponent />, <LoadingComponent />)
         }
 
     </AppBaseScreen>

@@ -1,12 +1,12 @@
-import { Button, Card, CardHeader, Chip, Container, Divider, Grid, Link, List, ListItem, ListItemIcon, ListItemText, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
-import { FlashAuto, FlashOn, Person, ShoppingCart } from '@material-ui/icons';
+import { Button, Card, CardHeader, Chip, CircularProgress, Container, Divider, Grid, Link, List, ListItem, ListItemIcon, ListItemText, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
+import { FlashOn, Person, ShoppingCart } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import History from '../../@history';
 import ProductsApi from '../../api/products';
 import { shuffle } from '../../config/Utils';
-import { listCart, listProducts } from '../../store/actions';
+import { listCart } from '../../store/actions';
 import CustomCarousel from '../common/corousels/CustomCarousel';
 import AppBaseScreen from '../common/layout/user/AppBaseScreen';
 import Products from '../home/Products';
@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
         padding: 1,
         cursor: 'pointer',
         margin: 5,
-        fontSize: 18,
+        fontSize: 15,
         display: 'flex',
         justifyContent: "center",
         alignItems: 'center'
@@ -65,8 +65,9 @@ const useStyles = makeStyles(theme => ({
 }))
 export default function ProductDetails(props) {
     const classes = useStyles()
+    const [cartLoading, setCartLoading] = useState(false)
     const { productId } = useParams();
-    const cart = useSelector(({ Auth }) => Auth.cart || [])
+    const cart = useSelector(({ Auth }) => Auth.cart.cart || [])
     const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated || false)
     const [product, setProduct] = useState(null)
     const dispatch = useDispatch();
@@ -74,7 +75,6 @@ export default function ProductDetails(props) {
     const [data, setData] = useState(null)
     const [size, setSize] = useState("")
     const [color, setColor] = useState("")
-    const [loading, setLoading] = useState(false)
     const [error, setErrors] = useState({
         size: {
             message: ''
@@ -85,7 +85,6 @@ export default function ProductDetails(props) {
     })
     
     useEffect(() => {
-        dispatch(listProducts())
         dispatch(listCart())
         ProductsApi.productDetail(productId).then(res => {
             setProduct(res.data.product)
@@ -104,34 +103,50 @@ export default function ProductDetails(props) {
                 setErrors({ ...error, color: { message: '' } })
             }
         }
+        // eslint-disable-next-line 
     }, [color,size])
     const addToCart = (id) => {
+        if(!isAuth) {
+           History.push("/login")
+           return;
+        }
+        setCartLoading(true)
         let flag = true
-
+        let errors = {
+            size: {
+                message: ''
+            },
+            color: {
+                message: ''
+            }
+        }
         if (!size || size === "") {
-            setErrors({ ...error, size: { message: 'Select one size!' } })
+            errors.size.message = 'Select one size!'
             flag = false
         }
         if (product.colorOptions.length > 0) {
             if (!color || color === "") {
-                setErrors({ ...error, color: { message: 'Select one !' } })
+                errors.color.message = 'Select one !'
                 flag = false
             }
         }
+        setErrors({ ...error, ...errors })
         if (!flag) {
+            setCartLoading(false)
             return;
         }
-        setLoading(id)
         const data ={
             productId: id,
             color: color,
             size: size
         }
-        dispatch(Actions.addToCart(data, () => setLoading(null)))
+        dispatch(Actions.addToCart(data, () => setCartLoading(false), (mes) => {
+            setCartLoading(false)
+        }))
     }
     const removeFromCart = (id) => {
-        setLoading(id)
-        dispatch(Actions.removeFromCart(id, () => setLoading(null)))
+        setCartLoading(id)
+        dispatch(Actions.removeFromCart(id, () => setCartLoading(null)))
     }
     if (!product) {
         return null
@@ -174,7 +189,7 @@ export default function ProductDetails(props) {
                                 </Typography>
                             </div>
                             <Typography variant={'h6'}>
-                                Available Sizes {error.size.message ? <span className="highlight"><sup>*</sup>{error.size.message}</span> : ''}
+                                Available Sizes <sup className="highlight">*</sup>{error.size.message ? <span className="highlight">{error.size.message}</span> : ''}
                             </Typography>
                             <Divider />
                             <div className={classes.description}>
@@ -183,7 +198,7 @@ export default function ProductDetails(props) {
                                 </div>
                             </div>
                             <Typography variant={'h6'}>
-                                Available Colours {error.color.message ? <span className="highlight"><sup>*</sup>{error.color.message}</span> : ''}
+                                Available Colours<sup className="highlight">*</sup> {error.color.message ? <span className="highlight">{error.color.message}</span> : ''}
                             </Typography>
                             <Divider />
                             <div className={classes.description}>
@@ -219,7 +234,7 @@ export default function ProductDetails(props) {
                             <Divider />
                             <div className="btn-container">
                                 <Button
-                                    startIcon={<ShoppingCart />}
+                                    startIcon={cartLoading ? <CircularProgress color="primary" size={20} /> : <ShoppingCart />}
                                     onClick={() => cart?.find(v => v.product === product.id) ? removeFromCart(product.id) : addToCart(product.id)}
                                     variant="contained" color={cart?.find(v => v.product === product.id) ? "primary" : "secondary"}>
                                     {cart?.find(v => v.product === product.id) ? "Remove Cart" : "Add to Cart"}
@@ -240,7 +255,7 @@ export default function ProductDetails(props) {
                 <Divider />
                 <div className={classes.similiarProducts + ' similiar-products'}>
                     {
-                        shuffle(products).slice(0, 4).map((val, index) => (
+                        shuffle(products).slice(0, 5).map((val, index) => (
                             <Products key={index} data={val} />
                         ))
                     }

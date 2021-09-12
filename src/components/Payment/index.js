@@ -7,9 +7,10 @@ import History from '../../@history'
 import Auth from '../../api/auth'
 import OrderApis from '../../api/order'
 import { getImage } from '../../config/Utils'
-import { listCart, listProducts, addToCart as addCart, removeFromCart as removeCart, checkJWT } from '../../store/actions'
+import { listCart, addToCart as addCart, removeFromCart as removeCart, checkJWT } from '../../store/actions'
 import AddressCard from '../common/AddressCard'
 import AppBaseScreen from '../common/layout/user/AppBaseScreen'
+import CountrySelect from '../common/CountrySelectField'
 import './index.less'
 
 const useStyles = makeStyles({
@@ -25,10 +26,10 @@ const useStyles = makeStyles({
 export default function Payment(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
-    const billingData = useSelector(({ Auth }) => Auth.billingData)
-    const cart = useSelector(({ Auth }) => Auth.cart)
-    const savedAddress = useSelector(({ Auth }) => Auth.user.savedAddress)
-    const products = useSelector(({ products }) => products.products)
+    const billingData = useSelector(({ Auth }) => Auth.billingData || {})
+    const cart = useSelector(({ Auth }) => Auth.cart.cart)
+    const savedAddress = useSelector(({ Auth }) => Auth.user.savedAddress || [])
+    const products = useSelector(({ products }) => products.products || [])
     const [selectedAddress] = useState(null)
     const [loading, setLoading] = useState(false);
     const [loadingOrder, setLoadingOrder] = useState(false);
@@ -60,27 +61,36 @@ export default function Payment(props) {
         default: false
     })
     useEffect(() => {
-        dispatch(listProducts())
         dispatch(listCart())
     }, [dispatch])
     const addToCart = id => {
-        dispatch(addCart(id))
+        console.log("id to remove- ", id)
+        const alldata = cart.find(val => val.product === id)
+        const data= {
+            productId: id,
+            color: alldata.color,
+            size: alldata.size,
+        }
+        dispatch(addCart(data))
     }
     const removeFromCart = id => {
         dispatch(removeCart(id))
     }
     const getProducts = () => {
         let productsAdded = []
-        cart.forEach(val => {
-            const sample = products.find(c => c.id === val.product)
-            if (sample) {
-                sample.quantity = cart.find(v => v.product === sample.id)?.quantity
-                sample.size = cart.find(v => v.product === sample.id)?.size;
-                sample.color = cart.find(v => v.product === sample.id)?.color;
-                sample.brand =
-                    productsAdded.push(sample)
-            }
-        })
+        console.log(cart)
+        console.log(products)
+        if (cart && cart.length > 0) {
+            cart?.forEach(val => {
+                const sample = products.find(c => c.id === val.product)
+                if (sample) {
+                    sample.quantity = cart.find(v => v.product === sample.id)?.quantity
+                    sample.size = cart.find(v => v.product === sample.id)?.size;
+                    sample.color = cart.find(v => v.product === sample.id)?.color;
+                    sample.brand = productsAdded.push(sample)
+                }
+            })
+        }
         return productsAdded;
     }
     const saveAddress = () => {
@@ -157,9 +167,19 @@ export default function Payment(props) {
             return false
         }
     }
+    console.log({
+        billingData,
+        cart,
+        savedAddress,
+        products,
+    })
+    if(!cart || !billingData ||
+        !savedAddress ||
+        !products) {
+            return null
+        }
     return <AppBaseScreen>
         <Container maxWidth="md" className="payment-container" >
-
             <Typography variant="h4">  <ShoppingBag /> Cart</Typography>
             <div className="cart-panel">
                 {
@@ -181,7 +201,7 @@ export default function Payment(props) {
                                         </div>
                                     </Grid>
                                     <Grid item xs={5}>
-                                    <Typography variant="h6" align="right">Price</Typography>
+                                        <Typography variant="h6" align="right">Price</Typography>
                                         <Typography variant="h6" align="right">₹{val.sellingCost}</Typography>
                                         <Typography variant="h6" align="right"><del>₹{val.cost}</del></Typography>
 
@@ -200,7 +220,7 @@ export default function Payment(props) {
                     </div>
                 }
             </div>
-            {true && <div className="billingPanel">
+            {cart.length > 0 && <div className="billingPanel">
                 <Card component={Paper}>
                     <CardContent>
                         <Grid container>
@@ -253,7 +273,6 @@ export default function Payment(props) {
                                                 placeholder="Location/Address"
                                                 value={addressForm.address1}
                                                 helperText={errorFields.address1}
-                                                fullWidth
                                                 size="small"
                                                 error={errorFields.address1}
                                                 onChange={value => change('address1', value)}
@@ -261,7 +280,6 @@ export default function Payment(props) {
                                             />
                                             <TextField
                                                 variant="outlined"
-                                                fullWidth
                                                 label="Address 2"
                                                 placeholder="House No/Locality"
                                                 value={addressForm.address2}
@@ -274,7 +292,6 @@ export default function Payment(props) {
                                             />
                                             <TextField
                                                 variant="outlined"
-                                                fullWidth
                                                 label="Landmark"
                                                 placeholder="LandMark"
                                                 value={addressForm.landmark}
@@ -317,6 +334,7 @@ export default function Payment(props) {
                                                 fullWidth
                                                 size="small"
                                             />
+                                            <CountrySelect />
                                             <TextField
                                                 variant="outlined"
                                                 label="Country"

@@ -19,6 +19,7 @@ export const signUp = (data, onSuccess, onFailure) => (dispatch) => {
           token: data.data.token,
         };
         delete new_data.user.token;
+        console.log("new data", new_data)
         dispatch({
           type: SET_USER,
           payload: new_data,
@@ -56,13 +57,18 @@ export const login = (
           payload: new_data,
         });
       } else {
+        console.log("inres")
         if (isFunction(onFailure)) onFailure(data.message);
       }
     })
 
     .catch((err) => {
+      if(!err.status){
+        if (isFunction(onFailure))
+        onFailure("Invalid Email or Password!");
+      }else 
       if (isFunction(onFailure))
-        onFailure("Please sign up before login/ try again later!");
+        onFailure(err.message);
     });
 };
 
@@ -81,6 +87,9 @@ export const checkJWT = (onSuccess, onFailure) => (dispatch) => {
     })
     .catch((err) => {
       if (isFunction(onFailure)) onFailure(err.message);
+      dispatch({
+        type: SIGN_OUT,
+      });
     });
 };
 
@@ -127,10 +136,12 @@ export const authPage = (val) => {
 export const addToCart = (productId, onSuccess, onFailure) => {
   return dispatch => {
     CartApi.addCart(productId).then(res => {
-      dispatch({
-      type: CART_ACTION,
-      payload: res.data
-    })
+      if(res.data){
+        dispatch({
+          type: CART_ACTION,
+          payload: res.data
+        })
+      }
     if (isFunction(onSuccess)) onSuccess();
   }).catch(err => {
     if (isFunction(onFailure)) onSuccess(err.message);

@@ -2,16 +2,19 @@ import {
   Button,
   Card,
   CardContent,
+  Grid,
   Hidden,
+  IconButton,
   Paper,
   Typography,
+  Link
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { renderIfElse } from "../../config/Utils";
 import Login from "./Login";
 import SignUp from "./Signup";
 import "./index.less";
-import { Facebook, Instagram, Twitter } from "@material-ui/icons";
+import { ArrowBackIos, Facebook, Instagram, Twitter } from "@material-ui/icons";
 import { useSelector } from "react-redux";
 import History from "../../@history";
 import { loginPage, logoIcon } from "../../assets";
@@ -34,6 +37,9 @@ const Authpage = (props) => {
 
   return (
     <Card className="auth-card" component={Paper}>
+      <IconButton color="secondary" className="iconback" onClick={() => History.goBack()}>
+      <ArrowBackIos color="primary" />
+      </IconButton>
       <Hidden mdDown>
         <div className="image" style={{ backgroundImage: `url(${loginPage})` }}>
           <div>
@@ -47,32 +53,16 @@ const Authpage = (props) => {
         </div>
       </Hidden>
       <CardContent className="auth-card-tabs">
-        {/*  <ButtonGroup>
-        <Button
-          variant="contained"
-          color={tab === tabs.login ? "primary" : "secondary"}
-          onClick={() => setTab(tabs.login)}
-        >
-          <LockOutlined color={tab === tabs.login ? "secondary" : "primary"}/>
-          Login
-        </Button>
-        <Button
-         variant="contained"
-          color={tab === tabs.signup ? "primary" : "secondary"}
-          onClick={() => setTab(tabs.signup)}
-        >
-          <PersonOutlined color={tab === tabs.signup ? "secondary" : "primary"}/>
-          Sign Uplogin
-        </Button>
-      </ButtonGroup> */}
-
         <div className="tabs">
-          <Hidden mdUp>
-            <Logo style={{ width: '50%', height: 'auto', marginLeft: '25%' }} />
-          </Hidden>
+      
+            <Logo style={{ width: '50%', height: 'auto' }} />
+     
           {renderIfElse(tab === tabs.login, <Login changeTab={() => setTab(tabs.signup)} />,
             <SignUp changeTab={() => setTab(tabs.login)} />)}
         </div>
+        <Grid container>
+          <Grid item xs={12} style={{position: 'absolute',bottom: 5,right:5}}><Link to="/terms-of-use" >Terms of use</Link>&nbsp;&nbsp; <Link  to="/privacy-policies">Privacy policies</Link></Grid>
+        </Grid>
       </CardContent>
     </Card>
   )

@@ -1,8 +1,7 @@
 import {
   Button,
-  Checkbox,
   CircularProgress,
-  FormControlLabel,
+  Divider,
   Link,
   TextField,
   Typography,
@@ -10,10 +9,14 @@ import {
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { authPage, setMailAccount, signUp } from "../../store/actions";
+import { authPage, setMailAccount, showMessageBar, signUp } from "../../store/actions";
 import "./index.less";
 import History from "../../@history";
 import PhoneAndEmail from "../common/PhoneAndEmail";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { SocialLinks } from "../../config/constants/constants";
+import { deviceDetect } from 'react-device-detect'
 class SignUp extends React.Component {
   constructor(props) {
     super(props);
@@ -21,26 +24,26 @@ class SignUp extends React.Component {
       user: {
         name: "",
         lname: "",
-        email: "",
         password1: "",
         password2: "",
-        picture: null,
         phoneNo: "",
-        birthdate: ''
+        birthdate: new Date()
       },
       errors: {
         main: "",
         lname: "",
         name: "",
-        email: "",
         password1: "",
         password2: "",
-        phoneNo: '',
       },
       loading: false,
-      checked: false,
       type: 1
     };
+  }
+  componentDidUpdate(){
+    if(this.state.type === 2 && this.state.user.phoneNo === ""){
+      this.setState({type: 1})
+    }
   }
   onChange = (key, value) => {
     this.setState((prev) => {
@@ -65,10 +68,7 @@ class SignUp extends React.Component {
       err.lname = "name cannot be empty!";
       flag = false;
     }
-    if (user.email === "") {
-      err.email = "email cannot be empty!";
-      flag = false;
-    }
+
     if (user.password1 === "") {
       err.password1 = "password cannot be empty!";
       flag = false;
@@ -82,19 +82,40 @@ class SignUp extends React.Component {
       err.password2 = "passwords do not match!";
       flag = false;
     }
+    if(!this.validatePassword(user.password1,"password1")){
+      flag=false;
+    }
+    if(!this.validatePassword(user.password2,"password2")){
+      flag=false;
+    }
     if (user.phoneNo === "") {
       err.phoneNo = "phoneNo cannot be empty!";
+      alert("movi;")
       flag = false;
     }
     this.setState({ errors: err });
     return flag;
   };
+
+  validatePassword = (val,type) => {
+    const regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+      this.setState({errors: {[type]: ""}})
+    if(regularExpression.test(val)){
+      return true
+    }else {
+      let password1 = "Use 1 uppercase and 1 special character and number!";
+      this.setState({errors: {[type]: password1}})
+      return false
+    }
+  }
+
   onSuccess = (path) => {
     this.setState({ loading: false });
-    History.push('/home')
-
+    this.props.showMessageBar("success", "Registeration Successfull!")
+    History.goBack()
   };
   onFailure = (msg) => {
+    this.props.showMessageBar("error", msg)
     this.setState((prev) => {
       return {
         ...prev,
@@ -108,13 +129,13 @@ class SignUp extends React.Component {
   };
   register = () => {
     const { user } = this.state;
+    const deviceData = deviceDetect()
     this.setState({
       ...this.state,
       loading: true,
       errors: {
         main: "",
         name: "",
-        email: "",
         password1: "",
         password2: "",
         phoneNo: ""
@@ -122,14 +143,13 @@ class SignUp extends React.Component {
     });
     if (this.validate()) {
       let data = {
-        name: user.name,
+        name: user.name + ' ' + user.lname,
         password: user.password1,
-        email: user.email,
-        roleId: 1,
         phoneNo: this.state.user.phoneNo,
-        source: this.state.user.source || "form",
-        picture: this.state.user.picture ? this.state.user.picture : null,
+        source: SocialLinks.signinOptions.mobile,
         marketingNotification: this.state.checked,
+        deviceData: deviceData,
+        birthdate: this.state.user.birthdate,
       };
       console.log(data)
       this.props.register(data, this.onSuccess, this.onFailure);
@@ -137,29 +157,31 @@ class SignUp extends React.Component {
       this.setState({ loading: false });
     }
   };
-  handleChangeCheckbox = (e) => {
-    this.setState({ checked: e.target.checked });
-  };
+  handleDateSelect = (date) => {
+    console.log(date)
+  }
+  handleDateChange = (date) => {
+    console.log(date)
+  }
   changeTab = (tab) => {
-    this.setState({type: tab})
+    this.setState({ type: tab })
   }
   render() {
-    const { user, errors, loading, checked } = this.state;
+    const { user, errors, loading } = this.state;
     return (
       <div className="signup-form">
-        <Typography variant="h5">
-          Start your Registration
-        </Typography>
+       
         {
-          this.state.type === 2 && <PhoneAndEmail
-          buttonText="Proceed"
-          email={user.email}
-          errors={this.state.errors}
-          phone={user.phoneNo}
-          onChange={this.onChange}
-          setAction={() => this.changeTab(2)}/>
+          this.state.type === 1 && <PhoneAndEmail
+            buttonText="Proceed"
+            phone={user.phoneNo}
+            onChange={this.onChange}
+            setAction={this.changeTab} />
         }
-        {this.state.type === 1 && <>
+        {this.state.type === 2 && <>
+          <Typography variant="h6">
+          Welcome {user.phoneNo}, what's your name?
+        </Typography>
           <TextField
             variant="outlined"
             color="primary"
@@ -180,12 +202,24 @@ class SignUp extends React.Component {
             helperText={errors.lname}
             size="small"
           />
-          {/* <DatePicker title="Birthday" selectedDate={(res) => this.onChange('birthdate', res)} /> */}
+          <Typography variant="subtitle1" style={{fontSize: 12, marginTop: 15,marginLeft: 10, color: "rgba(0, 0, 0, 0.54)"}}>Birthdate</Typography>
+          <DatePicker
+            name="date"
+            maxDate={new Date()}
+            className="date-picker"
+            dateFormat="dd/MM/yyyy"
+            selected={user.birthdate}
+            onSelect={(date) => this.onChange("birthdate", date)} //when day is clicked
+            onChange={(date) => this.onChange("birthdate", date)} //only when value has changed
+          />
+
           <TextField
             variant="outlined"
             color="primary"
             defaultValue={user.password1}
             label="Password"
+            onBlur={(ev) => this.validatePassword(ev.target.value, "password1")}
+            autoComplete="new-password"
             fullWidth
             onChange={(ev) => this.onChange("password1", ev.target.value)}
             helperText={errors.password1}
@@ -195,35 +229,29 @@ class SignUp extends React.Component {
             variant="outlined"
             color="primary"
             defaultValue={user.password2}
+            onBlur={(ev) => this.validatePassword(ev.target.value, "password2")}
             label="Re-Enter you password"
+            autoComplete="new-password"
             fullWidth
             onChange={(ev) => this.onChange("password2", ev.target.value)}
             helperText={errors.password2}
             size="small"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                color="primary"
-                defaultChecked={checked}
-                onChange={this.handleChangeCheckbox}
-              />
-            }
-            label={<Typography>I agree to the&nbsp;{<Link target="_blank" href="/terms-policies">terms and policies.</Link>}</Typography>}
           />
           <Button
             startIcon={
               loading && <CircularProgress size={20} color="secondary" />
             }
             variant="contained"
-            color="secondary"
+            color="primary"
             onClick={this.register}
             fullWidth
-            disabled={!checked}
           >
             Register
           </Button>
+         
         </>}
+        <Divider style={{ marginTop: 20, marginBottom: 20 }} />
+          <Link onClick={() => History.push("/login")}>already a user? LOG IN</Link>
       </div>
     );
   }
@@ -232,6 +260,7 @@ class SignUp extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   register: bindActionCreators(signUp, dispatch),
   setMailAccount: bindActionCreators(setMailAccount, dispatch),
-  authPage: bindActionCreators(authPage, dispatch)
+  authPage: bindActionCreators(authPage, dispatch),
+  showMessageBar: bindActionCreators(showMessageBar,dispatch)
 });
 export default connect(null, mapDispatchToProps)(SignUp);

@@ -1,8 +1,10 @@
 @import '../../Base.less';
 
-@media @phone-strict {
+.image {
+    width: 120px;
+}
+@media @tablet-strict {
     .payment-component {
-        margin-top: 22%;
         padding-right: 10px;
         padding-left: 10px;
         .MuiGrid-container-1{
@@ -11,6 +13,30 @@
             .MuiGrid-item  {
                 max-width: 100%;
                 line-height: 30px;
+                .MuiTypography-h5{
+                    font-size: 15px;
+                }
+            }
+            .billing-panel{
+                width: 100%;
+                padding:15px;
+            }
+        }
+    }
+}
+@media @phone-strict {
+    .payment-component {
+        padding-right: 10px;
+        padding-left: 10px;
+        .MuiGrid-container-1{
+            flex-flow: column;
+            justify-content: center;
+            .MuiGrid-item  {
+                max-width: 100%;
+                line-height: 30px;
+                .MuiTypography-h5{
+                    font-size: 15px;
+                }
             }
             .billing-panel{
                 width: 100%;

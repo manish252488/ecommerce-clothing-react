@@ -12,10 +12,12 @@ const AuthRoutes = {
     },
     {
       path: "/login",
-      component: () => <Redirect to="/auth/login"/>
+      component: () => <Redirect to="/auth/login"/>,
+      exact: true
     },{
       path: "/signup",
-      component: () => <Redirect to="/auth/signup"/>
+      component: () => <Redirect to="/auth/signup"/>,
+      exact: true
     }
   ],
 };

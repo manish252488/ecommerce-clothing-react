@@ -13,7 +13,7 @@
 
 const authRoles = {// the pages with user config can be accessed by roles: ["user"]
   admin: ["admin"],
-  user: ["user"], // the pages with guest config can be accessed by roles: [user,guest,admin]
+  user: ["user", "admin"], // the pages with guest config can be accessed by roles: [user,guest,admin]
   guest: ["admin","guest","user"]
 };
 export default authRoles;

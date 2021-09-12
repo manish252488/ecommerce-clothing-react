@@ -4,7 +4,6 @@ const initialState = {
     show: false,
     message: "",
     type: "",
-    loading:false
 }
 function MessageBarReducer(state = initialState, action) {
     switch (action.type) {
@@ -19,11 +18,8 @@ function MessageBarReducer(state = initialState, action) {
             return {
                 ...state,
                 show: false,
-            }
-        case Actions.SET_LOADING:
-            return {
-                ...state,
-                loading: action.payload
+                message: "",
+                type: ""
             }
         default: return state;
     }

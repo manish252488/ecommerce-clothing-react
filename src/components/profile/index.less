@@ -1,2 +1,109 @@
 @import '../../Base.less';
 
+.container {
+  min-height: 100vh;
+  .MuiGrid-container{
+    display: flex;
+    justify-content: center;
+    .image-handler{
+      display: flex;
+        justify-content: center;
+        align-items: center;
+    .image-container{
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background-size: cover !important;
+        background-origin: padding-box !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        border: 5px solid @theme-color-200;
+       div {
+            width: 60px !important;
+            height: 60px !important;
+            padding: 5px !important;
+           
+           /*  transform: translate(50px, 55px) !important; */
+            .sc-bdfBQB{
+              margin-top: 170% !important;
+              margin-left: 150% !important;
+                background: @theme-color-100 !important;
+                cursor: pointer !important;
+                border-radius: 50%;
+            }
+            .sc-gKseQn {
+              display: none !important;
+              overflow: hidden !important;
+            }
+            .sc-hKgJUU {
+              cursor: pointer !important;
+              svg {
+                width: 50px !important;
+                height: 50px !important;
+                cursor: pointer !important;
+              }
+            }
+        }
+       
+    }
+  }
+    .MuiAccordionDetails-root{
+      flex-wrap: wrap;
+      .MuiCard-root{
+        margin: 5px;
+        .MuiGrid-container {
+          flex-flow: row;
+      }
+      }
+  }
+  }
+    .react-datepicker__header{
+        background-color: #de6262 !important;
+      }
+      
+      .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::before, .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::after {
+        border-bottom-color: #de6262 !important;
+      }
+      .react-datepicker__day--selected{
+        background-color: #de6262 !important;
+      }
+      .react-datepicker__day-name{
+        color: #fff !important;
+      }
+      .react-datepicker__current-month{
+        color: #fff !important;
+      }
+      .react-datepicker-popper{
+        z-index: 9999 !important;
+      }
+      .MuiFormHelperText-root {
+        color: #de6262 !important;
+      } 
+      .react-datepicker-wrapper .react-datepicker__input-container input {
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        outline-color:  #de6262;
+      }
+      .react-datepicker-wrapper {
+        margin-top: 0px;
+        width: 100%;
+        border-color: #ddd;
+        .react-datepicker__input-container{
+          input {
+            padding: 10px 20px;
+            width: 100%;
+          }
+        }
+      }
+      
+  
+}
+
+@media @phone-strict {
+  .MuiAccordionDetails-root{
+      flex-flow: column;
+      .MuiCard-root{
+        margin-top: 15px;
+      }
+  }
+}

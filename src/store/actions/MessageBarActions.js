@@ -1,15 +1,18 @@
-import {SET_LOADING} from './actionTypes';
-export function showLoader(){
+import {HIDE_MESSAGE, SHOW_MESSAGE} from './actionTypes';
+export function showMessageBar(type, message){
     return dispatch => 
     dispatch({
-        type:SET_LOADING,
-        payload: true
+        type:SHOW_MESSAGE,
+        payload: {
+            type: type,
+            message: message
+        }
     })
 }
-export function hideLoader(){
+export function hideMessageBar(){
     return dispatch => 
     dispatch({
-        type:SET_LOADING,
+        type:HIDE_MESSAGE,
         payload: false
     })
 }

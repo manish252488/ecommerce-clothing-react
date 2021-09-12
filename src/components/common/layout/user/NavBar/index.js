@@ -6,24 +6,25 @@ import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Typography from '@material-ui/core/Typography';
-import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import CategoryIcon from '@material-ui/icons/Category';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import PersonIcon from '@material-ui/icons/Person';
 import InfoIcon from '@material-ui/icons/Info';
+
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {
   Drawer,
   Grid,
   Hidden,
   Divider,
-  Button,
   makeStyles
 } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import History from "../../../../../@history";
-import { Person, PersonAddOutlined } from "@material-ui/icons";
-import { defaultUser } from "../../../../../assets";
+import { HomeOutlined, Person } from "@material-ui/icons";
+import { defaultUser, logoLight } from "../../../../../assets";
+import SignOut from "../../../../auth/SignOut";
 
 const useStyles = makeStyles(theme => ({
   primary: {
@@ -45,31 +46,31 @@ const NavBar = ({ onMobileClose, openMobile }) => {
   const content = (
     <Grid container>
       {isAuth && <Grid item xs={12} className={classes.primary + " profile-container-1"}>
-        <img src={defaultUser} className="image" alt="profile" />
+        <img src={user?.picture  || defaultUser} className="image" alt="profile" />
         <Typography variant="h6">{user.name}</Typography>
       </Grid>}
       {
         !isAuth && <Grid item xs={12} className={classes.primary + " profile-container-1"}>
-           <img src={defaultUser} className="image" alt="profile" />
+          <img src={logoLight} className="image" alt="profile" />
         </Grid>
       }
       <Grid item xs={12}>
         <MenuList>
-          <MenuItem>
+        <MenuItem onClick={() => History.push("/home")}>
             <ListItemIcon>
-              <AccountBalanceWalletIcon  color="primary" fontSize="small" />
+              <HomeOutlined color="primary" fontSize="small" />
             </ListItemIcon>
-            <Typography variant="inherit">wallet</Typography>
+            <Typography variant="inherit">Home</Typography>
           </MenuItem>
           <MenuItem onClick={() => History.push("/categories")}>
             <ListItemIcon>
-              <CategoryIcon  color="primary" fontSize="small" />
+              <CategoryIcon color="primary" fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit">categories</Typography>
           </MenuItem>
-          <MenuItem  onClick={() => History.push("/offers")}>
+          <MenuItem onClick={() => History.push("/offers")}>
             <ListItemIcon>
-              <LocalOfferIcon  color="primary" fontSize="small" />
+              <LocalOfferIcon color="primary" fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit" noWrap>
               Offer Zone
@@ -77,7 +78,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           </MenuItem>
           <MenuItem onClick={() => History.push("/myorders")}>
             <ListItemIcon>
-              <LocalShippingIcon  color="primary" fontSize="small" />
+              <LocalShippingIcon color="primary" fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit" noWrap>
               My Orders
@@ -85,9 +86,9 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           </MenuItem>
           <MenuItem onClick={() => History.push("/profile")}>
             <ListItemIcon>
-              <PersonIcon color="primary" color="primary" fontSize="small" />
+              <PersonIcon color="primary" fontSize="small" />
             </ListItemIcon>
-            <Typography  variant="inherit" noWrap>
+            <Typography variant="inherit" noWrap>
               Profile
             </Typography>
           </MenuItem>
@@ -108,6 +109,17 @@ const NavBar = ({ onMobileClose, openMobile }) => {
             <Typography color="textSecondary" variant="inherit" noWrap>
               Contact
             </Typography>
+          </MenuItem>
+          <Divider/>
+          <MenuItem onClick={() => History.push("/contact-support")}>
+            <SignOut>
+              <Typography color="primary" variant="inherit" noWrap>
+                Logout
+              </Typography>
+              <ListItemIcon>
+              <ExitToAppIcon color="primary" fontSize="small"/>
+            </ListItemIcon>
+            </SignOut>
           </MenuItem>
         </MenuList>
 

@@ -1,7 +1,6 @@
-import { Button, Container, Divider, Grid, Link, Typography } from '@material-ui/core';
+import {  Container, Divider, Grid, Link, Typography } from '@material-ui/core';
 import React from 'react';
 import AppBaseScreen from '../common/layout/user/AppBaseScreen';
-import { contact_heading } from '../../assets'
 import './index.less';
 import { Email, Facebook, Instagram, Phone, Twitter } from '@material-ui/icons';
 import { SocialLinks } from '../../config/constants/constants';
