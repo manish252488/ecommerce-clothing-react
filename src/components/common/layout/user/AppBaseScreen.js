@@ -33,13 +33,16 @@ const AppBaseScreen = (props) => {
   const [value, setValue] = useState(0)
   useEffect(() => {
     setValue(cart ? cart.length : 0)
+    // eslint-disable-next-line
   }, [cart])
   useEffect(() => {
     setIsLoggedIn(isAuth)
+    // eslint-disable-next-line
   }, [isAuth])
   useEffect(() => {
     dispatch(checkJWT(null, onfailure));
     dispatch(listCart())
+    // eslint-disable-next-line
   }, []);
   const onfailure = (val) => {
     if (!val) {

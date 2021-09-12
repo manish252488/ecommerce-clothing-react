@@ -34,36 +34,36 @@ export default function PrivacyPolicies() {
                                     by your web browser. It is used to identify your browser, provide analytics, remember information about you
                                     such as your language preference or login information.<br /></span></li>
                                 <li class="li8"><span class="s1"><strong>Company:</strong> when this policy mentions “Company,” “we,” “us,” or
-                                    “our,” it refers to <a>DapperFolks</a>, <a>jamshedpur, jharkhand-831005</a> that is responsible for your
+                                    “our,” it refers to <span>DapperFolks</span>, <span>jamshedpur, jharkhand-831005</span> that is responsible for your
                                     information under this Privacy Policy.<br /></span></li>
 
-                                <li class="li8"><span class="s1"><strong>Country:</strong> where <a>DapperFolks</a> or the owners/founders of
-                                    <a>DapperFolks</a> are based, in this case is <a>india</a>.<br /></span></li>
+                                <li class="li8"><span class="s1"><strong>Country:</strong> where <span>DapperFolks</span> or the owners/founders of
+                                    <span>DapperFolks</span> are based, in this case is <span>india</span>.<br /></span></li>
                                 <li class="li8"><span class="s1"><strong>Customer:</strong> refers to the company, organization or person that
-                                    signs up to use the <a>DapperFolks</a> Service to manage the relationships with your consumers or service
+                                    signs up to use the <span>DapperFolks</span> Service to manage the relationships with your consumers or service
                                     users.<br /></span></li>
                                 <li class="li8"><span class="s1"><strong>Device:</strong> any internet connected device such as a phone, tablet,
-                                    computer or any other device that can be used to visit <a>DapperFolks</a> and use the services.<br /></span>
+                                    computer or any other device that can be used to visit <span>DapperFolks</span> and use the services.<br /></span>
                                 </li>
                                 <li class="li8"><span class="s1"><strong>IP address:</strong> Every device connected to the Internet is assigned
                                     a number known as an Internet protocol (IP) address. These numbers are usually assigned in geographic
                                     blocks. An IP address can often be used to identify the location from which a device is connecting to the
                                     Internet.<br /></span></li>
                                 <li class="li8"><span class="s1"><strong>Personnel:</strong> refers to those individuals who are employed by
-                                    <a>DapperFolks</a> or are under contract to perform a service on behalf of one of the parties.<br /></span>
+                                    <span>DapperFolks</span> or are under contract to perform a service on behalf of one of the parties.<br /></span>
                                 </li>
                                 <li class="li8"><span class="s1"><strong>Personal Data:</strong> any information that directly, indirectly, or
                                     in connection with other information — including a personal identification number — allows for the
                                     identification or identifiability of a natural person.<br /></span></li>
-                                <li class="li8"><span class="s1"><strong>Service:</strong> refers to the service provided by <a>DapperFolks</a>
+                                <li class="li8"><span class="s1"><strong>Service:</strong> refers to the service provided by <span>DapperFolks</span>
                                     as described in the relative terms (if available) and on this platform.<br /></span></li>
                                 <li class="li8"><span class="s1"><strong>Third-party service:</strong> refers to advertisers, contest sponsors,
                                     promotional and marketing partners, and others who provide our content or whose products or services we
                                     think may interest you.<br /></span></li>
-                                <li class="li8"><span class="s1"><strong>Website:</strong> <a>DapperFolks</a>’s site, which can be accessed via
-                                    this URL: <a>www.dapperfolks.in.</a><br /></span></li>
+                                <li class="li8"><span class="s1"><strong>Website:</strong> <span>DapperFolks</span>’s site, which can be accessed via
+                                    this URL: <span>www.dapperfolks.in.</span><br /></span></li>
                                 <li class="li8"><span class="s1"><strong>You:</strong> a person or entity that is registered with
-                                    <a>DapperFolks</a> to use the Services.<br /></span></li>
+                                    <span>DapperFolks</span> to use the Services.<br /></span></li>
                             </ul>
                             <Typography class="p9"><br /></Typography>
                             <div>
@@ -446,8 +446,8 @@ export default function PrivacyPolicies() {
                             <Typography variant="h4">Contact Us</Typography>
                             <Typography class="p10"><span class="s1">Don't hesitate to contact us if you have any questions.</span></Typography>
                             <ul class="ul1">
-                                <li class="li16"><span class="s3">Via Email: <a>admin@dapperfolks.in</a></span></li>
-                                <li class="li16"><span class="s3">Via this Link: <a>https://www.dapperfolks.in/contact</a></span></li>
+                                <li class="li16"><span class="s3">Via Email: <span>admin@dapperfolks.in</span></span></li>
+                                <li class="li16"><span class="s3">Via this Link: <span>https://www.dapperfolks.in/contact</span></span></li>
                             </ul>
                         </div>
                     </div>

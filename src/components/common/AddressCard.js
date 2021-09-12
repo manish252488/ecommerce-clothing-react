@@ -8,7 +8,6 @@ import { CreateOutlined, DeleteForever } from '@material-ui/icons';
 import Auth from '../../api/auth';
 import { useDispatch } from 'react-redux';
 import { checkJWT, showMessageBar } from '../../store/actions';
-import { Alert } from '@material-ui/lab';
 import AlertDialogs from './AlertDialogs'
 export default function AddressCard({data, setDefaultAdd, width, selectEditAddress}) {
   const dispatch =  useDispatch()

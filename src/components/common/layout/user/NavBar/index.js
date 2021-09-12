@@ -6,7 +6,6 @@ import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Typography from '@material-ui/core/Typography';
-import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import CategoryIcon from '@material-ui/icons/Category';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
@@ -19,12 +18,11 @@ import {
   Grid,
   Hidden,
   Divider,
-  Button,
   makeStyles
 } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import History from "../../../../../@history";
-import { HomeOutlined, Person, PersonAddOutlined, PowerOffOutlined } from "@material-ui/icons";
+import { HomeOutlined, Person } from "@material-ui/icons";
 import { defaultUser, logoLight } from "../../../../../assets";
 import SignOut from "../../../../auth/SignOut";
 
@@ -88,7 +86,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           </MenuItem>
           <MenuItem onClick={() => History.push("/profile")}>
             <ListItemIcon>
-              <PersonIcon color="primary" color="primary" fontSize="small" />
+              <PersonIcon color="primary" fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit" noWrap>
               Profile

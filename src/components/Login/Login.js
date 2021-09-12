@@ -1,15 +1,10 @@
 import { Button, CircularProgress, Grid, Link, TextField, Typography, useMediaQuery, useTheme } from "@material-ui/core";
-import GoogleLogin from "react-google-login";
-import { Facebook } from "@material-ui/icons";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import "./index.less";
 import * as actions from "../../store/actions";
-import constants from "../../config/constants";
 import History from "../../@history";
-import ReactFacebookLogin from "react-facebook-login";
 import { deviceDetect } from "react-device-detect";
-import { SocialLinks } from "../../config/constants/constants";
 import { showMessageBar } from "../../store/actions";
 const Login = ({ changeTab }) => {
   const theme = useTheme()
@@ -18,7 +13,6 @@ const Login = ({ changeTab }) => {
   const [email, changeEmail] = useState("");
   const [, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [, setFacebookLoading] = useState(false)
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -67,7 +61,6 @@ const Login = ({ changeTab }) => {
       <form>
       <Typography variant="h5">Log In</Typography>
       <TextField
-        type="email"
         variant="outlined"
         color="primary"
         defaultValue={email}

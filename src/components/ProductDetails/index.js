@@ -75,7 +75,6 @@ export default function ProductDetails(props) {
     const [data, setData] = useState(null)
     const [size, setSize] = useState("")
     const [color, setColor] = useState("")
-    const [loading, setLoading] = useState(false)
     const [error, setErrors] = useState({
         size: {
             message: ''
@@ -104,6 +103,7 @@ export default function ProductDetails(props) {
                 setErrors({ ...error, color: { message: '' } })
             }
         }
+        // eslint-disable-next-line 
     }, [color,size])
     const addToCart = (id) => {
         if(!isAuth) {

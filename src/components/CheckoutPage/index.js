@@ -40,13 +40,14 @@ export default function CheckoutPage(props) {
                             order?.products.map(val => (
                                 <ListItem>
                                     <ListItemIcon>
-                                        <img src={getImage( val.pictures[0], 'products')} alt="product"/>
+                                        <img src={getImage( val.pictures[0], 'products')} className="image" alt="product"/>
                                     </ListItemIcon>
                                     <ListItemText>
-                                        <Typography variant="h5">{val.name}-{val.brand}</Typography>
+                                        <Typography variant="h5" color="primary">{val.name} &nbsp;- &nbsp;{val.brand}</Typography>
                                         <Typography variant="h6">₹{val.sellingCost}-<del>₹{val.cost}</del></Typography>
                                         <Typography variant="h6">Size: {val?.size || 'NA'}</Typography>
                                         <Typography variant="h6">Color: {val?.color || 'NA'}</Typography>
+                                        <Typography variant="h6">Quantity: {val?.quantity || 'NA'}</Typography>
                                     </ListItemText>
                                     
                                 </ListItem>

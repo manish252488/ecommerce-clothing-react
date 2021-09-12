@@ -1,11 +1,11 @@
-import { Button, makeStyles, TextField, Typography, Container, useRadioGroup, CircularProgress } from '@material-ui/core';
+import { Button, makeStyles, TextField, Typography, Container, CircularProgress } from '@material-ui/core';
 import React, { useState } from 'react';
 import moment from 'moment';
 import Datepicker from 'react-datepicker'
 import { SaveOutlined } from '@material-ui/icons';
 import Auth from '../../../api/auth';
 import { useDispatch } from 'react-redux';
-import { checkJWT } from '../../../store/actions';
+import { checkJWT, showMessageBar } from '../../../store/actions';
 import { isFunction } from '../../../config/Utils';
 const useStyles = makeStyles(theme => ({
     container: {
@@ -28,11 +28,15 @@ export default function DetailUpdate({ userData, success }) {
         setUser({ ...user, [key]: value })
     }
     const callSave = () => {
+        setLoading(true)
         Auth.updateProfile(user).then(res => {
             console.log(res)
             dispatch(checkJWT())
+            setLoading(false)
             if(isFunction(success)) success(false)
-        }).catch(err => console.log(err))
+        }).catch(err => {
+            dispatch(showMessageBar('error',err.message))
+        })
     }
     const validatesave = () => {
         if(initial.name === user.name && moment(initial.birthdate).format("DD/MM/YYYY").toString() === 
@@ -68,6 +72,9 @@ export default function DetailUpdate({ userData, success }) {
             className={classes.textField}
             disabled={!validatesave()}
             onClick={callSave}
-            fullWidth size="small" color="primary" variant="contained" startIcon={loading ? <CircularProgress color="inherit" size={18} color="secondary"/> : <SaveOutlined color="inherit" />}>Save</Button>
+            fullWidth size="small" color="primary" 
+            variant="contained" 
+            startIcon={loading ? <CircularProgress size={18} color="secondary"/> : <SaveOutlined color="inherit" />}>
+                Save</Button>
     </Container>
 }
