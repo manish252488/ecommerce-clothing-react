@@ -42,7 +42,6 @@ export default function MyOrders(props) {
         cancel: 'cancel',
         refund: 'refund'
     }
-    console.log(orders[0])
     return <AppBaseScreen>
         <Container maxWidth="md" className="order-container">
 

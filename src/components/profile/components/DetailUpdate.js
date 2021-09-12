@@ -30,7 +30,6 @@ export default function DetailUpdate({ userData, success }) {
     const callSave = () => {
         setLoading(true)
         Auth.updateProfile(user).then(res => {
-            console.log(res)
             dispatch(checkJWT())
             setLoading(false)
             if(isFunction(success)) success(false)

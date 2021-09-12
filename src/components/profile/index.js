@@ -36,10 +36,11 @@ const Profile = (props) => {
     const [profileEditor, openProfileEditor] = useState(false)
     const fetchUserDetails = () => {
         Auth.getUserDetail().then(res => setUserData(res.data))
-            .catch(err => console.log(err.message))
+            .catch(err => {
+                dispatch(showMessageBar('error', err.message))
+            })
     }
     useEffect(() => {
-        console.log(imageSrc, '............')
         if (imageSrc) {
             let test = imageSrc.name.slice(".");
             let type = test[test.length - 1];
@@ -126,7 +127,6 @@ const Profile = (props) => {
                                 <AccordionSummary expandIcon={<ExpandMore />}>
                                     <Typography style={{ fontWeight: 'bold' }}>Login Activities</Typography>
                                 </AccordionSummary>
-                                {console.log(userData)}
                                 <AccordionDetails >
                                     <List>
                                         {

@@ -19,7 +19,6 @@ export const signUp = (data, onSuccess, onFailure) => (dispatch) => {
           token: data.data.token,
         };
         delete new_data.user.token;
-        console.log("new data", new_data)
         dispatch({
           type: SET_USER,
           payload: new_data,
@@ -57,7 +56,6 @@ export const login = (
           payload: new_data,
         });
       } else {
-        console.log("inres")
         if (isFunction(onFailure)) onFailure(data.message);
       }
     })
@@ -145,7 +143,6 @@ export const addToCart = (productId, onSuccess, onFailure) => {
     if (isFunction(onSuccess)) onSuccess();
   }).catch(err => {
     if (isFunction(onFailure)) onSuccess(err.message);
-      console.log("error addig to cart!", err)
     })
   }
 }
@@ -160,7 +157,6 @@ export const removeFromCart = (productId, onSuccess, onFailure) => {
     if (isFunction(onSuccess)) onSuccess();
   }).catch(err => {
     if (isFunction(onFailure)) onSuccess(err.message);
-      console.log("error addig to cart!", err)
     })
   }
 }
@@ -174,7 +170,6 @@ export const listCart = (onSuccess, onFailure) => {
     if (isFunction(onSuccess)) onSuccess();
   }).catch(err => {
     if (isFunction(onFailure)) onSuccess(err.message);
-      console.log("error addig to cart!", err)
     })
   }
 }

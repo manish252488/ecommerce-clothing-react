@@ -39,7 +39,6 @@ const Login = ({ changeTab }) => {
   };
   const onFailure = (error) => {
     setLoading(false);
-    console.log(error)
     dispatch(showMessageBar("error", error))
   };
   const login = () => {

@@ -68,7 +68,6 @@ function WrappedComponent({ orderId,
             const { data } = await StripeApi.createPaymentIntent(orderId)
             const paymentObject = data.paymentObject;
             const PI = data.pi;
-            console.log(PI)
             const paymentMethodReq = await stripe.createPaymentMethod({
                 type: "card",
                 card: cardElement,

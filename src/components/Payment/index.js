@@ -63,7 +63,6 @@ export default function Payment(props) {
         dispatch(listCart())
     }, [dispatch])
     const addToCart = id => {
-        console.log("id to remove- ", id)
         const alldata = cart.find(val => val.product === id)
         const data= {
             productId: id,
@@ -77,8 +76,6 @@ export default function Payment(props) {
     }
     const getProducts = () => {
         let productsAdded = []
-        console.log(cart)
-        console.log(products)
         if (cart && cart.length > 0) {
             cart?.forEach(val => {
                 const sample = products.find(c => c.id === val.product)
@@ -93,7 +90,6 @@ export default function Payment(props) {
         return productsAdded;
     }
     const saveAddress = () => {
-        console.log(validate())
         if (validate()) {
             setLoading(true)
             Auth.addAddress(addressForm).then(res => {
@@ -120,7 +116,6 @@ export default function Payment(props) {
         let neglect = []
         for (const [key, value] of Object.entries(addressForm)) {
             if ((value === null || value === '') && !neglect.includes(key)) {
-                console.log(key)
                 flag = false
                 errors[key] = "Cannot be Empty!"
             }
@@ -134,7 +129,6 @@ export default function Payment(props) {
         setLoadingOrder(true)
         cart.forEach(val => {
             let prod = products.find(v => v.id === val.product)
-            console.log(prod)
             delete val.product;
             delete val.id;
             delete val.userId;
@@ -150,7 +144,6 @@ export default function Payment(props) {
         let data = {};
         data.products = addedPro;
         data.billingAddress = validateOrder()
-        console.log(data)
         dispatch(currentOrder(data))
         History.push("/checkout");
     }
@@ -161,12 +154,6 @@ export default function Payment(props) {
             return false
         }
     }
-    console.log({
-        billingData,
-        cart,
-        savedAddress,
-        products,
-    })
     if(!cart || !billingData ||
         !savedAddress ||
         !products) {

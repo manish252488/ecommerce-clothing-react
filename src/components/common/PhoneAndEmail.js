@@ -64,7 +64,6 @@ export default function PhoneAndEmail({ phone, onChange = () => { }, setAction =
           }
           setLoading(false)
         }).catch(err => {
-          console.log("errr", err)
           setLoading(false)
           setError(err.message)
           setInputDisabled(false)

@@ -37,7 +37,6 @@ export default function AddressUpdate({success, data}){
         if(key==='country'){
             setAddressForm({ ...addressForm, [key]: ev })
         } else { 
-            console.log(ev.target.value)
         setAddressForm({ ...addressForm, [key]: ev.target.value })
         }
     }
