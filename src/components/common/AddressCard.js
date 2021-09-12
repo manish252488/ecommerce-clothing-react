@@ -84,7 +84,7 @@ export default function AddressCard({data, setDefaultAdd, width, selectEditAddre
               </Grid>
           </Grid>
           {(data?.default && isFunction)? <Chip size="small" color="primary" label="Default"/>: ''}
-        <Typography className={classes.pos} color="subtittle1">
+        <Typography className={classes.pos}>
           {data?.address1},{data?.address2},{data?.city}-{data?.pincode},{data?.state}-{data?.country}<br/>
           { data?.landmark }
         </Typography>

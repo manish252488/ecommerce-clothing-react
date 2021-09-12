@@ -8,6 +8,7 @@ import { ExpandMore, FileCopyOutlined, LocalShipping, Replay, ShoppingBasket } f
 import moment from 'moment';
 import AddressCard from '../common/AddressCard';
 import ReactSteps from '../common/ReactSteps';
+import ChipCards from '../common/ChipCards';
 export default function MyOrders(props) {
     const orders = useSelector(({ orders }) => orders.list)
     const dispatch = useDispatch()
@@ -33,14 +34,14 @@ export default function MyOrders(props) {
         arrived: 'arrived',
         dilivered: 'dilivered',
         canceled: 'canceled'
-      }
+    }
     const transactionStatus = {
         paid: 'paid',
         unpaid: 'unpaid',
         pending: 'pending',
         cancel: 'cancel',
         refund: 'refund'
-      }
+    }
     console.log(orders[0])
     return <AppBaseScreen>
         <Container maxWidth="md" className="order-container">
@@ -61,7 +62,7 @@ export default function MyOrders(props) {
                                     {orderdata?.products?.map(product => <Grid key={product.id} item xs={12}>
                                         <Grid container>
                                             <Grid xs={5}>
-                                                {product?.pictures && <img src={product?.pictures ? product?.pictures[0] : ""} alt={product?.id} className="image"/>}
+                                                {product?.pictures && <img src={product?.pictures ? product?.pictures[0] : ""} alt={product?.id} className="image" />}
                                             </Grid>
                                             <Grid xs={7}>
                                                 <Typography variant="h6" color="primary"> {product?.name}</Typography>
@@ -85,14 +86,14 @@ export default function MyOrders(props) {
                             </AccordionDetails>
                         </Accordion>
                         <Typography variant="h5">₹{orderdata?.billingData.billAmount}</Typography>
-                        <Typography variant="h6">{orderdata?.transactionStatus}</Typography>
+                        <ChipCards type={orderdata?.transactionStatus === transactionStatus.paid ? "success" : orderdata?.transactionStatus === transactionStatus.pending ? "warning" : orderdata?.transactionStatus === transactionStatus.refund ? "success" : "error"} text={orderdata?.transactionStatus} />
                         <Typography variant="h6">{moment(orderdata?.createdDate).fromNow()} - {moment(orderdata?.createdDate).format("DD-MMM-YYYY")}</Typography>
                         <ReactSteps steps={orderStatus} activeStep={orderdata?.transactionStatus === transactionStatus.pending ? -1 : orderStatus.indexOf(orderdata.orderStatus)} />
                         {orderdata?.transactionStatus === transactionStatus.pending && (
-                        <Button variant="contained" size="small" endIcon={<Replay color="secondary" />} color="primary">Retry</Button>)}
-                         {(orderdata?.transactionStatus !== transactionStatus.pending && orderdata?.orderStatus !== orderStatusValues.canceled && orderdata?.orderStatus !== orderStatusValues.dilivered) && (
-                        <Button variant="contained" size="small" color="primary">Cancel</Button>)}
-        
+                            <Button variant="contained" size="small" endIcon={<Replay color="secondary" />} color="primary">Retry</Button>)}
+                        {(orderdata?.transactionStatus !== transactionStatus.pending && orderdata?.orderStatus !== orderStatusValues.canceled && orderdata?.orderStatus !== orderStatusValues.dilivered) && (
+                            <Button variant="contained" size="small" color="primary">Cancel</Button>)}
+
                     </CardContent>
                 </Card>)}
             </div>)}

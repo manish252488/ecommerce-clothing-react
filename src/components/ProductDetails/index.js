@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import History from '../../@history';
 import ProductsApi from '../../api/products';
 import { shuffle } from '../../config/Utils';
-import { listCart } from '../../store/actions';
+import { listCart, showMessageBar } from '../../store/actions';
 import CustomCarousel from '../common/corousels/CustomCarousel';
 import AppBaseScreen from '../common/layout/user/AppBaseScreen';
 import Products from '../home/Products';
@@ -72,8 +72,8 @@ export default function ProductDetails(props) {
     const [product, setProduct] = useState(null)
     const dispatch = useDispatch();
     const products = useSelector(({ products }) => products.products)
-    const [data, setData] = useState(null)
-    const [size, setSize] = useState("")
+    const [data, setData] = useState(product?.sizes[0] || null)
+    const [size, setSize] = useState(product?.colorOptions[0] || "")
     const [color, setColor] = useState("")
     const [error, setErrors] = useState({
         size: {
@@ -87,10 +87,16 @@ export default function ProductDetails(props) {
     useEffect(() => {
         dispatch(listCart())
         ProductsApi.productDetail(productId).then(res => {
+            if(res.data){
             setProduct(res.data.product)
+            setColor(res.data.product.colorOptions[0])
+            setSize(res.data.product.sizes[0])
             setData(res.data)
+            }else {
+                dispatch(showMessageBar('error', res.message))
+            }
         }).catch(err => {
-            console.log(err)
+            dispatch(showMessageBar('error', err.message))
         })
     }, [productId, dispatch])
 

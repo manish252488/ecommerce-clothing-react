@@ -5,7 +5,7 @@ const CheckoutRoutes = {
   auth: authRoles.user,
   routes: [
     {
-      path: "/checkout/:orderId",
+      path: "/checkout",
       component: Component,
       exact: true,
     },

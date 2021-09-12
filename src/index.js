@@ -5,9 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import * as ServiceWorker from './serviceWorker'
 import "./i18next";
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <App />,
   document.getElementById("root")
 );
 

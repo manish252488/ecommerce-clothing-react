@@ -9,7 +9,7 @@ import { checkJWT, showMessageBar } from '../../../store/actions';
 import { isFunction } from '../../../config/Utils';
 const useStyles = makeStyles(theme => ({
     container: {
-        padding: theme.spacing(5)
+        padding: theme.spacing(5),
     },
     textField: {
         marginTop: 20

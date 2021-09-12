@@ -10,6 +10,7 @@ const useStyles = makeStyles(theme => ({
         paddingLeft: theme.spacing(5),
         paddingRight: theme.spacing(5),
         paddingTop: 5,
+        paddingBottom: 50
     },
     textField: {
         marginTop: 20

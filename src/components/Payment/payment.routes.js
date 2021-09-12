@@ -9,11 +9,6 @@ const PaymentRoutes = {
       component: Payment,
       exact: true,
     },
-    {
-      path: "/payment/:sessionId",
-      component: Payment,
-      exact: true,
-    },
   ],
 };
 export default PaymentRoutes;

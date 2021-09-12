@@ -5,9 +5,8 @@ import { MinusCircle, PlusCircle, ShoppingBag } from 'react-feather'
 import { useDispatch, useSelector } from 'react-redux'
 import History from '../../@history'
 import Auth from '../../api/auth'
-import OrderApis from '../../api/order'
 import { getImage } from '../../config/Utils'
-import { listCart, addToCart as addCart, removeFromCart as removeCart, checkJWT } from '../../store/actions'
+import { listCart, addToCart as addCart, removeFromCart as removeCart, checkJWT, currentOrder } from '../../store/actions'
 import AddressCard from '../common/AddressCard'
 import AppBaseScreen from '../common/layout/user/AppBaseScreen'
 import CountrySelect from '../common/CountrySelectField'
@@ -152,13 +151,8 @@ export default function Payment(props) {
         data.products = addedPro;
         data.billingAddress = validateOrder()
         console.log(data)
-        OrderApis.createOrder(data).then(res => {
-            setLoadingOrder(false)
-            dispatch(listCart())
-            History.push("/checkout/" + res.data.id)
-        }).catch(err => {
-            console.log(err)
-        })
+        dispatch(currentOrder(data))
+        History.push("/checkout");
     }
     const validateOrder = () => {
         if (savedAddress.find(v => v.default === true) && cart.length > 0) {
