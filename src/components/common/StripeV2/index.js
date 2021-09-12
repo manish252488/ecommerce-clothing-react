@@ -67,22 +67,24 @@ function WrappedComponent({ orderId,
             const cardElement = elements.getElement("card");
             const { data } = await StripeApi.createPaymentIntent(orderId)
             const paymentObject = data.paymentObject;
-            const PI = data.pi;
             const paymentMethodReq = await stripe.createPaymentMethod({
                 type: "card",
                 card: cardElement,
                 billing_details: paymentObject
             });
-
+            
             if (paymentMethodReq.error) {
                 dispatch(showMessageBar('error',paymentMethodReq.error.message))
                 isLoading(false)
                 return;
             }
-            const { data: confirmResponse } = await StripeApi.confirmPayment({
-                clientSecret: PI.id,
-                orderId: orderId,
+            const {paymentIntent} = await stripe.confirmCardPayment(data.clientSecret, {
                 payment_method: paymentMethodReq.paymentMethod.id
+            })
+            const { data: confirmResponse } = await StripeApi.confirmPayment({
+                clientSecret: data.clientSecret,
+                orderId: orderId,
+                pi: paymentIntent.id
             })
             if(confirmResponse.status){
                 dispatch(showMessageBar('success',confirmResponse.message))
