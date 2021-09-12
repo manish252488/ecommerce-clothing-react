@@ -1,15 +1,12 @@
 @import '../../Base.less';
 
 .product-container{
-    display: flex;
-    flex-wrap: wrap;
-    overflow-y: auto;
-    width: 100%;
-    min-height: 90vh;
-    margin: auto;
-    row-gap: 30px;
-    column-gap: 55px;
-
+display: flex;
+flex-flow: row;
+align-items: center;
+flex-wrap: wrap;
+row-gap: 1%;
+column-gap: 1%;
 }
 .no-data {
     text-align: center;
@@ -28,9 +25,7 @@
         min-height: 300px;
     }   
     .product-container{
-        justify-content: space-between;
-        grid-column-gap: 5px;
-        grid-row-gap: 5px;
+     
     }
     .scroll-container {
         margin: 0;

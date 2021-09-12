@@ -19,7 +19,6 @@ export default function CheckoutPage(props) {
     const orderData = useSelector(({ orders }) => orders?.list)
     const order = orderData.find(val => val.id === orderId)
     const classes = useStyles();
-    console.log(order)
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(listOrders())
@@ -27,6 +26,7 @@ export default function CheckoutPage(props) {
     if(!orderData && orderData.length <= 0 && !order){
         return null
     }
+    console.log(order)
     const LoadingComponent = () => <div>loading</div>
     const PaymentComponent = () => (
         <Container maxWidth="lg" className={classes.root + ' payment-component'}>
@@ -91,7 +91,7 @@ export default function CheckoutPage(props) {
     )
     return <AppBaseScreen>
         {
-            renderIfElse(orderData, <PaymentComponent />, <LoadingComponent />)
+            renderIfElse(orderData && orderData.length > 0, <PaymentComponent />, <LoadingComponent />)
         }
 
     </AppBaseScreen>

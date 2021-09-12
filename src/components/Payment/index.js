@@ -27,7 +27,7 @@ export default function Payment(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
     const billingData = useSelector(({ Auth }) => Auth.billingData || {})
-    const cart = useSelector(({ Auth }) => Auth.cart)
+    const cart = useSelector(({ Auth }) => Auth.cart.cart)
     const savedAddress = useSelector(({ Auth }) => Auth.user.savedAddress || [])
     const products = useSelector(({ products }) => products.products || [])
     const [selectedAddress] = useState(null)
@@ -64,24 +64,32 @@ export default function Payment(props) {
         dispatch(listCart())
     }, [dispatch])
     const addToCart = id => {
-        dispatch(addCart(id))
+        console.log("id to remove- ", id)
+        const alldata = cart.find(val => val.product === id)
+        const data= {
+            productId: id,
+            color: alldata.color,
+            size: alldata.size,
+        }
+        dispatch(addCart(data))
     }
     const removeFromCart = id => {
         dispatch(removeCart(id))
     }
     const getProducts = () => {
         let productsAdded = []
-        if(cart && cart.length > 0){
-        cart?.forEach(val => {
-            const sample = products.find(c => c.id === val.product)
-            if (sample) {
-                sample.quantity = cart.find(v => v.product === sample.id)?.quantity
-                sample.size = cart.find(v => v.product === sample.id)?.size;
-                sample.color = cart.find(v => v.product === sample.id)?.color;
-                sample.brand =
-                    productsAdded.push(sample)
-            }
-        })
+        console.log(cart)
+        console.log(products)
+        if (cart && cart.length > 0) {
+            cart?.forEach(val => {
+                const sample = products.find(c => c.id === val.product)
+                if (sample) {
+                    sample.quantity = cart.find(v => v.product === sample.id)?.quantity
+                    sample.size = cart.find(v => v.product === sample.id)?.size;
+                    sample.color = cart.find(v => v.product === sample.id)?.color;
+                    sample.brand = productsAdded.push(sample)
+                }
+            })
         }
         return productsAdded;
     }
@@ -161,10 +169,15 @@ export default function Payment(props) {
     }
     console.log({
         billingData,
-cart,
-savedAddress,
-products,
+        cart,
+        savedAddress,
+        products,
     })
+    if(!cart || !billingData ||
+        !savedAddress ||
+        !products) {
+            return null
+        }
     return <AppBaseScreen>
         <Container maxWidth="md" className="payment-container" >
             <Typography variant="h4">  <ShoppingBag /> Cart</Typography>
@@ -188,7 +201,7 @@ products,
                                         </div>
                                     </Grid>
                                     <Grid item xs={5}>
-                                    <Typography variant="h6" align="right">Price</Typography>
+                                        <Typography variant="h6" align="right">Price</Typography>
                                         <Typography variant="h6" align="right">₹{val.sellingCost}</Typography>
                                         <Typography variant="h6" align="right"><del>₹{val.cost}</del></Typography>
 

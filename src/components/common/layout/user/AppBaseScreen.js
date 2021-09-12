@@ -26,7 +26,7 @@ const AppBaseScreen = (props) => {
     showHeader,
   } = props;
   const dispatch = useDispatch();
-  const cart = useSelector(({ Auth }) => Auth.cart)
+  const cart = useSelector(({ Auth }) => Auth.cart.cart)
   const isAuth = useSelector(({ Auth }) => Auth?.isAuthenticated)
   const [isLoggedIn, setIsLoggedIn] = useState(isAuth)
   const searchBar = History.location.pathname === "/home"

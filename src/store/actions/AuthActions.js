@@ -136,10 +136,12 @@ export const authPage = (val) => {
 export const addToCart = (productId, onSuccess, onFailure) => {
   return dispatch => {
     CartApi.addCart(productId).then(res => {
-      dispatch({
-      type: CART_ACTION,
-      payload: res.data
-    })
+      if(res.data){
+        dispatch({
+          type: CART_ACTION,
+          payload: res.data
+        })
+      }
     if (isFunction(onSuccess)) onSuccess();
   }).catch(err => {
     if (isFunction(onFailure)) onSuccess(err.message);
