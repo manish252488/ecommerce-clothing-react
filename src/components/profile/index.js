@@ -16,7 +16,12 @@ import AddressUpdate from './components/AddressUpdate';
 import DetailUpdate from './components/DetailUpdate';
 import ResponsiveDialogs from '../common/ResponsiveDialogs';
 import { defaultUser } from '../../assets';
-
+const supportedFileTypes = [
+    "jpg",
+    "png",
+    "gif",
+    "jpeg"
+]
 const Profile = (props) => {
     const theme = useTheme()
     const dispatch = useDispatch()
@@ -36,6 +41,10 @@ const Profile = (props) => {
     useEffect(() => {
         console.log(imageSrc, '............')
         if (imageSrc) {
+            let test = imageSrc.name.slice(".");
+            let type = test[test.length - 1];
+            if(supportedFileTypes.includes(type)){
+          
             const formdata = new FormData()
             formdata.append('file', imageSrc)
             Auth.updateProfilePicture(formdata).then(res => {
@@ -46,6 +55,10 @@ const Profile = (props) => {
                 dispatch(showMessageBar("error", err.message))
                 setImageSrc(null)
             })
+                  
+        }else {
+            dispatch(showMessageBar("error", "File Type Not Supported!"))
+        }
         }
         //eslint-disable-next-line
     }, [imageSrc])
