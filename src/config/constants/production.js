@@ -6,6 +6,6 @@ module.exports = {
     facebook_app_id: "229710308972638",
     login_redirects: "https://www.dapperfolks.in/auth/login",
     stripe_pk:"pk_test_51J0KQiSGk0zsbKBlfPodRAclTu0MnkW4ffxiu2uHmdeBZnPL9pBCIvqYDDv7xvICPEMq2kuXGndYF86CLfgziyWR00dJcQXfIs",
-    stripe_secret:"sk_test_51J0KQiSGk0zsbKBlVj3twDOAXuurs9t9dFvJYgglHHvtzZcIidd5lbFDoyzHDt82MRBPZ0gLau4nnporvZMZK6GG00BgKIqSw0"
-  
+    stripe_secret:"sk_test_51J0KQiSGk0zsbKBlVj3twDOAXuurs9t9dFvJYgglHHvtzZcIidd5lbFDoyzHDt82MRBPZ0gLau4nnporvZMZK6GG00BgKIqSw0",
+    razorpay_key: "rzp_test_dDRXxijJpah2hh"
 }

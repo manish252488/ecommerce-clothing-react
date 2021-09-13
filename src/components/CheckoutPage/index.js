@@ -7,7 +7,7 @@ import { getImage, renderIfElse } from '../../config/Utils';
 import { checkJWT, currentOrder, listCart, showMessageBar } from '../../store/actions';
 import AddressCard from '../common/AddressCard';
 import AppBaseScreen from '../common/layout/user/AppBaseScreen'
-import StripeCards from '../common/StripeV2';
+import Razorpay from '../common/Razorpay';
 import './index.less'
 const useStyles = makeStyles(({
     root: {
@@ -21,6 +21,7 @@ export default function CheckoutPage(props) {
     const classes = useStyles();
     const [orderId, setOrderId] = useState(order.id || null)
     const [loadingOrder, setLoadingOrder] = useState(false)
+    const [orderData,setOrderData] = useState()
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(listCart())
@@ -36,6 +37,7 @@ export default function CheckoutPage(props) {
                 if (res.data && res.data.id) {
                     dispatch(listCart())
                     setOrderId(res.data.id)
+                    setOrderData(res.data)
                     dispatch(currentOrder(res.data))
                 } else {
                     setLoadingOrder(false)
@@ -113,8 +115,9 @@ export default function CheckoutPage(props) {
 
 
                     </Grid>
+                    {orderId && <Razorpay order={orderData} amount={cart?.billingData?.billAmount} onFailed={onPaymentFailed} onSuccess={onPaymentSuccess}/>}
                     {/* <Stripe orderId={orderId} amount={cart?.billingData?.billAmount} disabled={false} /> */}
-                    {orderId && <StripeCards orderId={orderId} amount={cart?.billingData?.billAmount} onFailed={onPaymentFailed} onSuccess={onPaymentSuccess}></StripeCards>}
+                    {/* {orderId && <StripeCards orderId={orderId} amount={cart?.billingData?.billAmount} onFailed={onPaymentFailed} onSuccess={onPaymentSuccess}></StripeCards>} */}
                 </Grid>
             }</Grid>
 

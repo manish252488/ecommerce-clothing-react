@@ -25,7 +25,7 @@ export default function MyOrders(props) {
     useEffect(()=> {
        setOrders(orderData.slice(0,page))
         // eslint-disable-next-line
-    }, [page])
+    }, [page, orderData])
     const lastBookElementRef = useCallback(node => {
         if (observer.current) observer.current.disconnect()
         observer.current = new IntersectionObserver(entries => {
@@ -105,6 +105,8 @@ export default function MyOrders(props) {
                         </Accordion>
                         <Typography variant="h5">₹{orderdata?.billingData.billAmount}</Typography>
                         <ChipCards type={orderdata?.transactionStatus === transactionStatus.paid ? "success" : orderdata?.transactionStatus === transactionStatus.pending ? "warning" : orderdata?.transactionStatus === transactionStatus.refund ? "success" : "error"} text={orderdata?.transactionStatus} />
+                        <Typography variant="body1">{orderdata?.transactionType ? '@'+orderdata?.transactionType :""}</Typography>
+                        
                         <Typography variant="h6">{moment(orderdata?.createdDate).fromNow()} - {moment(orderdata?.createdDate).format("DD-MMM-YYYY")}</Typography>
                         {(orderdata.transactionType === "cod" || orderdata?.transactionStatus === transactionStatus.paid) &&
                          <ReactSteps steps={orderStatus} activeStep={orderdata?.transactionStatus === transactionStatus.pending ? -1 : orderStatus.indexOf(orderdata.orderStatus)} />}
