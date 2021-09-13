@@ -151,18 +151,12 @@ class SignUp extends React.Component {
         deviceData: deviceData,
         birthdate: this.state.user.birthdate,
       };
-      console.log(data)
       this.props.register(data, this.onSuccess, this.onFailure);
     } else {
       this.setState({ loading: false });
     }
   };
-  handleDateSelect = (date) => {
-    console.log(date)
-  }
-  handleDateChange = (date) => {
-    console.log(date)
-  }
+
   changeTab = (tab) => {
     this.setState({ type: tab })
   }

@@ -10,6 +10,7 @@ const useStyles = makeStyles(theme => ({
         paddingLeft: theme.spacing(5),
         paddingRight: theme.spacing(5),
         paddingTop: 5,
+        paddingBottom: 50
     },
     textField: {
         marginTop: 20
@@ -36,7 +37,6 @@ export default function AddressUpdate({success, data}){
         if(key==='country'){
             setAddressForm({ ...addressForm, [key]: ev })
         } else { 
-            console.log(ev.target.value)
         setAddressForm({ ...addressForm, [key]: ev.target.value })
         }
     }

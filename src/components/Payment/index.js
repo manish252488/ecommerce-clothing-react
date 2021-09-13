@@ -5,9 +5,8 @@ import { MinusCircle, PlusCircle, ShoppingBag } from 'react-feather'
 import { useDispatch, useSelector } from 'react-redux'
 import History from '../../@history'
 import Auth from '../../api/auth'
-import OrderApis from '../../api/order'
 import { getImage } from '../../config/Utils'
-import { listCart, addToCart as addCart, removeFromCart as removeCart, checkJWT } from '../../store/actions'
+import { listCart, addToCart as addCart, removeFromCart as removeCart, checkJWT, currentOrder } from '../../store/actions'
 import AddressCard from '../common/AddressCard'
 import AppBaseScreen from '../common/layout/user/AppBaseScreen'
 import CountrySelect from '../common/CountrySelectField'
@@ -64,7 +63,6 @@ export default function Payment(props) {
         dispatch(listCart())
     }, [dispatch])
     const addToCart = id => {
-        console.log("id to remove- ", id)
         const alldata = cart.find(val => val.product === id)
         const data= {
             productId: id,
@@ -78,8 +76,6 @@ export default function Payment(props) {
     }
     const getProducts = () => {
         let productsAdded = []
-        console.log(cart)
-        console.log(products)
         if (cart && cart.length > 0) {
             cart?.forEach(val => {
                 const sample = products.find(c => c.id === val.product)
@@ -94,7 +90,6 @@ export default function Payment(props) {
         return productsAdded;
     }
     const saveAddress = () => {
-        console.log(validate())
         if (validate()) {
             setLoading(true)
             Auth.addAddress(addressForm).then(res => {
@@ -121,7 +116,6 @@ export default function Payment(props) {
         let neglect = []
         for (const [key, value] of Object.entries(addressForm)) {
             if ((value === null || value === '') && !neglect.includes(key)) {
-                console.log(key)
                 flag = false
                 errors[key] = "Cannot be Empty!"
             }
@@ -135,7 +129,6 @@ export default function Payment(props) {
         setLoadingOrder(true)
         cart.forEach(val => {
             let prod = products.find(v => v.id === val.product)
-            console.log(prod)
             delete val.product;
             delete val.id;
             delete val.userId;
@@ -151,14 +144,8 @@ export default function Payment(props) {
         let data = {};
         data.products = addedPro;
         data.billingAddress = validateOrder()
-        console.log(data)
-        OrderApis.createOrder(data).then(res => {
-            setLoadingOrder(false)
-            dispatch(listCart())
-            History.push("/checkout/" + res.data.id)
-        }).catch(err => {
-            console.log(err)
-        })
+        dispatch(currentOrder(data))
+        History.push("/checkout");
     }
     const validateOrder = () => {
         if (savedAddress.find(v => v.default === true) && cart.length > 0) {
@@ -167,12 +154,6 @@ export default function Payment(props) {
             return false
         }
     }
-    console.log({
-        billingData,
-        cart,
-        savedAddress,
-        products,
-    })
     if(!cart || !billingData ||
         !savedAddress ||
         !products) {

@@ -9,7 +9,7 @@ import { checkJWT, showMessageBar } from '../../../store/actions';
 import { isFunction } from '../../../config/Utils';
 const useStyles = makeStyles(theme => ({
     container: {
-        padding: theme.spacing(5)
+        padding: theme.spacing(5),
     },
     textField: {
         marginTop: 20
@@ -30,7 +30,6 @@ export default function DetailUpdate({ userData, success }) {
     const callSave = () => {
         setLoading(true)
         Auth.updateProfile(user).then(res => {
-            console.log(res)
             dispatch(checkJWT())
             setLoading(false)
             if(isFunction(success)) success(false)

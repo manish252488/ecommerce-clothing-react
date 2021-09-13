@@ -13,7 +13,9 @@ const Auth = {
   getUserDetail: () => client.get("/users/detail"),
   generateOtp:(phone) => client.post("/users/otp-generate", {phoneNo: phone}),
   verifyOtp: (otp,hash) => client.post("/users/otp-verify",{otp: otp, hash: hash}),
-  updateProfile: (data) => client.put("/users/update", data)
+  updateProfile: (data) => client.put("/users/update", data),
+  genrateMailOtp: (email) => client.post("/users/mail-otp-generate",{email: email}),
+  verifyEmailOtp: (data = { email: "",otp: "", hash: ""}) => client.post("/users/mail-otp-verify",data),
 };
 
 export default Auth;

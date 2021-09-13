@@ -16,7 +16,13 @@ import AddressUpdate from './components/AddressUpdate';
 import DetailUpdate from './components/DetailUpdate';
 import ResponsiveDialogs from '../common/ResponsiveDialogs';
 import { defaultUser } from '../../assets';
-
+import EmailVerificationpanel from '../common/EmailVerificationpanel';
+const supportedFileTypes = [
+    "jpg",
+    "png",
+    "gif",
+    "jpeg"
+]
 const Profile = (props) => {
     const theme = useTheme()
     const dispatch = useDispatch()
@@ -31,11 +37,16 @@ const Profile = (props) => {
     const [profileEditor, openProfileEditor] = useState(false)
     const fetchUserDetails = () => {
         Auth.getUserDetail().then(res => setUserData(res.data))
-            .catch(err => console.log(err.message))
+            .catch(err => {
+                dispatch(showMessageBar('error', err.message))
+            })
     }
     useEffect(() => {
-        console.log(imageSrc, '............')
         if (imageSrc) {
+            let test = imageSrc.name.slice(".");
+            let type = test[test.length - 1];
+            if(supportedFileTypes.includes(type)){
+          
             const formdata = new FormData()
             formdata.append('file', imageSrc)
             Auth.updateProfilePicture(formdata).then(res => {
@@ -46,6 +57,10 @@ const Profile = (props) => {
                 dispatch(showMessageBar("error", err.message))
                 setImageSrc(null)
             })
+                  
+        }else {
+            dispatch(showMessageBar("error", "File Type Not Supported!"))
+        }
         }
         //eslint-disable-next-line
     }, [imageSrc])
@@ -92,10 +107,11 @@ const Profile = (props) => {
                             </div>
 
                         </div>
-
                         <Container maxWidth="lg" className="profileForm">
                             <DetailView user={userData} editOnClick={() => openProfileEditor(true)} />
                             <Divider />
+                            {!userData.email  && <EmailVerificationpanel onSuccess={fetchUserDetails}/>}
+                           
                             <Accordion defaultExpanded>
                                 <AccordionSummary expandIcon={<ExpandMore />}>
                                     <Typography style={{ fontWeight: 'bold' }}>Saved Address</Typography>
@@ -113,7 +129,6 @@ const Profile = (props) => {
                                 <AccordionSummary expandIcon={<ExpandMore />}>
                                     <Typography style={{ fontWeight: 'bold' }}>Login Activities</Typography>
                                 </AccordionSummary>
-                                {console.log(userData)}
                                 <AccordionDetails >
                                     <List>
                                         {
