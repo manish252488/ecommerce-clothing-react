@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import History from '../../@history';
 import ProductsApi from '../../api/products';
-import { shuffle } from '../../config/Utils';
+import { renderIfElse, shuffle } from '../../config/Utils';
 import { listCart, showMessageBar } from '../../store/actions';
 import CustomCarousel from '../common/corousels/CustomCarousel';
 import AppBaseScreen from '../common/layout/user/AppBaseScreen';
@@ -13,6 +13,7 @@ import Products from '../home/Products';
 import RatingComponent from '../home/Products/components/Rating';
 import './index.less'
 import * as Actions from '../../store/actions'
+import LoadingScreen from '../common/Loader.js';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -175,10 +176,8 @@ export default function ProductDetails(props) {
             addToCart(id, true)
         }
     }
-    if (!product) {
-        return null
-    }
-    return <AppBaseScreen>
+   
+    const Component = () => (
         <Container maxWidth="lg" className={classes.root + ' container'}>
             <Card className={classes.card}>
                 <Grid container>
@@ -327,6 +326,10 @@ export default function ProductDetails(props) {
                 </TextField>
                 <Button variant="contained" color="primary" size="small">post</Button>
             </Container>
-        </Container>
+        </Container>)
+    return <AppBaseScreen>
+        {
+            renderIfElse(!product , <LoadingScreen />, <Component/>)
+        }
     </AppBaseScreen>
 }

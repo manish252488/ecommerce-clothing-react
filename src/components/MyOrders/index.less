@@ -1,5 +1,12 @@
 @import '../../Base.less';
-
+.flex {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.left {
+    justify-content: flex-start;
+}
 .order-container{
     min-height: 100vh !important;
     width: '70%';
@@ -16,12 +23,11 @@
         padding-right: 0 !important;
     }
     .order-card {
-        min-width: 45%;
-        max-width: 45%;
+        width: 100%;
         margin: 10px;
         .image {
-            width: 85%;
-            min-width: 85%
+            width: 30%;
+            min-width: 30%
         }
        
     }

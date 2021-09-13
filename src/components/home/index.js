@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginPage } from "../../assets";
 import { ArrowDown } from "react-feather";
 import FilterExpansionPanel from "../common/ExpansionPanelFilters.js/FilterExpansionPanel";
+import LoadingScreen from "../common/Loader.js";
+import { renderIfElse } from "../../config/Utils";
 
 const useStyles = makeStyles({
   divider: {
@@ -62,9 +64,8 @@ const Home = (props) => {
       setPage((prev) => prev + 1)
     }
   }
-  return (
-    <AppBaseScreen >
-      <CustomCarousel images={[loginPage]} autoPlay={false} />
+  const Component = () => (
+    
       <Container maxWidth="lg" className="scroll-container">
         <Card component={Paper}>
           <CardHeader
@@ -86,7 +87,14 @@ const Home = (props) => {
         </Card>
 
       </Container>
-    </AppBaseScreen>
+ 
   );
+  return (
+    <AppBaseScreen>
+      {
+        renderIfElse(!products || products.length <= 0, <LoadingScreen/> , <Component/>)
+      }
+    </AppBaseScreen>
+  )
 };
 export default Home;

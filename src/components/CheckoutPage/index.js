@@ -7,6 +7,7 @@ import { getImage, renderIfElse } from '../../config/Utils';
 import { checkJWT, currentOrder, listCart, showMessageBar } from '../../store/actions';
 import AddressCard from '../common/AddressCard';
 import AppBaseScreen from '../common/layout/user/AppBaseScreen'
+import LoadingScreen from '../common/Loader.js';
 import Razorpay from '../common/Razorpay';
 import './index.less'
 const useStyles = makeStyles(({
@@ -57,7 +58,6 @@ export default function CheckoutPage(props) {
         History.push('/myorders')
         dispatch(currentOrder({}))
     }
-    const LoadingComponent = () => <div>loading</div>
     const PaymentComponent = () => (
         <Container maxWidth="lg" className={classes.root + ' payment-component'}>
             <Grid container className="MuiGrid-container-1">
@@ -125,7 +125,7 @@ export default function CheckoutPage(props) {
     )
     return <AppBaseScreen>
         {
-            renderIfElse(order && cart, <PaymentComponent />, <LoadingComponent />)
+            renderIfElse(order && cart, <PaymentComponent />, <LoadingScreen />)
         }
 
     </AppBaseScreen>

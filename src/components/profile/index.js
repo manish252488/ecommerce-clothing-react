@@ -17,6 +17,7 @@ import DetailUpdate from './components/DetailUpdate';
 import ResponsiveDialogs from '../common/ResponsiveDialogs';
 import { defaultUser } from '../../assets';
 import EmailVerificationpanel from '../common/EmailVerificationpanel';
+import LoadingScreen from '../common/Loader.js';
 const supportedFileTypes = [
     "jpg",
     "png",
@@ -161,7 +162,7 @@ const Profile = (props) => {
         </Card>
     )
     return <AppBaseScreen>
-        {renderIfElse(userData, <ProfileComponent />, null)}
+        {renderIfElse(userData, <ProfileComponent />, <LoadingScreen/>)}
     </AppBaseScreen>
 }
 export default Profile;

@@ -5,12 +5,13 @@ import { MinusCircle, PlusCircle, ShoppingBag } from 'react-feather'
 import { useDispatch, useSelector } from 'react-redux'
 import History from '../../@history'
 import Auth from '../../api/auth'
-import { getImage } from '../../config/Utils'
+import { getImage, renderIfElse } from '../../config/Utils'
 import { listCart, addToCart as addCart, removeFromCart as removeCart, checkJWT, currentOrder } from '../../store/actions'
 import AddressCard from '../common/AddressCard'
 import AppBaseScreen from '../common/layout/user/AppBaseScreen'
 import CountrySelect from '../common/CountrySelectField'
 import './index.less'
+import LoadingScreen from '../common/Loader.js'
 
 const useStyles = makeStyles({
     media: {
@@ -154,14 +155,11 @@ export default function Payment(props) {
             return false
         }
     }
-    if(!cart || !billingData ||
-        !savedAddress ||
-        !products) {
-            return null
-        }
-    return <AppBaseScreen>
+
+    const Component = () =>(
         <Container maxWidth="md" className="payment-container" >
-            <Typography variant="h4">  <ShoppingBag /> Cart</Typography>
+            <Typography variant="h4" color="primary">  <ShoppingBag /> Cart</Typography>
+            <Divider />
             <div className="cart-panel">
                 {
                     getProducts().map((val, index) => (
@@ -183,7 +181,7 @@ export default function Payment(props) {
                                     </Grid>
                                     <Grid item xs={5}>
                                         <Typography variant="h6" align="right">Price</Typography>
-                                        <Typography variant="h6" align="right">₹{val.sellingCost}</Typography>
+                                        <Typography variant="h6" style={{fontWeight: 'bold'}} align="right">₹{val.sellingCost}</Typography>
                                         <Typography variant="h6" align="right"><del>₹{val.cost}</del></Typography>
 
                                     </Grid>
@@ -362,6 +360,15 @@ export default function Payment(props) {
                     </CardContent>
                 </Card>
             </div>
-            } </Container>
-    </AppBaseScreen>
+            } </Container>)
+
+    return (
+        <AppBaseScreen>
+            {
+                renderIfElse(!cart || !billingData ||
+                    !savedAddress ||
+                    !products, <LoadingScreen/> , <Component />)
+            }
+        </AppBaseScreen>
+    )
 }

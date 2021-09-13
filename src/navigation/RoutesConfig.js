@@ -9,6 +9,7 @@ import CheckoutRoutes from "../components/CheckoutPage/checkout.routes";
 import MyOrderRoutes from "../components/MyOrders/myorders.routes";
 import ProfileRoutes from "../components/profile/profile.routes";
 import TermsAndPolicies from "../components/TermsAndPrivacy/termsandprivacy.routes";
+import CategoryRoutes from "../components/Catergories/category.routes";
 
 const routesConfig = [HomeRoutes,
     NotFoundRoutes,
@@ -20,7 +21,8 @@ const routesConfig = [HomeRoutes,
     CheckoutRoutes,
     MyOrderRoutes,
     ProfileRoutes,
-    TermsAndPolicies
+    TermsAndPolicies,
+    CategoryRoutes
 ];
 
 export default routesConfig;
