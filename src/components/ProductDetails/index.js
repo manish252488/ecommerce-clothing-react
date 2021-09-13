@@ -13,6 +13,7 @@ import Products from '../home/Products';
 import RatingComponent from '../home/Products/components/Rating';
 import './index.less'
 import * as Actions from '../../store/actions'
+
 const useStyles = makeStyles(theme => ({
     root: {
 
@@ -23,8 +24,12 @@ const useStyles = makeStyles(theme => ({
     frame: {
         background: '#333',
         margin: theme.spacing(1),
-        maxWidth: '100%',
+        maxWidth: '80%',
         overflow: 'hidden',
+        marginLeft: 30,
+        marginTop: 30,
+        borderRadius: 5,
+        border: '2px solid #333'
     },
     container: {
         padding: 10,
@@ -60,7 +65,7 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center'
     },
     logo: {
-        width: 100
+        width: 75
     }
 }))
 export default function ProductDetails(props) {
@@ -75,6 +80,7 @@ export default function ProductDetails(props) {
     const [data, setData] = useState(product?.sizes[0] || null)
     const [size, setSize] = useState(product?.colorOptions[0] || "")
     const [color, setColor] = useState("")
+    const [buynowLoading, setbuyLoading] =useState(false)
     const [error, setErrors] = useState({
         size: {
             message: ''
@@ -111,12 +117,12 @@ export default function ProductDetails(props) {
         }
         // eslint-disable-next-line 
     }, [color,size])
-    const addToCart = (id) => {
+    const addToCart = (id, buynow=false) => {
         if(!isAuth) {
            History.push("/login")
            return;
         }
-        setCartLoading(true)
+        if(!buynow) setCartLoading(true)
         let flag = true
         let errors = {
             size: {
@@ -146,13 +152,28 @@ export default function ProductDetails(props) {
             color: color,
             size: size
         }
-        dispatch(Actions.addToCart(data, () => setCartLoading(false), (mes) => {
+        dispatch(Actions.addToCart(data, () => {
+            setCartLoading(false)
+            if(buynow){
+                setbuyLoading(false)
+                History.push("/cart")
+            }
+        }, (mes) => {
             setCartLoading(false)
         }))
     }
     const removeFromCart = (id) => {
         setCartLoading(id)
         dispatch(Actions.removeFromCart(id, () => setCartLoading(null)))
+    }
+    const buyNow = (id) => {
+        setbuyLoading(true)
+        if(cart?.find(v => v.product === product.id)){
+            setbuyLoading(false)
+            History.push("/cart")
+        }else {
+            addToCart(id, true)
+        }
     }
     if (!product) {
         return null
@@ -246,8 +267,8 @@ export default function ProductDetails(props) {
                                     {cart?.find(v => v.product === product.id) ? "Remove Cart" : "Add to Cart"}
                                 </Button>
                                 <Button
-                                    startIcon={<FlashOn />}
-                                    variant="contained" color="primary">Buy Now</Button>
+                                    startIcon={buynowLoading ? <CircularProgress color="secondary" size={20} />  : <FlashOn color="secondary"/>}
+                                    variant="contained" onClick={() => buyNow(product.id)} color="primary">Buy Now</Button>
                             </div>
                         </Container>
                     </Grid>

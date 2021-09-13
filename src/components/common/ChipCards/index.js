@@ -7,21 +7,21 @@ const useStyles = makeStyles(theme => ({
     success: {
         background: "#4fff5f",
         minWidth: 120,
-        color: "#333",
+        color: "#fff",
         fontWeight: "bold",
         textTransform: 'uppercase'
     },
     error: {
         background: "#B00020",
         minWidth: 120,
-        color: "#333",
+        color: "#fff",
         fontWeight: "bold",
         textTransform: 'uppercase'
     },
     warning: {
         background: "#ffcc00",
         minWidth: 120,
-        color: "#333",
+        color: "#fff",
         fontWeight: "bold",
         textTransform: 'uppercase'
     },

@@ -16,6 +16,7 @@ import AddressUpdate from './components/AddressUpdate';
 import DetailUpdate from './components/DetailUpdate';
 import ResponsiveDialogs from '../common/ResponsiveDialogs';
 import { defaultUser } from '../../assets';
+import EmailVerificationpanel from '../common/EmailVerificationpanel';
 const supportedFileTypes = [
     "jpg",
     "png",
@@ -106,10 +107,11 @@ const Profile = (props) => {
                             </div>
 
                         </div>
-
                         <Container maxWidth="lg" className="profileForm">
                             <DetailView user={userData} editOnClick={() => openProfileEditor(true)} />
                             <Divider />
+                            {!userData.email  && <EmailVerificationpanel onSuccess={fetchUserDetails}/>}
+                           
                             <Accordion defaultExpanded>
                                 <AccordionSummary expandIcon={<ExpandMore />}>
                                     <Typography style={{ fontWeight: 'bold' }}>Saved Address</Typography>

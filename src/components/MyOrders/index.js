@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listOrders, showMessageBar } from '../../store/actions';
 import AppBaseScreen from '../common/layout/user/AppBaseScreen';
@@ -10,8 +10,11 @@ import AddressCard from '../common/AddressCard';
 import ReactSteps from '../common/ReactSteps';
 import ChipCards from '../common/ChipCards';
 export default function MyOrders(props) {
-    const orders = useSelector(({ orders }) => orders.list)
+    const orderData = useSelector(({ orders }) => orders.list)
     const dispatch = useDispatch()
+    const observer = useRef()
+    const [orders, setOrders] = useState(orderData.slice(0, 10) || [])
+    const [page, setPage] = useState(5)
     useEffect(() => {
         dispatch(listOrders())
     }, [dispatch])
@@ -19,6 +22,21 @@ export default function MyOrders(props) {
         navigator.clipboard.writeText(text);
         dispatch(showMessageBar('success', 'Order Id copied!'))
     }
+    useEffect(()=> {
+       setOrders(orderData.slice(0,page))
+        // eslint-disable-next-line
+    }, [page])
+    const lastBookElementRef = useCallback(node => {
+        if (observer.current) observer.current.disconnect()
+        observer.current = new IntersectionObserver(entries => {
+          if (entries[0].isIntersecting) {
+            setPage(prev => prev+5)
+          }
+        })
+        if (node) observer.current.observe(node)
+        // eslint-disable-next-line
+      }, [])
+
     if (!orders) {
         return null
     }
@@ -28,13 +46,13 @@ export default function MyOrders(props) {
         "arrived",
         "dilivered",
     ]
-    const orderStatusValues = {
+  /*   const orderStatusValues = {
         initiated: 'initiated',
         shipped: 'shipped',
         arrived: 'arrived',
         dilivered: 'dilivered',
         canceled: 'canceled'
-    }
+    } */
     const transactionStatus = {
         paid: 'paid',
         unpaid: 'unpaid',
@@ -45,10 +63,11 @@ export default function MyOrders(props) {
     return <AppBaseScreen>
         <Container maxWidth="md" className="order-container">
 
-            <CardHeader avatar={<LocalShipping />} title="My Orders"></CardHeader>
+            <CardHeader avatar={<LocalShipping color="primary"/>} title="My Orders"></CardHeader>
             <Divider />
             {(orders || orders.length > 0) && (<div className="card-container">
-                {orders?.map(orderdata => <Card className="order-card" key={orderdata.id}>
+                {orders?.map((orderdata, index) => {
+                    return (<Card className="order-card" key={index}>
                     <CardContent>
                         <Typography onClick={() => copyToClipBoard(orderdata.id)} vaiant="h6" style={{ display: 'flex', cursor: 'pointer' }}><FileCopyOutlined /> {orderdata?.id}</Typography>
                         <Divider />
@@ -87,14 +106,15 @@ export default function MyOrders(props) {
                         <Typography variant="h5">₹{orderdata?.billingData.billAmount}</Typography>
                         <ChipCards type={orderdata?.transactionStatus === transactionStatus.paid ? "success" : orderdata?.transactionStatus === transactionStatus.pending ? "warning" : orderdata?.transactionStatus === transactionStatus.refund ? "success" : "error"} text={orderdata?.transactionStatus} />
                         <Typography variant="h6">{moment(orderdata?.createdDate).fromNow()} - {moment(orderdata?.createdDate).format("DD-MMM-YYYY")}</Typography>
-                        <ReactSteps steps={orderStatus} activeStep={orderdata?.transactionStatus === transactionStatus.pending ? -1 : orderStatus.indexOf(orderdata.orderStatus)} />
+                        {(orderdata.transactionType === "cod" || orderdata?.transactionStatus === transactionStatus.paid) &&
+                         <ReactSteps steps={orderStatus} activeStep={orderdata?.transactionStatus === transactionStatus.pending ? -1 : orderStatus.indexOf(orderdata.orderStatus)} />}
                         {orderdata?.transactionStatus === transactionStatus.pending && (
                             <Button variant="contained" size="small" endIcon={<Replay color="secondary" />} color="primary">Retry</Button>)}
-                        {(orderdata?.transactionStatus !== transactionStatus.pending && orderdata?.orderStatus !== orderStatusValues.canceled && orderdata?.orderStatus !== orderStatusValues.dilivered) && (
+                        {(orderdata.transactionType === "cod" || orderdata?.transactionStatus === transactionStatus.paid) && (
                             <Button variant="contained" size="small" color="primary">Cancel</Button>)}
-
+                       { (orders.length === index + 1) && <div ref={lastBookElementRef}></div>}
                     </CardContent>
-                </Card>)}
+                </Card>)})}
             </div>)}
             {
                 (!orders || orders.length <= 0) && (
@@ -107,6 +127,9 @@ export default function MyOrders(props) {
                     </CardContent>
                 )
             }
+            <div style={{width: '100%', display: 'flex', justifyContent: 'center', paddingTop: 10, paddingBottom: 10}}>
+            {orderData.length === orders.length && <Link>No More Orders!</Link>
+            }</div>
         </Container>
     </AppBaseScreen>
 }

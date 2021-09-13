@@ -67,6 +67,7 @@ function WrappedComponent({ orderId,
             const cardElement = elements.getElement("card");
             const { data } = await StripeApi.createPaymentIntent(orderId)
             const paymentObject = data.paymentObject;
+            const picreated = data.paymentIntent;
             const paymentMethodReq = await stripe.createPaymentMethod({
                 type: "card",
                 card: cardElement,
@@ -81,10 +82,11 @@ function WrappedComponent({ orderId,
             const {paymentIntent} = await stripe.confirmCardPayment(data.clientSecret, {
                 payment_method: paymentMethodReq.paymentMethod.id
             })
+            console.log(picreated)
             const { data: confirmResponse } = await StripeApi.confirmPayment({
                 clientSecret: data.clientSecret,
                 orderId: orderId,
-                pi: paymentIntent.id
+                pi: paymentIntent?paymentIntent.id:picreated.id
             })
             if(confirmResponse.status){
                 dispatch(showMessageBar('success',confirmResponse.message))
@@ -95,6 +97,7 @@ function WrappedComponent({ orderId,
             onFailed();
         }
     }catch(err){
+        console.log(err)
         dispatch(showMessageBar('error',err.message))
         isLoading(false)
     } 
