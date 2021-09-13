@@ -147,7 +147,7 @@ class SignUp extends React.Component {
         password: user.password1,
         phoneNo: this.state.user.phoneNo,
         source: SocialLinks.signinOptions.mobile,
-        marketingNotification: this.state.checked,
+        marketingNotification: true,
         deviceData: deviceData,
         birthdate: this.state.user.birthdate,
       };
