@@ -5,11 +5,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
 import SignOut from '../../../../auth/SignOut';
 import { ListItemIcon, makeStyles, Typography, } from '@material-ui/core';
-import { LocalShipping, Person, ContactSupport as ContactSupportIcon } from '@material-ui/icons';
+import { LocalShipping, Person, ContactSupport as ContactSupportIcon, ArrowDropDown } from '@material-ui/icons';
 import { useSelector } from 'react-redux';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import History from '../../../../../@history';
 import InfoIcon from '@material-ui/icons/Info';
+import { ArrowDown } from 'react-feather';
 const useStyles = makeStyles(theme => ({
   text: {
     textTransform: "capitalize"
@@ -57,7 +58,7 @@ export default function ProfileMenu() {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" startIcon={user.picture ? <img className={classes.profileicon} src={user.picture} alt="profile" /> : <Person color="primary" />} aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick} size="small">
+      <Button variant="text" endIcon={<ArrowDropDown/>} color="primary" startIcon={user.picture ? <img className={classes.profileicon} src={user.picture} alt="profile" /> : <Person color="primary" />} aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick} size="small">
         <span className={classes.text}>{user.name}</span>
       </Button>
       <Menu

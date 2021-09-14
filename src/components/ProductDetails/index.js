@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import History from '../../@history';
 import ProductsApi from '../../api/products';
-import { renderIfElse, shuffle } from '../../config/Utils';
+import { shuffle } from '../../config/Utils';
 import { listCart, showMessageBar } from '../../store/actions';
 import CustomCarousel from '../common/corousels/CustomCarousel';
 import AppBaseScreen from '../common/layout/user/AppBaseScreen';
@@ -14,6 +14,8 @@ import RatingComponent from '../home/Products/components/Rating';
 import './index.less'
 import * as Actions from '../../store/actions'
 import LoadingScreen from '../common/Loader.js';
+import ReviewApi from '../../api/reviews';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -60,13 +62,20 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'row',
         overflowX: 'auto',
         width: '100%',
-        columnGap: 25,
+        columnGap: 15,
         paddingTop: 5,
         paddingBottom: 5,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        [theme.breakpoints.down("md")]: {
+            columnGap: 1,
+        }
     },
     logo: {
         width: 75
+    },
+    chip: {
+        marginLeft: 20,
+        marginTop: 15,
     }
 }))
 export default function ProductDetails(props) {
@@ -81,7 +90,7 @@ export default function ProductDetails(props) {
     const [data, setData] = useState(product?.sizes[0] || null)
     const [size, setSize] = useState(product?.colorOptions[0] || "")
     const [color, setColor] = useState("")
-    const [buynowLoading, setbuyLoading] =useState(false)
+    const [buynowLoading, setbuyLoading] = useState(false)
     const [error, setErrors] = useState({
         size: {
             message: ''
@@ -90,24 +99,29 @@ export default function ProductDetails(props) {
             message: ''
         }
     })
-    
+    const [review, setReview] = useState("")
+    const [productReview, setProductReviews] = useState([])
+    const [reviewLoading,setReviewLoading] = useState()
     useEffect(() => {
-        dispatch(listCart())
+        if (isAuth) {
+            dispatch(listCart())
+        }
         ProductsApi.productDetail(productId).then(res => {
-            if(res.data){
-            setProduct(res.data.product)
-            setColor(res.data.product.colorOptions[0])
-            setSize(res.data.product.sizes[0])
-            setData(res.data)
-            }else {
+            if (res.data) {
+                setProduct(res.data.product)
+                getProductReviews(res.data.product.id)
+                setColor(res.data.product.colorOptions[0])
+                setSize(res.data.product.sizes[0])
+                setData(res.data)
+            } else {
                 dispatch(showMessageBar('error', res.message))
             }
         }).catch(err => {
             dispatch(showMessageBar('error', err.message))
         })
-    }, [productId, dispatch])
+    }, [])
 
-    useEffect(()=> {
+    useEffect(() => {
         if (size && size !== "") {
             setErrors({ ...error, size: { message: '' } })
         }
@@ -117,13 +131,19 @@ export default function ProductDetails(props) {
             }
         }
         // eslint-disable-next-line 
-    }, [color,size])
-    const addToCart = (id, buynow=false) => {
-        if(!isAuth) {
-           History.push("/login")
-           return;
+    }, [color, size])
+
+    const getProductReviews = (id) => {
+        ReviewApi.getProductReviews(id).then(res => {
+            setProductReviews(res.data)
+        }).catch(err => dispatch(showMessageBar('error', err.message)))
+    }
+    const addToCart = (id, buynow = false) => {
+        if (!isAuth) {
+            History.push("/login")
+            return;
         }
-        if(!buynow) setCartLoading(true)
+        if (!buynow) setCartLoading(true)
         let flag = true
         let errors = {
             size: {
@@ -148,36 +168,55 @@ export default function ProductDetails(props) {
             setCartLoading(false)
             return;
         }
-        const data ={
+        const data = {
             productId: id,
             color: color,
             size: size
         }
         dispatch(Actions.addToCart(data, () => {
             setCartLoading(false)
-            if(buynow){
+            if (buynow) {
                 setbuyLoading(false)
                 History.push("/cart")
             }
         }, (mes) => {
             setCartLoading(false)
+            dispatch(showMessageBar('error', mes))
         }))
     }
     const removeFromCart = (id) => {
         setCartLoading(id)
-        dispatch(Actions.removeFromCart(id, () => setCartLoading(null)))
+        dispatch(Actions.removeFromCart(id, () => setCartLoading(null), (mes) => {
+            dispatch(showMessageBar('error', mes))
+        }))
     }
     const buyNow = (id) => {
         setbuyLoading(true)
-        if(cart?.find(v => v.product === product.id)){
+        if (cart?.find(v => v.product === product.id)) {
             setbuyLoading(false)
             History.push("/cart")
-        }else {
+        } else {
             addToCart(id, true)
         }
     }
-   
-    const Component = () => (
+    const postReview = () => {
+        if (review && review !== "") {
+            setReviewLoading(true)
+            ReviewApi.postReview({ productId: product.id, review: review }).then(res => {
+                getProductReviews(productId)
+                setReviewLoading(false)
+                setReview("")
+            }).catch(err => {
+                setReviewLoading(false)
+                dispatch(showMessageBar('error', err.message))
+            })
+        }
+
+    }
+    if (!products || products.length <= 0 || !data) {
+        return <LoadingScreen ></LoadingScreen>
+    }
+    return (<AppBaseScreen>
         <Container maxWidth="lg" className={classes.root + ' container'}>
             <Card className={classes.card}>
                 <Grid container>
@@ -193,7 +232,14 @@ export default function ProductDetails(props) {
                             <Typography variant="body2">
                                 #{data?.category.name}
                                 &nbsp;&nbsp;</Typography>
-                            {product.stock > 0 && <Chip
+
+                            <Typography variant="h5">
+                                {product?.name} - {data?.brand.name}
+                            </Typography>
+                            <Typography variant="h5">₹ {product?.sellingCost} <del style={{ color: '#333', fontSize: 16 }}>₹ {product?.cost}</del></Typography>
+                            <RatingComponent value={product?.rating} />
+                            <Divider />
+                            {product?.stock > 0 && <Chip
                                 className={classes.chip}
                                 color="primary"
                                 label="In Stock"
@@ -202,16 +248,10 @@ export default function ProductDetails(props) {
                                 className={classes.chip}
                                 label="Stock Out"
                             />}
-                            <Typography variant="h5">
-                                {product?.name} - {data?.brand.name}
-                            </Typography>
-                            <Typography variant="h5">₹ {product?.sellingCost} <del style={{ color: '#333', fontSize: 16 }}>₹ {product?.cost}</del></Typography>
-                            <RatingComponent value={product?.rating} />
-                            <Divider />
                             <div className={classes.description}>
 
                                 <Typography variant="body2">
-                                    {product.description}
+                                    {product?.description}
                                 </Typography>
                             </div>
                             <Typography variant={'h6'}>
@@ -229,7 +269,7 @@ export default function ProductDetails(props) {
                             <Divider />
                             <div className={classes.description}>
                                 <div className={classes.boxContainer}>
-                                    {product.colorOptions.map((val, index) => <div key={index} className={classes.colorbox + (val === color ? " active" : '')} style={{ background: val }} onClick={() => setColor(val)}></div>)}
+                                    {product?.colorOptions.map((val, index) => <div key={index} className={classes.colorbox + (val === color ? " active" : '')} style={{ background: val }} onClick={() => setColor(val)}></div>)}
                                 </div>
                             </div>
                             <Typography variant={'h6'}>
@@ -254,19 +294,28 @@ export default function ProductDetails(props) {
                                 <Button variant="outlined" color="primary">Amazon</Button> &nbsp;
                                 <Button variant="outlined" color="primary">Meesho</Button> &nbsp;
                             </div> */}
-                            <Typography variant={'h6'}>Brand</Typography>
-                            <Divider />
-                            <img src={data?.brand.logo} alt="logo" className={classes.logo} />
+                            <Grid container>
+                                <Grid item xs={6}>
+                                    <Typography variant={'h6'}>Brand</Typography>
+                                    <Divider />
+                                    <img src={data?.brand.logo} alt="logo" className={classes.logo} />
+                                </Grid>
+                                <Grid item xs={6}>
+
+                                </Grid>
+                            </Grid>
                             <Divider />
                             <div className="btn-container">
                                 <Button
+                                    disabled={product?.stock <= 0}
                                     startIcon={cartLoading ? <CircularProgress color="primary" size={20} /> : <ShoppingCart />}
                                     onClick={() => cart?.find(v => v.product === product.id) ? removeFromCart(product.id) : addToCart(product.id)}
                                     variant="contained" color={cart?.find(v => v.product === product.id) ? "primary" : "secondary"}>
                                     {cart?.find(v => v.product === product.id) ? "Remove Cart" : "Add to Cart"}
                                 </Button>
                                 <Button
-                                    startIcon={buynowLoading ? <CircularProgress color="secondary" size={20} />  : <FlashOn color="secondary"/>}
+                                    disabled={product?.stock <= 0}
+                                    startIcon={buynowLoading ? <CircularProgress color="secondary" size={20} /> : <FlashOn color="secondary" />}
                                     variant="contained" onClick={() => buyNow(product.id)} color="primary">Buy Now</Button>
                             </div>
                         </Container>
@@ -281,7 +330,7 @@ export default function ProductDetails(props) {
                 <Divider />
                 <div className={classes.similiarProducts + ' similiar-products'}>
                     {
-                        shuffle(products).slice(0, 5).map((val, index) => (
+                        products.slice(0, 6).map((val, index) => (
                             <Products key={index} data={val} />
                         ))
                     }
@@ -295,24 +344,24 @@ export default function ProductDetails(props) {
                 <Divider />
                 <List>
                     {
-                        Array(10).fill(5).map((val, index) => (
-                            <ListItem>
+                        productReview?.map((val, index) => (
+                            <ListItem key={index}>
                                 <div className="flex">
                                     <ListItemIcon>
                                         <Person />
                                     </ListItemIcon>
 
                                     <Typography variant="h6">
-                                        Manish Singh
+                                        {val?.username} - {moment(val?.createdDate).fromNow()}
                                     </Typography>
                                 </div>
                                 <Typography className="message-con" variant="body2">
-                                    Using review request text templates to ask for a Google review is not some sort of bad practice. Sure, you could depend on email review request templates, but texts can be incredibly effective.
+                                    {val?.review}
                                 </Typography>
                             </ListItem>
                         ))
                     }
-                    {
+                    {(!productReview || productReview.length <= 0) &&
                         <ListItem>
                             <ListItemText style={{ textAlign: 'center' }}>No reviews yet!</ListItemText>
                         </ListItem>
@@ -320,16 +369,15 @@ export default function ProductDetails(props) {
                 </List>
             </Container>
             <Container className="reviewContainer" maxWidth="lg">
-                <Typography>post an review:</Typography>
-                <TextField multiline fillWidth minRows={4} variant="outlined" size="medium" maxRows={4}>
-
+                <Typography>Post an review:</Typography>
+                <TextField
+                value={review}
+                    onChange={(ev) => setReview(ev.target.value)}
+                    multiline style={{ width: '50%' }} minRows={4} variant="outlined" size="medium" maxRows={4}>
                 </TextField>
-                <Button variant="contained" color="primary" size="small">post</Button>
+                <Button variant="contained" color="primary" style={{minWidth: 180}} 
+                onClick={postReview}>{reviewLoading? <CircularProgress size={15} color="secondary" />: "Submit"}</Button>
             </Container>
-        </Container>)
-    return <AppBaseScreen>
-        {
-            renderIfElse(!product , <LoadingScreen />, <Component/>)
-        }
-    </AppBaseScreen>
+        </Container></AppBaseScreen>)
+
 }

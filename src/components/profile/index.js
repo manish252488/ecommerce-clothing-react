@@ -87,8 +87,10 @@ const Profile = (props) => {
         })
     }
 
-
-    const ProfileComponent = () => (
+    if(!userData){
+return <LoadingScreen/>
+    }
+    return(<AppBaseScreen>
         <Card variant="outlined" className="container">
             <CardContent>
                 <Grid container>
@@ -152,17 +154,15 @@ const Profile = (props) => {
                 <ResponsiveDialogs openState={profileEditor} handleCloseBar={openProfileEditor} title="Edit Profile">
                     <DetailUpdate userData={userData} success={openProfileEditor} />
                 </ResponsiveDialogs>
-                <ResponsiveDialogs openState={addressEditor} handleCloseBar={openAddressEditor} title="Edit Profile">
+                <ResponsiveDialogs openState={addressEditor} handleCloseBar={openAddressEditor} title="Add Address">
                     <AddressUpdate success={openAddressEditor} />
                 </ResponsiveDialogs>
-                <ResponsiveDialogs openState={selectedAddress} handleCloseBar={setSelectedAddress} title="Edit Profile">
+                <ResponsiveDialogs openState={selectedAddress} handleCloseBar={setSelectedAddress} title="Edit Address">
                     <AddressUpdate data={selectedAddress} success={setSelectedAddress} />
                 </ResponsiveDialogs>
             </CardContent>
-        </Card>
+        </Card></AppBaseScreen>
     )
-    return <AppBaseScreen>
-        {renderIfElse(userData, <ProfileComponent />, <LoadingScreen/>)}
-    </AppBaseScreen>
+    
 }
 export default Profile;

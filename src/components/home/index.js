@@ -8,9 +8,9 @@ import * as Actions from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { loginPage } from "../../assets";
 import { ArrowDown } from "react-feather";
-import FilterExpansionPanel from "../common/ExpansionPanelFilters.js/FilterExpansionPanel";
 import LoadingScreen from "../common/Loader.js";
 import { renderIfElse } from "../../config/Utils";
+import Carousel from "nuka-carousel";
 
 const useStyles = makeStyles({
   divider: {
@@ -64,14 +64,14 @@ const Home = (props) => {
       setPage((prev) => prev + 1)
     }
   }
-  const Component = () => (
+  if(!products || products.length <= 0) {
+    return <LoadingScreen/>
+  }
+  return(<AppBaseScreen>
     
       <Container maxWidth="lg" className="scroll-container">
+        <CustomCarousel autoPlay={true} images={[loginPage]} width="100%" />
         <Card component={Paper}>
-          <CardHeader
-            component={() => <FilterExpansionPanel/>}
-          >
-          </CardHeader>
           <Divider className={classes.divider} />
           {(products && products.length > 0) && <CardContent className="product-container">
             {products?.map((val, index) => (
@@ -87,14 +87,9 @@ const Home = (props) => {
         </Card>
 
       </Container>
+      </AppBaseScreen>
  
   );
-  return (
-    <AppBaseScreen>
-      {
-        renderIfElse(!products || products.length <= 0, <LoadingScreen/> , <Component/>)
-      }
-    </AppBaseScreen>
-  )
+ 
 };
 export default Home;

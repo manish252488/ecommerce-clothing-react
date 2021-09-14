@@ -5,8 +5,9 @@ display: flex;
 flex-flow: row;
 align-items: center;
 flex-wrap: wrap;
-row-gap: 1%;
-column-gap: 1%;
+justify-content: space-around;
+row-gap: 20px;
+column-gap: 20px;
 }
 .no-data {
     text-align: center;
@@ -18,14 +19,15 @@ column-gap: 1%;
     font-size: 25px;
 }
 .scroll-container {
-    margin-top: 30px
+    margin-top: 5px
 }
 @media @phone-strict {
     .no-data {
         min-height: 300px;
     }   
     .product-container{
-     
+        row-gap: 10px !important;
+        column-gap: 2px !important;
     }
     .scroll-container {
         margin: 0;

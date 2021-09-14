@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import "./index.less";
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -11,7 +10,7 @@ import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import PersonIcon from '@material-ui/icons/Person';
 import InfoIcon from '@material-ui/icons/Info';
-
+import './index.less'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {
   Drawer,

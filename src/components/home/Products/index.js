@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import { Chip } from '@material-ui/core';
 import History from '../../../@history';
+import clsx from 'clsx';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '20%',
@@ -53,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   chip: {
     color: '#fff',
     fontSize: 12,
-    width: 80,
+    width: 100,
     height: 22,
     [theme.breakpoints.up("1000")]:{
       marginLeft: 15
@@ -61,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     minHeight: 60
+  },
+  disabled: {
+    opacity: 0.4,
   }
 }));
 
@@ -79,8 +83,10 @@ export default function Products({ data }) {
   } */
  /*  const setFav = () => {} */
   return (
-    <Card className={classes.root} >
+    <Card className={clsx(classes.root, data.stock <= 0 ? classes.disabled: null)} >
+     
       <CardContent onClick={() => History.push(`/product-detail/${data?.id || data?._id}`)}>
+ 
       <CardMedia
         className={classes.media}
         image={data.pictures[0]}
@@ -106,6 +112,7 @@ export default function Products({ data }) {
           {data.stock <= 0 && <Chip
             className={classes.chip}
             label="Stock Out"
+            color="primary"
           />}
           
           </Typography>

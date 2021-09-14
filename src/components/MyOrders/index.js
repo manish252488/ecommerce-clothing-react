@@ -83,11 +83,11 @@ export default function MyOrders(props) {
                                                     {product?.pictures && <img src={product?.pictures ? product?.pictures[0] : ""} alt={product?.id} className="image" />}
                                                 </Grid>
                                                 <Grid xs={7}>
-                                                    <Typography variant="h6" color="primary"> {product?.name}</Typography>
-                                                    <Typography variant="h6">₹{product?.cost}</Typography>
-                                                    <Typography variant="h6">{product?.color}</Typography>
-                                                    <Typography variant="h6">{product?.size}</Typography>
-                                                    <Typography variant="h6">Quantity: {product?.quantity}</Typography>
+                                                    <Typography variant="h6" color="primary">&nbsp;&nbsp;{product?.name}</Typography>
+                                                    <Typography variant="h6">&nbsp;&nbsp;₹{product?.cost}</Typography>
+                                                    <Typography variant="h6">&nbsp;&nbsp;{product?.color}</Typography>
+                                                    <Typography variant="h6">&nbsp;&nbsp;{product?.size}</Typography>
+                                                    <Typography variant="h6">&nbsp;&nbsp;Quantity: {product?.quantity}</Typography>
                                                 </Grid>
                                             </Grid>
                                             {orderdata?.products.length > 1 && (<Divider ></Divider>)}

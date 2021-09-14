@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -24,9 +24,6 @@ const styles = theme => ({
   details: {
     alignItems: 'center',
   },
-  column: {
-    flexBasis: '33.33%',
-  },
   container : {
     flexBasis: '33.33%',
     maxWidth: '33.33%',
@@ -39,7 +36,7 @@ const styles = theme => ({
 
 function FilterExpansionPanel(props) {
   const { classes } = props;
- /*  const [filters, setFilters] = useState({
+ const [filters, setFilters] = useState({
     priceRange: {
       min: 0,
       max: 10000
@@ -52,17 +49,12 @@ function FilterExpansionPanel(props) {
   const [sorts, setSorts] = useState({
     alpha: 1,
     price: 1
-  }) */
+  })
   return (
     <div className={classes.root}>
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <div className={classes.column}>
-            <Typography className={classes.heading}>Filters</Typography>
-          </div>
-          <div className={classes.column}>
-          <Chip label="Deletable primary" onDelete={() => {}} color="primary" />
-          </div>
+        
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.details}>
         <Grid container wrap={true}>

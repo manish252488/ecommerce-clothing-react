@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import Logo from "../../Logo";
 import { checkJWT, listCart } from "../../../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { Person, ShoppingCartRounded } from "@material-ui/icons";
+import { Notifications, Person, ShoppingCartRounded } from "@material-ui/icons";
 import ProfileMenu from "./ProfileMenu";
 import History from "../../../../@history";
 import StyledBadge from "../../StyledBadge";
@@ -13,12 +13,11 @@ import NavBar from './NavBar'
 import InputBase from '@material-ui/core/InputBase';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import { useStyles } from './AppBaseScreen.Styles'
 const AppBaseScreen = (props) => {
 
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down("xs"));
+  const matches = useMediaQuery(theme.breakpoints.down("1000"));
   const classes = useStyles()
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
   const {
@@ -28,6 +27,7 @@ const AppBaseScreen = (props) => {
   const dispatch = useDispatch();
   const cart = useSelector(({ Auth }) => Auth.cart.cart)
   const isAuth = useSelector(({ Auth }) => Auth?.isAuthenticated)
+  const user = useSelector(({Auth}) => Auth.user)
   const [isLoggedIn, setIsLoggedIn] = useState(isAuth)
   const searchBar = History.location.pathname === "/home"
   const [value, setValue] = useState(0)
@@ -94,18 +94,23 @@ const AppBaseScreen = (props) => {
 
               {
                 isLoggedIn && (<>
-                  <Hidden xsDown>
+                  {/* <Hidden xsDown>
 
                     <Chip
                       icon={<AccountBalanceWalletIcon color="secondary" />}
                       clickable
-                      label={`${'wallet'}: ${'Available soon!'}`}
+                      label={`${'Balance'}:₹ ${user.wallet || 0}`}
                       color="primary"
                     />
-                  </Hidden>
+                  </Hidden> */}
                   <Hidden xsDown>
                     <ProfileMenu />
                   </Hidden>
+                  <IconButton onClick={() => History.push("/cart")}>
+                    <StyledBadge badgeContent={2} color="primary" >
+                      <Notifications color="primary" />
+                    </StyledBadge>
+                  </IconButton>
                   <IconButton onClick={() => History.push("/cart")}>
                     <StyledBadge badgeContent={value} color="primary">
                       <ShoppingCartRounded color="primary" />

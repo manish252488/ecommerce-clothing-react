@@ -12,6 +12,8 @@ import AppBaseScreen from '../common/layout/user/AppBaseScreen'
 import CountrySelect from '../common/CountrySelectField'
 import './index.less'
 import LoadingScreen from '../common/Loader.js'
+import ResponsiveDialogs from '../common/ResponsiveDialogs'
+import AddressUpdate from '../profile/components/AddressUpdate'
 
 const useStyles = makeStyles({
     media: {
@@ -30,7 +32,7 @@ export default function Payment(props) {
     const cart = useSelector(({ Auth }) => Auth.cart.cart)
     const savedAddress = useSelector(({ Auth }) => Auth.user.savedAddress || [])
     const products = useSelector(({ products }) => products.products || [])
-    const [selectedAddress] = useState(null)
+    const [selectedAddress, setSelectedAddress] = useState(null)
     const [loading, setLoading] = useState(false);
     const [loadingOrder, setLoadingOrder] = useState(false);
     const [addCont,
@@ -65,7 +67,7 @@ export default function Payment(props) {
     }, [dispatch])
     const addToCart = id => {
         const alldata = cart.find(val => val.product === id)
-        const data= {
+        const data = {
             productId: id,
             color: alldata.color,
             size: alldata.size,
@@ -155,9 +157,13 @@ export default function Payment(props) {
             return false
         }
     }
-
-    const Component = () =>(
-        <Container maxWidth="md" className="payment-container" >
+    if (!cart || !billingData ||
+        !savedAddress ||
+        !products) {
+        return <LoadingScreen />
+    }
+    return (<AppBaseScreen>
+        <Container maxWidth="lg" className="payment-container" >
             <Typography variant="h4" color="primary">  <ShoppingBag /> Cart</Typography>
             <Divider />
             <div className="cart-panel">
@@ -181,7 +187,7 @@ export default function Payment(props) {
                                     </Grid>
                                     <Grid item xs={5}>
                                         <Typography variant="h6" align="right">Price</Typography>
-                                        <Typography variant="h6" style={{fontWeight: 'bold'}} align="right">₹{val.sellingCost}</Typography>
+                                        <Typography variant="h6" style={{ fontWeight: 'bold' }} align="right">₹{val.sellingCost}</Typography>
                                         <Typography variant="h6" align="right"><del>₹{val.cost}</del></Typography>
 
                                     </Grid>
@@ -203,133 +209,19 @@ export default function Payment(props) {
                 <Card component={Paper}>
                     <CardContent>
                         <Grid container>
-                            {(!addCont) && <Grid item xs={12}>
-                                <CardHeader title="Saved Address" action={<Button endIcon={<PlusCircle />} onClick={() => showAddContainer(true)}>
+                            <Grid item xs={12}>
+                                <CardHeader title="Saved Address" action={<Button endIcon={<PlusCircle />} 
+                                    onClick={() => showAddContainer(true)}>
                                     Add Address
                                 </Button>} />
                                 <Divider />
 
                                 <div className="address-container">
                                     {savedAddress.map((val, index) => (
-                                        <AddressCard key={index} data={val} setDefaultAdd={setdefaultAdd} />
+                                        <AddressCard key={index} data={val} setDefaultAdd={setdefaultAdd} selectEditAddress={setSelectedAddress} />
                                     ))}
                                 </div>
-                            </Grid>}
-                            {
-                                (addCont) && (
-                                    <Grid item xs={12}>
-                                        <CardHeader title={selectedAddress ? 'Edit Address' : 'Add Address'} action={<IconButton onClick={() => showAddContainer(false)}>
-                                            <Visibility />
-                                        </IconButton>} />
-                                        <Divider />
-                                        <Container className="address-form">
-                                            <TextField
-                                                variant="outlined"
-                                                label="Full Name"
-                                                placeholder="Full Name"
-                                                value={addressForm.name}
-                                                helperText={errorFields.name}
-                                                fullWidth
-                                                size="small"
-                                                error={errorFields.name}
-                                                onChange={value => change('name', value)}
-                                            />
-                                            <TextField
-                                                variant="outlined"
-                                                label="Mobile Number"
-                                                placeholder="Mobile Number"
-                                                value={addressForm.phoneno}
-                                                fullWidth
-                                                size="small"
-                                                helperText={errorFields.phoneno}
-                                                error={errorFields.phoneno}
-                                                onChange={value => change('phoneno', value)}
-                                            />
-                                            <TextField
-                                                variant="outlined"
-                                                fullWidth
-                                                label="Address 1"
-                                                placeholder="Location/Address"
-                                                value={addressForm.address1}
-                                                helperText={errorFields.address1}
-                                                size="small"
-                                                error={errorFields.address1}
-                                                onChange={value => change('address1', value)}
-                                                multiline
-                                            />
-                                            <TextField
-                                                variant="outlined"
-                                                label="Address 2"
-                                                placeholder="House No/Locality"
-                                                value={addressForm.address2}
-                                                helperText={errorFields.address2}
-                                                fullWidth
-                                                size="small"
-                                                error={errorFields.address2}
-                                                onChange={value => change('address2', value)}
-                                                multiline
-                                            />
-                                            <TextField
-                                                variant="outlined"
-                                                label="Landmark"
-                                                placeholder="LandMark"
-                                                value={addressForm.landmark}
-                                                helperText={errorFields.landmark}
-                                                fullWidth
-                                                size="small"
-                                                error={errorFields.landmark}
-                                                onChange={value => change('landmark', value)}
-                                            />
-                                            <TextField
-                                                variant="outlined"
-                                                label="City"
-                                                placeholder="City"
-                                                value={addressForm.city}
-                                                helperText={errorFields.city}
-                                                error={errorFields.city}
-                                                onChange={value => change('city', value)}
-                                                fullWidth
-                                                size="small"
-                                            />
-                                            <TextField
-                                                variant="outlined"
-                                                label="State"
-                                                placeholder="State"
-                                                value={addressForm.state}
-                                                helperText={errorFields.state}
-                                                error={errorFields.state}
-                                                onChange={value => change('state', value)}
-                                                fullWidth
-                                                size="small"
-                                            />
-                                            <TextField
-                                                variant="outlined"
-                                                label="Pincode"
-                                                placeholder="Pincode"
-                                                helperText={errorFields.pincode}
-                                                error={errorFields.pincode}
-                                                value={addressForm.pincode}
-                                                onChange={value => change('pincode', value)}
-                                                fullWidth
-                                                size="small"
-                                            />
-                                            <CountrySelect />
-                                            <TextField
-                                                variant="outlined"
-                                                label="Country"
-                                                placeholder="Country"
-                                                helperText={errorFields.country}
-                                                error={errorFields.country}
-                                                value={addressForm.country}
-                                                onChange={value => change('country', value)}
-                                                fullWidth
-                                                size="small"
-                                            />
-                                            <Button variant="contained" color="primary" onClick={saveAddress}>{loading ? <CircularProgress size={20} /> : 'Save Address'}</Button>
-                                        </Container>
-                                    </Grid>
-                                )
-                            }
+                            </Grid>
                             <Grid item xs={6}>
                                 <CardHeader title="Billing Details" />
                                 <Divider />
@@ -360,15 +252,12 @@ export default function Payment(props) {
                     </CardContent>
                 </Card>
             </div>
-            } </Container>)
-
-    return (
-        <AppBaseScreen>
-            {
-                renderIfElse(!cart || !billingData ||
-                    !savedAddress ||
-                    !products, <LoadingScreen/> , <Component />)
-            }
-        </AppBaseScreen>
-    )
+            } </Container> 
+            <ResponsiveDialogs openState={addCont} handleCloseBar={showAddContainer} title="Edit Profile">
+                    <AddressUpdate success={showAddContainer} />
+                </ResponsiveDialogs>
+                <ResponsiveDialogs openState={selectedAddress} handleCloseBar={setSelectedAddress} title="Edit Profile">
+                    <AddressUpdate data={selectedAddress} success={setSelectedAddress} />
+                </ResponsiveDialogs>
+            </AppBaseScreen>)
 }

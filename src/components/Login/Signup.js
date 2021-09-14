@@ -112,7 +112,7 @@ class SignUp extends React.Component {
   onSuccess = (path) => {
     this.setState({ loading: false });
     this.props.showMessageBar("success", "Registeration Successfull!")
-    History.goBack()
+    History.push("/")
   };
   onFailure = (msg) => {
     this.props.showMessageBar("error", msg)

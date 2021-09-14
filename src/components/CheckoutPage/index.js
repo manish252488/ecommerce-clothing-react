@@ -58,7 +58,10 @@ export default function CheckoutPage(props) {
         History.push('/myorders')
         dispatch(currentOrder({}))
     }
-    const PaymentComponent = () => (
+    if(!order || !cart){
+        return <LoadingScreen />
+    }
+    return(<AppBaseScreen>
         <Container maxWidth="lg" className={classes.root + ' payment-component'}>
             <Grid container className="MuiGrid-container-1">
                 <Grid item xs={8}>
@@ -122,11 +125,9 @@ export default function CheckoutPage(props) {
             }</Grid>
 
         </Container>
-    )
-    return <AppBaseScreen>
-        {
-            renderIfElse(order && cart, <PaymentComponent />, <LoadingScreen />)
-        }
 
     </AppBaseScreen>
+    )
+   
+
 }

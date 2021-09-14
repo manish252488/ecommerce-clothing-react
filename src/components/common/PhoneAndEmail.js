@@ -164,6 +164,7 @@ export default function PhoneAndEmail({ phone, onChange = () => { }, setAction =
           value={otp}
           onChange={(val) => setOtp(val)}
           numInputs={6}
+          isInputNum={true}
           separator={<span>-</span>}
         />
         <Typography style={{ marginLeft: 5 }} variant="h6" className={error ? classes.error : ""}>

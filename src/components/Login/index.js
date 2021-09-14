@@ -37,7 +37,7 @@ const Authpage = (props) => {
 
   return (
     <Card className="auth-card" component={Paper}>
-      <IconButton color="secondary" className="iconback" onClick={() => History.goBack()}>
+      <IconButton color="secondary" className="iconback" onClick={() => History.push("/")}>
       <ArrowBackIos color="primary" />
       </IconButton>
       <Hidden mdDown>

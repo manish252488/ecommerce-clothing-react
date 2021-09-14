@@ -73,7 +73,7 @@ export const useStyles = makeStyles((theme) => ({
     flex: {
       display: 'flex',
       flexFlow: 'row',
-      width: 380,
+      width: 280,
       justifyContent: 'space-between',
       alignItems: 'center',
       [theme.breakpoints.down("md")]: {
@@ -121,8 +121,8 @@ export const useStyles = makeStyles((theme) => ({
       paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
       transition: theme.transitions.create('width'),
       width: '100%',
-      [theme.breakpoints.up('md')]: {
-        width: '20ch',
+      [theme.breakpoints.up('sm')]: {
+        width: '85vw',
       },
     },
   }));
