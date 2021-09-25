@@ -5,17 +5,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import History from '../../@history';
 import ProductsApi from '../../api/products';
-import { shuffle } from '../../config/Utils';
 import { listCart, showMessageBar } from '../../store/actions';
 import CustomCarousel from '../common/corousels/CustomCarousel';
 import AppBaseScreen from '../common/layout/user/AppBaseScreen';
-import Products from '../home/Products';
-import RatingComponent from '../home/Products/components/Rating';
+import Products from '../Products/Products';
+import RatingComponent from '../Products/Products';
 import './index.less'
 import * as Actions from '../../store/actions'
 import LoadingScreen from '../common/Loader.js';
 import ReviewApi from '../../api/reviews';
 import moment from 'moment';
+import Auth from '../../api/auth';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -106,8 +106,9 @@ export default function ProductDetails(props) {
         if (isAuth) {
             dispatch(listCart())
         }
-        ProductsApi.productDetail(productId).then(res => {
+        ProductsApi.productDetail(productId).then(async (res) => {
             if (res.data) {
+                await Auth.recentViews(productId)
                 setProduct(res.data.product)
                 getProductReviews(res.data.product.id)
                 setColor(res.data.product.colorOptions[0])
@@ -213,6 +214,7 @@ export default function ProductDetails(props) {
         }
 
     }
+    console.log(data)
     if (!products || products.length <= 0 || !data) {
         return <LoadingScreen ></LoadingScreen>
     }
@@ -352,7 +354,7 @@ export default function ProductDetails(props) {
                                     </ListItemIcon>
 
                                     <Typography variant="h6">
-                                        {val?.username} - {moment(val?.createdDate).fromNow()}
+                                        {val?.username} - {moment(val?.createdAt).fromNow()}
                                     </Typography>
                                 </div>
                                 <Typography className="message-con" variant="body2">

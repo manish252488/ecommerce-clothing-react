@@ -16,6 +16,7 @@ const Auth = {
   updateProfile: (data) => client.put("/users/update", data),
   genrateMailOtp: (email) => client.post("/users/mail-otp-generate",{email: email}),
   verifyEmailOtp: (data = { email: "",otp: "", hash: ""}) => client.post("/users/mail-otp-verify",data),
+  recentViews: (id) => client.post("/users/recent-views", {id: id})
 };
 
 export default Auth;

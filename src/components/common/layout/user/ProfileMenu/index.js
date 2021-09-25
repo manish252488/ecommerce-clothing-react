@@ -58,7 +58,7 @@ export default function ProfileMenu() {
 
   return (
     <div>
-      <Button variant="text" endIcon={<ArrowDropDown/>} color="primary" startIcon={user.picture ? <img className={classes.profileicon} src={user.picture} alt="profile" /> : <Person color="primary" />} aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick} size="small">
+      <Button variant="text" endIcon={<ArrowDropDown/>} color="primary" startIcon={user.picture ? <img className={classes.profileicon} src={user.picture} alt="" /> : <Person color="primary" />} aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick} size="small">
         <span className={classes.text}>{user.name}</span>
       </Button>
       <Menu
@@ -72,7 +72,7 @@ export default function ProfileMenu() {
       >
         <MenuItem className={classes.profile} onClick={() => History.push("/profile")}>
           <ListItemIcon>
-            {user.picture && <img className={classes.profilepic} src={user.picture} alt="profile" />}
+            {user.picture && <img className={classes.profilepic} src={user.picture} alt="" />}
             {!user.picture && <Person className={classes.profilepic} />}
           </ListItemIcon>
 

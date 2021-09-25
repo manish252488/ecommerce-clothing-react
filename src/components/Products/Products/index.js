@@ -11,6 +11,7 @@ import clsx from 'clsx';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '20%',
+    margin: 1,
     height: '50vh',
     cursor: 'pointer',
     [theme.breakpoints.down("1000")]:{
@@ -23,13 +24,13 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down("500")]:{
       width: '49%',
-      height: '42vh'
+      height: '40vh'
     },
 
   },
   media: {
     height: 0,
-    backgroundPosition: 'inherit',
+    backgroundPosition: 'center',
     transition: '0.5s',
     paddingTop: '95%',
     cursor: 'pointer',
@@ -82,6 +83,10 @@ export default function Products({ data }) {
     }
   } */
  /*  const setFav = () => {} */
+ console.log(data)
+  if(!data){
+    return null
+  }
   return (
     <Card className={clsx(classes.root, data.stock <= 0 ? classes.disabled: null)} >
      

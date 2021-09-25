@@ -4,3 +4,4 @@ export * from "./ChatActions";
 export * from './languages.actions'
 export * from './products.actions'
 export * from './Orders.actions'
+export * from './offers.action'

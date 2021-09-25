@@ -17,7 +17,8 @@ import {
   Grid,
   Hidden,
   Divider,
-  makeStyles
+  makeStyles,
+  SwipeableDrawer
 } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import History from "../../../../../@history";
@@ -45,17 +46,17 @@ const NavBar = ({ onMobileClose, openMobile }) => {
   const content = (
     <Grid container>
       {isAuth && <Grid item xs={12} className={classes.primary + " profile-container-1"}>
-        <img src={user?.picture  || defaultUser} className="image" alt="profile" />
+        <img src={user?.picture || defaultUser} className="image" alt="" />
         <Typography variant="h6">{user.name}</Typography>
       </Grid>}
       {
         !isAuth && <Grid item xs={12} className={classes.primary + " profile-container-1"}>
-          <img src={logoLight} className="image" alt="profile" />
+          <img src={logoLight} className="image" alt="" />
         </Grid>
       }
       <Grid item xs={12}>
         <MenuList>
-        <MenuItem onClick={() => History.push("/home")}>
+          <MenuItem onClick={() => History.push("/home")}>
             <ListItemIcon>
               <HomeOutlined color="primary" fontSize="small" />
             </ListItemIcon>
@@ -109,15 +110,15 @@ const NavBar = ({ onMobileClose, openMobile }) => {
               Contact
             </Typography>
           </MenuItem>
-          <Divider/>
+          <Divider />
           <MenuItem onClick={() => History.push("/contact-support")}>
             <SignOut>
               <Typography color="primary" variant="inherit" noWrap>
                 Logout
               </Typography>
               <ListItemIcon>
-              <ExitToAppIcon color="primary" fontSize="small"/>
-            </ListItemIcon>
+                <ExitToAppIcon color="primary" fontSize="small" />
+              </ListItemIcon>
             </SignOut>
           </MenuItem>
         </MenuList>
@@ -127,23 +128,21 @@ const NavBar = ({ onMobileClose, openMobile }) => {
   );
 
   return (
-    <>
-      <Hidden >
-        <Drawer
-          anchor="left"
-          onClose={onMobileClose}
-          open={openMobile}
+    <React.Fragment>
+      <Hidden mdUp>
+
+
+        <SwipeableDrawer
           variant="temporary"
+          anchor="left"
+          open={openMobile}
+          onClose={onMobileClose}
         >
           {content}
-        </Drawer>
+        </SwipeableDrawer>
+
       </Hidden>
-      <Hidden mdDown>
-        <Drawer anchor="left" open variant="persistent">
-          {content}
-        </Drawer>
-      </Hidden>
-    </>
+    </React.Fragment>
   );
 };
 

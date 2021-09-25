@@ -10,8 +10,10 @@ import MyOrderRoutes from "../components/MyOrders/myorders.routes";
 import ProfileRoutes from "../components/profile/profile.routes";
 import TermsAndPolicies from "../components/TermsAndPrivacy/termsandprivacy.routes";
 import CategoryRoutes from "../components/Catergories/category.routes";
+import ProductRoutes from "../components/Products/Product.routes";
 
-const routesConfig = [HomeRoutes,
+const routesConfig = [HomeRoutes, 
+    ProductRoutes,
     NotFoundRoutes,
     PaymentRoutes,
     ContactRoutes,

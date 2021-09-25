@@ -55,6 +55,11 @@ const Login = ({ changeTab }) => {
       );
     }
   };
+  const keyDown = (ev) => {
+    if(ev.key === "Enter"){
+      login();
+    }
+  }
   return (
     <div className="loginPanel">
       <form>
@@ -80,6 +85,7 @@ const Login = ({ changeTab }) => {
         label="Password *"
         autoComplete="current-password"
         fullWidth
+        onKeyDown={keyDown}
         onChange={(ev) => setPassword(ev.target.value)}
         helperText={errors.password}
       />

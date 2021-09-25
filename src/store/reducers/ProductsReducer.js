@@ -1,11 +1,12 @@
 import * as Actions from '../actions/actionTypes';
-import { LIST_CATEGORY, PRODUCT_CLEAR } from '../actions/actionTypes';
+import { LIST_BRANDS, LIST_CATEGORY, PRODUCT_CLEAR } from '../actions/actionTypes';
 
 const initialState = {
     products: [],
     productDetails: {},
     categories: [],
-    metadata: {}
+    metadata: {},
+    brands: []
 }
 
 function ProductsReducer(state = initialState, action) {
@@ -32,6 +33,12 @@ function ProductsReducer(state = initialState, action) {
                     ...state,
                     products: []
                 }
+            case LIST_BRANDS: {
+                return {
+                    ...state,
+                    brands: action.payload
+                }
+            }
         default: return state;
     }
 }

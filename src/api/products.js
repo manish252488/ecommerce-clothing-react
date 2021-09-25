@@ -6,6 +6,7 @@ const ProductsApi = {
     listProducts: (perPage, page, search) => client.get(`/products/list?perPage=${perPage}&page=${page}&search=${search}`),
     productDetail: (id) => client.get(`/products/detail?productId=${id}`),
     deleteProducts: (id) => client.delete(`/products/delete?id=${id}`),
+    getProducts: (ids=[]) => client.post("/products/fetch-product-list", {ids: ids})
 };
 
 export default ProductsApi;

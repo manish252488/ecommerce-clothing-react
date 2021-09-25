@@ -7,6 +7,7 @@ import LanguageReducers from "./reducers/languageReducers";
 import MessageBarReducer from "./reducers/MessageBarReducer";
 import OrderReducers from "./reducers/OrdersReducer";
 import ProductsReducer from "./reducers/ProductsReducer";
+import OffersReducers from "./reducers/OfferReducers";
 const createReducer = (asyncReducers) =>
   combineReducers({
     MessageBar: MessageBarReducer,
@@ -15,6 +16,7 @@ const createReducer = (asyncReducers) =>
     admin: AdminReducer,
     language: LanguageReducers,
     products: ProductsReducer,
+    offers: OffersReducers,
     orders: OrderReducers,
     ...asyncReducers,
   });

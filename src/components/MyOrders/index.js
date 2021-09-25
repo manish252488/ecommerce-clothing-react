@@ -115,7 +115,7 @@ export default function MyOrders(props) {
                             </Grid>
                             <Typography style={{paddingBottom: 10, marginLeft: 5, fontWeight: 'bold'}} variant="h6">{orderdata.transactionType === "cod" ? "Cash on Delivery": ""}</Typography>
                             
-                            <Typography style={{paddingBottom: 10, marginLeft: 5, fontWeight: 'bold'}} variant="h6">{moment(orderdata?.createdDate).fromNow()} - {moment(orderdata?.createdDate).format("DD-MMM-YYYY")}</Typography>
+                            <Typography style={{paddingBottom: 10, marginLeft: 5, fontWeight: 'bold'}} variant="h6">{moment(orderdata?.createdAt).fromNow()} - {moment(orderdata?.createdAt).format("DD-MMM-YYYY")}</Typography>
                             {(orderdata.transactionType === "cod" || orderdata?.transactionStatus === transactionStatus.paid) &&
                                 <ReactSteps steps={orderStatus} activeStep={orderdata?.transactionStatus === transactionStatus.pending ? -1 : orderStatus.indexOf(orderdata.orderStatus)} />}
                             <div className="flex">

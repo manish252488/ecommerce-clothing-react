@@ -27,9 +27,10 @@ const AppBaseScreen = (props) => {
   const dispatch = useDispatch();
   const cart = useSelector(({ Auth }) => Auth.cart.cart)
   const isAuth = useSelector(({ Auth }) => Auth?.isAuthenticated)
-  const user = useSelector(({Auth}) => Auth.user)
+  const user = useSelector(({ Auth }) => Auth.user)
   const [isLoggedIn, setIsLoggedIn] = useState(isAuth)
-  const searchBar = History.location.pathname === "/home"
+  const paths = ["/home", "/products"]
+  const searchBar = paths.includes(History.location.pathname);
   const [value, setValue] = useState(0)
   useEffect(() => {
     setValue(cart ? cart.length : 0)
@@ -72,7 +73,7 @@ const AppBaseScreen = (props) => {
             </Hidden>
             <Logo />
 
-            <div className={classes.Grow} />
+
             <Hidden mdDown>
               <div className={classes.search}>
                 <IconButton className={classes.searchIcon}>
@@ -91,7 +92,11 @@ const AppBaseScreen = (props) => {
             </Hidden>
             <div className={classes.Grow} />
             <div className={classes.flex}>
-
+              <Hidden mdDown>
+                <Button color="primary" onClick={() => History.push("/products")} style={{ marginRight: 20, textDecoration: "underline" }}>
+                  Products
+                </Button>
+              </Hidden>
               {
                 isLoggedIn && (<>
                   {/* <Hidden xsDown>
@@ -103,9 +108,7 @@ const AppBaseScreen = (props) => {
                       color="primary"
                     />
                   </Hidden> */}
-                  <Hidden xsDown>
-                    <ProfileMenu />
-                  </Hidden>
+
                   <IconButton onClick={() => History.push("/cart")}>
                     <StyledBadge badgeContent={2} color="primary" >
                       <Notifications color="primary" />
@@ -120,11 +123,15 @@ const AppBaseScreen = (props) => {
                 )
               }
               {
-                isLoggedIn && (<Hidden mdUp>
+                isLoggedIn && (<><Hidden mdUp>
                   <IconButton onClick={() => History.push("/profile")}>
                     <Person color="primary" />
                   </IconButton>
+
                 </Hidden>
+                  <Hidden xsDown>
+                    <ProfileMenu />
+                  </Hidden></>
                 )
               }
             </div>

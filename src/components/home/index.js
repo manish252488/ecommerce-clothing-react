@@ -1,16 +1,17 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.less";
 import AppBaseScreen from "../common/layout/user/AppBaseScreen";
-import { Card, Link, CardContent, CardHeader, Container, Divider, makeStyles, Paper } from "@material-ui/core";
-import Products from "./Products";
+import { Button, Card, Container, Divider, Grid, makeStyles, Paper, Typography } from "@material-ui/core";
 import CustomCarousel from "../common/corousels/CustomCarousel";
-import * as Actions from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { loginPage } from "../../assets";
-import { ArrowDown } from "react-feather";
 import LoadingScreen from "../common/Loader.js";
-import { renderIfElse } from "../../config/Utils";
-import Carousel from "nuka-carousel";
+import { checkJWT, clearProducts, getCategories, getOffers, listProducts, showMessageBar } from "../../store/actions";
+import CategoryCard from "../common/categorycard";
+import OfferCard from "../common/offerCard";
+import ProductsCard from "../Products/Products"
+import ProductsApi from "../../api/products";
+import History from "../../@history";
 
 const useStyles = makeStyles({
   divider: {
@@ -23,73 +24,117 @@ const useStyles = makeStyles({
     marginTop: 30,
     display: 'flex',
     justifyContent: 'center'
+  },
+  next:{
+    height: '100%',
+    justifySelf: 'flex-end'
   }
 })
 const Home = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const isAuth = useSelector(({ Auth }) => Auth.isAuthenticated)
+  const categories = useSelector(({ products }) => products.categories)
+  const recentviews = useSelector(({ Auth }) => Auth.user?.recentviews || [])
   const products = useSelector(({products}) => products.products)
-  const maxPage = useSelector(({products}) => products?.metadata?.maxPageSize || 0)
-  const [page, setPage] = useState(1);
-  const [perPage,] = useState(10)
-  const observer = useRef()
-  const [loading, setLoading] = useState(false);
+  const offers = useSelector(({ offers }) => offers.offers)
+  const banners = offers?.map(val => val.picture)
+  const [productViewed, setProductviewed] = useState([])
   useEffect(() => {
-    dispatch(Actions.clearProducts())
-    if(isAuth) {
-      dispatch(Actions.listCart())
-      dispatch(Actions.getCategories())
-    }
-   // eslint-disable-next-line
-  }, [dispatch])
-  const lastBookElementRef = useCallback(node => {
-    if (loading) return
-    if (observer.current) observer.current.disconnect()
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        loadMore()
-      }
-    })
-    if (node) observer.current.observe(node)
-    // eslint-disable-next-line
-  }, [loading])
-  useEffect(() => {
-    setLoading(true)
-    dispatch(Actions.listProducts({perPage: perPage, page: page, onSuccess: () => setLoading(() => false)}))
-  //eslint-disable-next-line
-  }, [page])
-  const loadMore = () => {
-    if(page + 1 <= maxPage){
-      setPage((prev) => prev + 1)
-    }
-  }
-  if(!products || products.length <= 0) {
-    return <LoadingScreen/>
-  }
-  return(<AppBaseScreen>
-    
-      <Container maxWidth="lg" className="scroll-container">
-        <CustomCarousel autoPlay={true} images={[loginPage]} width="100%" />
-        <Card component={Paper}>
-          <Divider className={classes.divider} />
-          {(products && products.length > 0) && <CardContent className="product-container">
-            {products?.map((val, index) => (
-                <Products key={index} data={val} />
-            ))}
-          </CardContent>}
-          {page+1 <= maxPage && <div className={classes.pagination}>
-            <Link onClick={loadMore} ref={lastBookElementRef} style={{ display: 'flex' }}><ArrowDown /> Load More</Link>
-           </div>}
-           {page+1 > maxPage && <div className={classes.pagination}>
-            <Link style={{ display: 'flex' }}>No More Products!</Link>
-           </div>}
-        </Card>
+    dispatch(checkJWT())
+    dispatch(clearProducts())
+    dispatch(getCategories())
+    dispatch(getOffers())
+    dispatch(listProducts({perPage:5, page: 1}))
+    getRecentViews()
 
+  }, [])
+  console.log(productViewed, '------------------')
+  const getRecentViews = () => {
+    ProductsApi.getProducts(recentviews).then(
+      res => {
+        setProductviewed(res.data)
+      }
+    ).catch(err =>{
+      dispatch(showMessageBar("error", err.message))
+    })
+  }
+  if (!categories  || !recentviews || !products || !offers) {
+    return <LoadingScreen />
+  }
+  return (<AppBaseScreen>
+
+    <Container maxWidth="lg" className="scroll-container">
+      <CustomCarousel autoPlay={true} images={[...banners]} width="100%" />
+      <Container>
+        <br />
+        <br />
+        <Typography variant="h5">New Offers</Typography>
+
+        <Divider />
+
+        <Grid className={classes.justifyContent} container wrap={true}>
+          {
+            offers?.map((value, index) => <OfferCard key={index} data={value} />)
+          }
+        </Grid>
+        <br />
+        <br />
+        <br />
+        <Typography variant="h5">New Arrivals</Typography>
+
+        <Divider />
+
+        <Grid className={classes.justifyContent} container wrap={true}>
+          {
+            products?.slice(0,4).map((value, index) => <ProductsCard key={index} data={value} />)
+          }
+          <Grid item xs={2}>
+            <Button color="primary" onClick={() => History.push("/products")} className={classes.next} variant="contained" size="large">View More</Button>
+          </Grid>
+        </Grid>
+        <br />
+        <br />
+        <br />
+        <Typography variant="h5">Top Categories</Typography>
+
+        <Divider />
+
+        <Grid className={classes.justifyContent} container>
+          {
+            categories?.map((value, index) => <CategoryCard key={index} data={value} />)
+          }
+        </Grid>
+        <br /><br /><br />
+        <Typography variant="h5">All Categories</Typography>
+
+        <Divider />
+
+        <Grid className={classes.justifyContent} container>
+          {
+            categories?.map((value, index) => <CategoryCard key={index} data={value} />)
+          }
+        </Grid>
+        <br /><br /><br />
+        <Typography variant="h5">Recently Viewed {">"} </Typography>
+
+        <Divider />
+
+        <Grid className={classes.justifyContent} container>
+          {
+            productViewed?.length <= 0 && <div className="no-banner">
+              Back the amazing gift voucher and discounts upto 50%. start shopping today
+            </div>
+          }
+          {
+            productViewed?.map((value, index) => <ProductsCard key={index} data={value} />)
+          }
+        </Grid>
+        <br /><br /><br />
       </Container>
-      </AppBaseScreen>
- 
+    </Container>
+  </AppBaseScreen>
+
   );
- 
+
 };
 export default Home;

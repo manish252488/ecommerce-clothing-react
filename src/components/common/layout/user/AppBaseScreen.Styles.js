@@ -73,7 +73,7 @@ export const useStyles = makeStyles((theme) => ({
     flex: {
       display: 'flex',
       flexFlow: 'row',
-      width: 280,
+      width: 350,
       justifyContent: 'space-between',
       alignItems: 'center',
       [theme.breakpoints.down("md")]: {
