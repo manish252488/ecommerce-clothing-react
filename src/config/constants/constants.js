@@ -7,5 +7,11 @@ export const SocialLinks = {
         "google": "google",
         "mobile": "mobile",
         "facebook": "facebook"
+    },
+    SHIPPING: {
+        INITIATED: 'initiated',
+        PICKED: 'picked',
+        SHIPPING: 'shipping',
+        DILIVERED: 'delivered'
     }
 }

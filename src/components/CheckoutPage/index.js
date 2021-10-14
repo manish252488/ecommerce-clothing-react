@@ -27,7 +27,7 @@ export default function CheckoutPage(props) {
     useEffect(() => {
         dispatch(listCart())
     }, [dispatch])
-    if(!order || order === {}){
+    if(!order || order === {} || !order.products){
         History.push("/cart")
     }
     const createOrder = () => {

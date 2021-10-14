@@ -9,7 +9,6 @@ import { getImage, renderIfElse } from '../../config/Utils'
 import { listCart, addToCart as addCart, removeFromCart as removeCart, checkJWT, currentOrder } from '../../store/actions'
 import AddressCard from '../common/AddressCard'
 import AppBaseScreen from '../common/layout/user/AppBaseScreen'
-import CountrySelect from '../common/CountrySelectField'
 import './index.less'
 import LoadingScreen from '../common/Loader.js'
 import ResponsiveDialogs from '../common/ResponsiveDialogs'
@@ -35,33 +34,7 @@ export default function Payment(props) {
     const [selectedAddress, setSelectedAddress] = useState(null)
     const [loading, setLoading] = useState(false);
     const [loadingOrder, setLoadingOrder] = useState(false);
-    const [addCont,
-        showAddContainer] = useState(false)
-    const [errorFields, setErrorFields] = useState({
-        address1: '',
-        address2: '',
-        state: '',
-        pincode: '',
-        city: '',
-        country: '',
-        landmark: '',
-        name: '',
-        type: '',
-        phoneno: '',
-    })
-    const [addressForm, setAddressForm] = useState({
-        address1: '',
-        address2: '',
-        state: '',
-        pincode: '',
-        city: '',
-        country: '',
-        landmark: '',
-        name: '',
-        phoneno: '',
-        type: 'Home',
-        default: false
-    })
+    const [addCont, showAddContainer] = useState(false);
     useEffect(() => {
         dispatch(listCart())
     }, [dispatch])
@@ -92,40 +65,14 @@ export default function Payment(props) {
         }
         return productsAdded;
     }
-    const saveAddress = () => {
-        if (validate()) {
-            setLoading(true)
-            Auth.addAddress(addressForm).then(res => {
-                setLoading(false)
-                dispatch(checkJWT())
-                showAddContainer(false)
-            }).catch(err => {
-                setLoading(false)
-            })
-        }
-    }
+
     const setdefaultAdd = (id) => {
         Auth.setDefaultAddress(id).then(res => {
             dispatch(checkJWT())
         }).catch(err => {
         })
     }
-    const change = (key, ev) => {
-        setAddressForm({ ...addressForm, [key]: ev.target.value })
-    }
-    const validate = () => {
-        let flag = true
-        let errors = {}
-        let neglect = []
-        for (const [key, value] of Object.entries(addressForm)) {
-            if ((value === null || value === '') && !neglect.includes(key)) {
-                flag = false
-                errors[key] = "Cannot be Empty!"
-            }
-        }
-        setErrorFields(errors)
-        return flag
-    }
+
 
     const createOrder = () => {
         const addedPro = []

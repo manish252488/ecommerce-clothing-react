@@ -10,6 +10,7 @@ import AddressCard from '../common/AddressCard';
 import ReactSteps from '../common/ReactSteps';
 import ChipCards from '../common/ChipCards';
 import LoadingScreen from '../common/Loader.js';
+import { SocialLinks } from '../../config/constants/constants';
 export default function MyOrders(props) {
     const orderData = useSelector(({ orders }) => orders.list)
     const dispatch = useDispatch()
@@ -38,20 +39,13 @@ export default function MyOrders(props) {
         // eslint-disable-next-line
     }, [])
 
-    
+
     const orderStatus = [
-        "initiated",
-        "shipped",
-        "arrived",
-        "dilivered",
+        'initiated',
+        'picked',
+        'shipping',
+        'delivered',
     ]
-    /*   const orderStatusValues = {
-          initiated: 'initiated',
-          shipped: 'shipped',
-          arrived: 'arrived',
-          dilivered: 'dilivered',
-          canceled: 'canceled'
-      } */
     const transactionStatus = {
         paid: 'paid',
         unpaid: 'unpaid',
@@ -113,11 +107,11 @@ export default function MyOrders(props) {
 
                                 </Grid>
                             </Grid>
-                            <Typography style={{paddingBottom: 10, marginLeft: 5, fontWeight: 'bold'}} variant="h6">{orderdata.transactionType === "cod" ? "Cash on Delivery": ""}</Typography>
-                            
-                            <Typography style={{paddingBottom: 10, marginLeft: 5, fontWeight: 'bold'}} variant="h6">{moment(orderdata?.createdAt).fromNow()} - {moment(orderdata?.createdAt).format("DD-MMM-YYYY")}</Typography>
+                            <Typography style={{ paddingBottom: 10, marginLeft: 5, fontWeight: 'bold' }} variant="h6">{orderdata.transactionType === "cod" ? "Cash on Delivery" : ""}</Typography>
+
+                            <Typography style={{ paddingBottom: 10, marginLeft: 5, fontWeight: 'bold' }} variant="h6">{moment(orderdata?.createdAt).fromNow()} - {moment(orderdata?.createdAt).format("DD-MMM-YYYY")}</Typography>
                             {(orderdata.transactionType === "cod" || orderdata?.transactionStatus === transactionStatus.paid) &&
-                                <ReactSteps steps={orderStatus} activeStep={orderdata?.transactionStatus === transactionStatus.pending ? -1 : orderStatus.indexOf(orderdata.orderStatus)} />}
+                                <ReactSteps steps={orderStatus} activeStep={orderdata?.transactionStatus === transactionStatus.pending ? -1 : orderStatus.indexOf(orderdata.shipment)} />}
                             <div className="flex">
                                 {orderdata?.transactionStatus === transactionStatus.pending && (
                                     <Button variant="contained" size="small" endIcon={<Replay color="secondary" />} color="primary">Retry</Button>)}

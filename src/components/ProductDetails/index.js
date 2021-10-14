@@ -108,7 +108,9 @@ export default function ProductDetails(props) {
         }
         ProductsApi.productDetail(productId).then(async (res) => {
             if (res.data) {
+                if(isAuth){
                 await Auth.recentViews(productId)
+                }
                 setProduct(res.data.product)
                 getProductReviews(res.data.product.id)
                 setColor(res.data.product.colorOptions[0])
@@ -135,9 +137,11 @@ export default function ProductDetails(props) {
     }, [color, size])
 
     const getProductReviews = (id) => {
+        if(isAuth){
         ReviewApi.getProductReviews(id).then(res => {
             setProductReviews(res.data)
         }).catch(err => dispatch(showMessageBar('error', err.message)))
+    }
     }
     const addToCart = (id, buynow = false) => {
         if (!isAuth) {
@@ -201,7 +205,7 @@ export default function ProductDetails(props) {
         }
     }
     const postReview = () => {
-        if (review && review !== "") {
+        if (isAuth && review && review !== "") {
             setReviewLoading(true)
             ReviewApi.postReview({ productId: product.id, review: review }).then(res => {
                 getProductReviews(productId)
@@ -214,7 +218,6 @@ export default function ProductDetails(props) {
         }
 
     }
-    console.log(data)
     if (!products || products.length <= 0 || !data) {
         return <LoadingScreen ></LoadingScreen>
     }
