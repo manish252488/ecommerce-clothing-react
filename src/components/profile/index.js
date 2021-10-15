@@ -44,7 +44,7 @@ const Profile = (props) => {
     }
     useEffect(() => {
         if (imageSrc) {
-            let test = imageSrc.name.slice(".");
+            let test = imageSrc.name.split(".");
             let type = test[test.length - 1];
             if(supportedFileTypes.includes(type)){
           

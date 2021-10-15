@@ -199,7 +199,7 @@ export default function Payment(props) {
                     </CardContent>
                 </Card>
             </div>
-            } </Container> 
+            } </Container>
             <ResponsiveDialogs openState={addCont} handleCloseBar={showAddContainer} title="Edit Profile">
                     <AddressUpdate success={showAddContainer} />
                 </ResponsiveDialogs>
