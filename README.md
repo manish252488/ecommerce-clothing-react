@@ -50,3 +50,7 @@ It allows users to:
 3. Shiprocket shipping integration
 
 4. Modular, maintainable backend structure
+   
+## License
+
+MIT License © 2025 Manish Singh
